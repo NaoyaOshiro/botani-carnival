@@ -97,8 +97,7 @@ export default function EventInfoSection() {
           <div className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden" style={{ backgroundColor: "oklch(0.42 0.16 145)" }}>
             <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
             <div className="relative z-10">
-              <div className="text-4xl mb-3">📅</div>
-              <div className="font-display text-sm tracking-widest mb-2 opacity-80">Date</div>
+              <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Date</div>
               <div className="text-lg font-bold" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 2026年<br />
                 8月29日（土）<br />
@@ -111,8 +110,7 @@ export default function EventInfoSection() {
           <div className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden" style={{ backgroundColor: "oklch(0.65 0.18 55)" }}>
             <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
             <div className="relative z-10">
-              <div className="text-4xl mb-3">🕐</div>
-              <div className="font-display text-sm tracking-widest mb-2 opacity-80">Time</div>
+              <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Time</div>
               <div className="text-lg font-bold" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 11:00〜16:00<br />
                 <span className="text-sm font-normal opacity-80">両日同じ時間</span>
