@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-type Category = "植物" | "植木鉢" | "雑貨" | "植物・植木鉢" | "植物・雑貨";
+type Category = "植物" | "植木鉢" | "雑貨" | "植物・植木鉢" | "植物・雑貨" | "雑貨・植木鉢";
 
 interface Exhibitor {
   id: number;
@@ -13,6 +13,8 @@ interface Exhibitor {
   category: Category;
   instagram: string;
   productImages: [string, string];
+  logo?: string;
+  comment?: string;
 }
 
 const plantImages = [
@@ -34,7 +36,7 @@ const iconColors = [
   "oklch(0.65 0.15 30)", "oklch(0.40 0.18 120)",
 ];
 
-const categories: Category[] = ["植物", "植木鉢", "雑貨", "植物・植木鉢", "植物・雑貨"];
+const categories: Category[] = ["植物", "植木鉢", "雑貨", "植物・植木鉢", "植物・雑貨", "雑貨・植木鉢"];
 
 const categoryConfig: Record<string, { label: string; bg: string; text: string; icon: string }> = {
   "植物": { label: "植物", bg: "oklch(0.88 0.12 145)", text: "oklch(0.25 0.12 145)", icon: "🌵" },
@@ -42,19 +44,20 @@ const categoryConfig: Record<string, { label: string; bg: string; text: string; 
   "雑貨": { label: "雑貨", bg: "oklch(0.92 0.08 300)", text: "oklch(0.35 0.12 300)", icon: "🎁" },
   "植物・植木鉢": { label: "植物・鉢", bg: "oklch(0.88 0.12 145)", text: "oklch(0.25 0.12 145)", icon: "🌿" },
   "植物・雑貨": { label: "植物・雑貨", bg: "oklch(0.92 0.08 0)", text: "oklch(0.40 0.15 0)", icon: "✨" },
+  "雑貨・植木鉢": { label: "雑貨・鉢", bg: "oklch(0.92 0.10 55)", text: "oklch(0.35 0.14 55)", icon: "🎨" },
 };
 
 function generateExhibitors(dayOffset: number): Exhibitor[] {
   const names = [
-    "アガベ農園", "サボテン工房", "塊根植物店", "多肉の森", "ユーフォルビア屋",
+    "サボテン工房", "塊根植物店", "多肉の森", "ユーフォルビア屋",
     "グリーンマーケット", "植物雑貨店", "鉢のアトリエ", "珍奇植物専門店", "ボタニカルショップ",
     "熱帯植物園", "砂漠の植物屋", "葉っぱ工房", "根っこ農園", "花と緑の店",
     "植物と暮らす", "グリーンライフ", "ジャングルショップ", "多肉天国", "珍奇の森",
     "アロエ専門店", "コーデックス屋", "ハオルチア園", "リトープス農場", "ガステリア店",
-    "セダム工房", "エケベリア農園", "アデニウム屋", "パキポジウム専門", "ディッキア農場",
+    "セダム工房", "エケベリア農園", "アデニウム屋", "パキポジウム専門", "ディッキア農場", "アガベ農園",
   ];
   return names.map((name, i) => ({
-    id: dayOffset * 100 + i,
+    id: dayOffset * 100 + i + 1,
     name,
     category: categories[(i + dayOffset) % categories.length],
     instagram: `https://www.instagram.com/botani_shop_${i + 1 + dayOffset * 30}/`,
@@ -65,7 +68,20 @@ function generateExhibitors(dayOffset: number): Exhibitor[] {
   }));
 }
 
-const day1Exhibitors = generateExhibitors(0);
+// Day1: 1社目はおーしろ製作所（実データ）、残りはダミー
+const oshiroFactory: Exhibitor = {
+  id: 0,
+  name: "おーしろ製作所",
+  category: "雑貨・植木鉢",
+  instagram: "https://www.instagram.com/oshiro_factory/",
+  logo: "/manus-storage/oshiro_logo_f2699919.jpg",
+  comment: "おーしろ製作所では本物の植物は取り扱いしていませんが、本物の植物を楽しむように自分好みの鉢を選べる、そして無限にカチカチしてしまう。そんな存在のアイテム、「ボタニカルクリッカー」を製作販売しています。",
+  productImages: [
+    "/manus-storage/oshiro_product3_813b6ba1.jpg",
+    "/manus-storage/oshiro_product2_b2892d60.jpg",
+  ],
+};
+const day1Exhibitors = [oshiroFactory, ...generateExhibitors(0)];
 const day2Exhibitors = generateExhibitors(1);
 
 function ExhibitorCard({ exhibitor, boothNum }: { exhibitor: Exhibitor; boothNum: number }) {
@@ -110,16 +126,29 @@ function ExhibitorCard({ exhibitor, boothNum }: { exhibitor: Exhibitor; boothNum
       {/* Info */}
       <div className="p-3">
         <div className="flex items-center gap-2 mb-2">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
-            style={{ backgroundColor: bgColor }}
-          >
-            {initial}
-          </div>
+          {exhibitor.logo ? (
+            <img
+              src={exhibitor.logo}
+              alt={`${exhibitor.name} ロゴ`}
+              className="w-8 h-8 rounded-full object-cover flex-shrink-0 border border-[oklch(0.90_0.04_85)]"
+            />
+          ) : (
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+              style={{ backgroundColor: bgColor }}
+            >
+              {initial}
+            </div>
+          )}
           <div className="font-bold text-sm text-[oklch(0.18_0.05_145)] truncate flex-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>
             {exhibitor.name}
           </div>
         </div>
+        {exhibitor.comment && (
+          <p className="text-xs text-[oklch(0.45_0.05_145)] mb-2 line-clamp-3 leading-relaxed">
+            {exhibitor.comment}
+          </p>
+        )}
         <a
           href={exhibitor.instagram}
           target="_blank"
