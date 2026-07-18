@@ -1,10 +1,11 @@
 /**
- * HeroSection — フライヤー画像のみをフルスクリーン表示
+ * HeroSection — フライヤー画像のみ表示（レスポンシブ切り替え）
+ * PC (md以上): 横長フライヤー（珍奇植物市場Vol9_PC.webp）を全幅表示
+ * SP (md未満): 縦フライヤー（珍奇植物市場Vol9.jpg）を中央表示
  * Design: Tropical Fiesta
- * フライヤー自体に全情報が含まれているため、テキストオーバーレイなし
  */
 
-function BuntingFlags({ count = 16, colors }: { count?: number; colors: string[] }) {
+function BuntingFlags({ count = 20, colors }: { count?: number; colors: string[] }) {
   return (
     <div className="flex items-end justify-center w-full">
       {Array.from({ length: count }).map((_, i) => (
@@ -28,13 +29,23 @@ export default function HeroSection() {
       className="relative flex flex-col items-center justify-start overflow-hidden pt-16"
       style={{ backgroundColor: "oklch(0.18 0.05 145)" }}
     >
-      {/* Bunting flags top */}
+      {/* Bunting flags */}
       <div className="w-full px-4 py-2 z-10">
         <BuntingFlags count={20} colors={flagColors} />
       </div>
 
-      {/* Flyer image — centered, max width constrained */}
-      <div className="w-full flex justify-center px-4 pb-0">
+      {/* PC: 横長フライヤー（md以上で表示） */}
+      <div className="hidden md:block w-full">
+        <img
+          src="/manus-storage/flyer_pc_72483ab8.webp"
+          alt="BOTANI CARNIVAL 珍奇植物市場 Vol.9 フライヤー"
+          className="w-full object-cover"
+          style={{ display: "block" }}
+        />
+      </div>
+
+      {/* SP: 縦フライヤー（md未満で表示） */}
+      <div className="block md:hidden w-full flex justify-center px-4">
         <img
           src="/manus-storage/flyer_ec004d74.jpg"
           alt="BOTANI CARNIVAL 珍奇植物市場 Vol.9 フライヤー"
