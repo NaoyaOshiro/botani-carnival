@@ -122,8 +122,7 @@ export default function EventInfoSection() {
           <div className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden" style={{ backgroundColor: "oklch(0.55 0.22 0)" }}>
             <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
             <div className="relative z-10">
-              <div className="text-4xl mb-3">📍</div>
-              <div className="font-display text-sm tracking-widest mb-2 opacity-80">Location</div>
+              <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Location</div>
               <div className="text-lg font-bold" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 西原さわふじ広場<br />
                 <span className="text-sm font-normal opacity-80">（西原さわふじマルシェ）</span>
