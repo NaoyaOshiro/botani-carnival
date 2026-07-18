@@ -70,13 +70,13 @@ export default function HeroSection() {
 
         <div className="flex flex-wrap items-center justify-center gap-3 mt-8 mb-10">
           <div className="bg-[oklch(0.72_0.18_55)] text-white rounded-full px-5 py-2 text-sm font-bold shadow-lg">
-            📅 2026年8月29日（土）・30日（日）
+            2026年8月29日（土）・30日（日）
           </div>
           <div className="bg-[oklch(0.42_0.16_145)] text-white rounded-full px-5 py-2 text-sm font-bold shadow-lg">
-            🕐 11:00〜16:00
+            時間：11:00〜16:00
           </div>
           <div className="bg-[oklch(0.60_0.22_0)] text-white rounded-full px-5 py-2 text-sm font-bold shadow-lg">
-            📍 西原さわふじ広場
+            場所：西原さわふじ広場
           </div>
           <div className="bg-white text-[oklch(0.18_0.05_145)] rounded-full px-5 py-2 text-sm font-bold shadow-lg">
             🎉 入場無料
