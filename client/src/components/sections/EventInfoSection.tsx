@@ -11,8 +11,9 @@ import { Button } from "@/components/ui/button";
 const INK = "oklch(0.18 0.05 145)"; // 見出し・本文の濃緑
 const MUTED = "oklch(0.50 0.05 145)"; // 補足テキスト
 const LINE = "oklch(0.88 0.04 85)"; // 罫線
-const DAY1_COLOR = "oklch(0.42 0.16 145)"; // 土 = 緑（出店業者フィルタと同色）
-const DAY2_COLOR = "oklch(0.55 0.22 0)"; // 日 = 赤（同上）
+// 実体は index.css の日程カラートークン。出店業者フィルタ・ブース配置図と共通。
+const DAY1_COLOR = "var(--day-1)"; // 土 = 緑
+const DAY2_COLOR = "var(--day-2)"; // 日 = 赤
 
 // 会場のGoogleマップ（共有リンク）
 const MAP_URL = "https://maps.app.goo.gl/8soxNcdA9EZiwg8H6";

@@ -54,9 +54,10 @@ function instagramUrl(e: Exhibitor): string | null {
 // 日程はカード上のバッジで示す（同じカードを2度出さないための単一リスト）。
 const allExhibitors = exhibitors.filter((e) => e.days.length > 0);
 
-const DAY1_COLOR = "oklch(0.42 0.16 145)";
-const DAY2_COLOR = "oklch(0.55 0.22 0)";
-const BOTH_COLOR = "oklch(0.60 0.16 85)";
+// 実体は index.css の日程カラートークン。各セクションで色がずれないよう一元化。
+const DAY1_COLOR = "var(--day-1)";
+const DAY2_COLOR = "var(--day-2)";
+const BOTH_COLOR = "var(--day-both)";
 
 // カードに出す日程バッジ。両日 / 片日 で色分けする。
 function dayBadge(e: Exhibitor): { text: string; color: string } {

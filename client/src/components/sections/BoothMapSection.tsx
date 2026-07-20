@@ -32,7 +32,11 @@ export default function BoothMapSection() {
         {/* Day 1 */}
         <div className="mb-12 reveal">
           <div className="flex items-center gap-3 mb-5">
-            <div className="bg-[oklch(0.72_0.18_55)] text-white font-bold px-5 py-2 rounded-full text-sm">
+            {/*
+              濃い背景上なので on-dark トークン（明度高め＋濃色文字）を使う。
+              以前はここだけ 8/29 がオレンジで、他セクションの緑と食い違っていた。
+            */}
+            <div className="bg-[var(--day-1-on-dark)] text-[var(--day-on-dark-foreground)] font-bold px-5 py-2 rounded-full text-sm">
               8月29日（土）
             </div>
             <Separator className="flex-1 bg-white/20" />
@@ -55,7 +59,7 @@ export default function BoothMapSection() {
         {/* Day 2 */}
         <div className="reveal">
           <div className="flex items-center gap-3 mb-5">
-            <div className="bg-[oklch(0.60_0.22_0)] text-white font-bold px-5 py-2 rounded-full text-sm">
+            <div className="bg-[var(--day-2-on-dark)] text-[var(--day-on-dark-foreground)] font-bold px-5 py-2 rounded-full text-sm">
               8月30日（日）
             </div>
             <Separator className="flex-1 bg-white/20" />
