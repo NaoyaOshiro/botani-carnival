@@ -4,6 +4,14 @@
  */
 import { useState, useEffect } from "react";
 import { asset } from "@/lib/asset";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const navItems = [
   { label: "イベント情報", href: "#event-info" },
@@ -16,7 +24,6 @@ const navItems = [
 
 export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -60,33 +67,39 @@ export default function NavBar() {
           ))}
         </nav>
 
-        {/* Mobile hamburger */}
-        <button
-          className={`md:hidden p-2 transition-colors ${scrolled ? "text-[oklch(0.18_0.05_145)]" : "text-white"}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="メニューを開く"
-        >
-          <div className="w-6 h-0.5 bg-current mb-1.5 transition-all" />
-          <div className="w-6 h-0.5 bg-current mb-1.5 transition-all" />
-          <div className="w-6 h-0.5 bg-current transition-all" />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white/98 backdrop-blur-md border-t border-[oklch(0.88_0.04_85)]">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="block px-6 py-3 text-sm font-medium text-[oklch(0.18_0.05_145)] hover:bg-[oklch(0.96_0.03_85)] hover:text-[oklch(0.42_0.16_145)] transition-colors"
-              onClick={() => setMenuOpen(false)}
+        {/* Mobile hamburger（shadcn/ui Sheet） */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <button
+              className={`md:hidden p-2 transition-colors ${scrolled ? "text-[oklch(0.18_0.05_145)]" : "text-white"}`}
+              aria-label="メニューを開く"
             >
-              {item.label}
-            </a>
-          ))}
-        </div>
-      )}
+              <div className="w-6 h-0.5 bg-current mb-1.5 transition-all" />
+              <div className="w-6 h-0.5 bg-current mb-1.5 transition-all" />
+              <div className="w-6 h-0.5 bg-current transition-all" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-64 bg-white">
+            <SheetHeader>
+              <SheetTitle className="font-display text-[oklch(0.18_0.05_145)]">
+                MENU
+              </SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col px-2">
+              {navItems.map((item) => (
+                <SheetClose asChild key={item.href}>
+                  <a
+                    href={item.href}
+                    className="px-4 py-3 rounded-lg text-sm font-medium text-[oklch(0.18_0.05_145)] hover:bg-[oklch(0.96_0.03_85)] hover:text-[oklch(0.42_0.16_145)] transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </SheetClose>
+              ))}
+            </nav>
+          </SheetContent>
+        </Sheet>
+      </div>
     </header>
   );
 }

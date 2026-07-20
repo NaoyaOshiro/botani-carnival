@@ -5,25 +5,28 @@
  * カード: アイコン・屋号・Instagramリンク・商品画像カルーセル・説明文2行省略
  * タップ: カード→モーダル詳細表示 / Instagramアイコン→外部遷移
  */
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { Instagram } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { exhibitors, type Exhibitor } from "@/data/exhibitors";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 // 画像未設定時のプレースホルダー（正方形）
 const noImage = asset("images/no_image_square.jpg");
-
-const iconColors = [
-  "oklch(0.42 0.16 145)", "oklch(0.65 0.18 55)", "oklch(0.55 0.22 0)",
-  "oklch(0.50 0.18 220)", "oklch(0.55 0.15 300)", "oklch(0.45 0.20 170)",
-  "oklch(0.65 0.15 30)", "oklch(0.40 0.18 120)",
-];
-
-// 文字列から安定した色インデックスを得る（アイコン未設定時のフォールバック用）
-function hashIndex(s: string, mod: number): number {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  return h % mod;
-}
 
 // 商品画像のURL配列。未設定なら no_image を1枚返す。
 function productImages(e: Exhibitor): string[] {
@@ -47,44 +50,70 @@ function instagramUrl(e: Exhibitor): string | null {
 const day1Exhibitors = exhibitors.filter((e) => e.days.includes(1));
 const day2Exhibitors = exhibitors.filter((e) => e.days.includes(2));
 
-const InstagramIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-  </svg>
-);
+// 商品画像カルーセル（shadcn/ui Carousel = embla。スワイプ・キーボード対応）
+// size="card": 正方形サムネイル / size="modal": モーダル内の大きめ表示
+function ImageCarousel({ images, size }: { images: string[]; size: "card" | "modal" }) {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
 
-function ModalCarousel({ images }: { images: string[] }) {
-  const [idx, setIdx] = useState(0);
-  const touchStartX = useRef<number | null>(null);
-  const prev = () => setIdx((i) => (i - 1 + images.length) % images.length);
-  const next = () => setIdx((i) => (i + 1) % images.length);
-  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) { if (diff > 0) next(); else prev(); }
-    touchStartX.current = null;
-  };
+  useEffect(() => {
+    if (!api) return;
+    const update = () => setCurrent(api.selectedScrollSnap());
+    update();
+    api.on("select", update);
+    api.on("reInit", update);
+    return () => {
+      api.off("select", update);
+      api.off("reInit", update);
+    };
+  }, [api]);
+
+  const multiple = images.length > 1;
+  const imgClass =
+    size === "card"
+      ? "aspect-square w-full object-cover"
+      : "h-[200px] w-full object-cover";
+  const arrowClass = size === "card" ? "w-6 h-6 text-xs" : "w-8 h-8 text-lg";
+  const stop = (e: React.MouseEvent) => e.stopPropagation();
+
   return (
-    <div className="relative bg-[oklch(0.95_0.02_85)]" style={{ height: "200px" }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-      <img
-        src={images[idx]}
-        alt={`商品${idx + 1}`}
-        className="w-full h-full object-cover transition-opacity duration-200"
-        onError={(e) => { (e.target as HTMLImageElement).src = noImage; }}
-      />
-      {images.length > 1 && (
+    <Carousel setApi={setApi} opts={{ loop: true }} className="w-full bg-[oklch(0.95_0.02_85)]">
+      <CarouselContent className="ml-0">
+        {images.map((src, i) => (
+          <CarouselItem key={i} className="pl-0 basis-full">
+            <img
+              src={src}
+              alt={`商品${i + 1}`}
+              className={imgClass}
+              onError={(e) => { (e.target as HTMLImageElement).src = noImage; }}
+            />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      {multiple && (
         <>
-          <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center text-lg hover:bg-black/60 transition-colors" aria-label="前の画像">‹</button>
-          <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center text-lg hover:bg-black/60 transition-colors" aria-label="次の画像">›</button>
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+          <button
+            onClick={(e) => { stop(e); api?.scrollPrev(); }}
+            className={`absolute ${size === "card" ? "left-1" : "left-2"} top-1/2 -translate-y-1/2 ${arrowClass} rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 transition-colors`}
+            aria-label="前の画像"
+          >‹</button>
+          <button
+            onClick={(e) => { stop(e); api?.scrollNext(); }}
+            className={`absolute ${size === "card" ? "right-1" : "right-2"} top-1/2 -translate-y-1/2 ${arrowClass} rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 transition-colors`}
+            aria-label="次の画像"
+          >›</button>
+          <div className={`absolute ${size === "card" ? "bottom-1.5 gap-1" : "bottom-2 gap-1.5"} left-1/2 -translate-x-1/2 flex`}>
             {images.map((_, i) => (
-              <div key={i} className="w-2 h-2 rounded-full transition-colors" style={{ backgroundColor: i === idx ? "white" : "rgba(255,255,255,0.4)" }} />
+              <div
+                key={i}
+                className={`${size === "card" ? "w-1.5 h-1.5" : "w-2 h-2"} rounded-full transition-colors`}
+                style={{ backgroundColor: i === current ? "white" : "rgba(255,255,255,0.4)" }}
+              />
             ))}
           </div>
         </>
       )}
-    </div>
+    </Carousel>
   );
 }
 
@@ -93,30 +122,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
   const icon = iconSrc(exhibitor);
   const igUrl = instagramUrl(exhibitor);
   const igHandle = exhibitor.instagram ? `@${exhibitor.instagram}` : "";
-  const bgColor = iconColors[hashIndex(exhibitor.instagram ?? exhibitor.name, iconColors.length)];
-  const initial = exhibitor.name.charAt(0);
-  const [imgIndex, setImgIndex] = useState(0);
   const [open, setOpen] = useState(false);
-  const touchStartX = useRef<number | null>(null);
-
-  const prevImg = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setImgIndex((i) => (i - 1 + images.length) % images.length);
-  };
-  const nextImg = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setImgIndex((i) => (i + 1) % images.length);
-  };
-  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) setImgIndex((i) => (i + 1) % images.length);
-      else setImgIndex((i) => (i - 1 + images.length) % images.length);
-    }
-    touchStartX.current = null;
-  };
 
   return (
     <>
@@ -126,58 +132,15 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
         onClick={() => setOpen(true)}
       >
         {/* 1. 商品画像カルーセル（正方形） */}
-        <div
-          className="relative overflow-hidden bg-[oklch(0.95_0.02_85)] aspect-square w-full"
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
-          <img
-            src={images[imgIndex]}
-            alt={`商品${imgIndex + 1}`}
-            className="w-full h-full object-cover transition-opacity duration-200"
-            onError={(e) => { (e.target as HTMLImageElement).src = noImage; }}
-          />
-          {images.length > 1 && (
-            <>
-              <button
-                onClick={prevImg}
-                className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/40 text-white flex items-center justify-center text-xs hover:bg-black/60 transition-colors"
-                aria-label="前の画像"
-              >‹</button>
-              <button
-                onClick={nextImg}
-                className="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/40 text-white flex items-center justify-center text-xs hover:bg-black/60 transition-colors"
-                aria-label="次の画像"
-              >›</button>
-              <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex gap-1">
-                {images.map((_, idx) => (
-                  <div
-                    key={idx}
-                    className="w-1.5 h-1.5 rounded-full transition-colors"
-                    style={{ backgroundColor: idx === imgIndex ? "white" : "rgba(255,255,255,0.4)" }}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+        <ImageCarousel images={images} size="card" />
 
         {/* 2. アイコン + 屋号（ゴシック体） */}
         <div className="flex items-center gap-2 px-3 pt-3 pb-1">
-          {icon ? (
-            <img
-              src={icon}
-              alt={`${exhibitor.name} アイコン`}
-              className="w-9 h-9 rounded-full object-cover flex-shrink-0 border border-[oklch(0.90_0.04_85)]"
-            />
-          ) : (
-            <div
-              className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
-              style={{ backgroundColor: bgColor }}
-            >
-              {initial}
-            </div>
-          )}
+          <img
+            src={icon ?? noImage}
+            alt={`${exhibitor.name} アイコン`}
+            className="w-9 h-9 rounded-full object-cover flex-shrink-0"
+          />
           <div className="font-bold text-sm text-[oklch(0.12_0.02_145)] truncate flex-1">
             {exhibitor.name}
           </div>
@@ -193,65 +156,56 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
         {/* 4. Instagramアイコン（左） */}
         <div className="flex items-center px-3 pb-3 pt-1 min-h-[2.5rem]">
           {igUrl && (
-            <a
-              href={igUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex items-center justify-center w-7 h-7 rounded-full hover:bg-[oklch(0.95_0.02_85)] transition-colors"
-              aria-label="Instagramを見る"
-              style={{ color: "oklch(0.40 0.10 300)" }}
+            <Button
+              asChild
+              variant="ghost"
+              size="icon-sm"
+              className="rounded-full text-[oklch(0.40_0.10_300)] hover:bg-[oklch(0.95_0.02_85)] hover:text-[oklch(0.40_0.10_300)]"
             >
-              <InstagramIcon className="w-4 h-4" />
-            </a>
+              <a
+                href={igUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Instagramを見る"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+            </Button>
           )}
         </div>
       </div>
 
-      {/* Modal */}
-      {open && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
-          onClick={() => setOpen(false)}
-        >
-          <div
-            className="bg-white rounded-2xl overflow-hidden w-full max-w-sm shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
+      {/* Modal（shadcn/ui Dialog） */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="p-0 gap-0 overflow-hidden max-w-sm bg-white">
+          <div className="max-h-[85vh] overflow-y-auto">
             {/* Modal header */}
-            <div className="flex items-center gap-3 p-4 border-b border-[oklch(0.92_0.02_85)]">
-              {icon ? (
-                <img
-                  src={icon}
-                  alt={`${exhibitor.name} アイコン`}
-                  className="w-12 h-12 rounded-full object-cover flex-shrink-0 border-2 border-[oklch(0.90_0.04_85)]"
-                />
-              ) : (
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
-                  style={{ backgroundColor: bgColor }}
-                >
-                  {initial}
-                </div>
-              )}
+            <DialogHeader className="flex-row items-center gap-3 space-y-0 p-4 pr-10 text-left border-b border-[oklch(0.92_0.02_85)]">
+              <img
+                src={icon ?? noImage}
+                alt={`${exhibitor.name} アイコン`}
+                className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+              />
               <div className="flex-1 min-w-0">
-                <div className="font-bold text-base text-[oklch(0.18_0.05_145)]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                <DialogTitle
+                  className="font-bold text-base text-[oklch(0.18_0.05_145)] truncate"
+                  style={{ fontFamily: "'Noto Serif JP', serif" }}
+                >
                   {exhibitor.name}
-                </div>
-                {igHandle && (
-                  <div className="text-xs text-[oklch(0.50_0.05_145)] mt-0.5 truncate">{igHandle}</div>
+                </DialogTitle>
+                {igHandle ? (
+                  <DialogDescription className="text-xs text-[oklch(0.50_0.05_145)] mt-0.5 truncate">
+                    {igHandle}
+                  </DialogDescription>
+                ) : (
+                  <DialogDescription className="sr-only">出店業者の詳細</DialogDescription>
                 )}
               </div>
-              <button
-                onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-[oklch(0.50_0.05_145)] hover:bg-[oklch(0.95_0.02_85)] transition-colors text-lg"
-                aria-label="閉じる"
-              >×</button>
-            </div>
+            </DialogHeader>
 
             {/* Modal image carousel */}
-            <ModalCarousel images={images} />
+            <ImageCarousel images={images} size="modal" />
 
             {/* Modal body */}
             <div className="p-4">
@@ -261,21 +215,21 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
                 </p>
               )}
               {igUrl && (
-                <a
-                  href={igUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white font-bold text-sm transition-opacity hover:opacity-90"
+                <Button
+                  asChild
+                  className="w-full h-auto py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 hover:bg-transparent"
                   style={{ background: "linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)" }}
                 >
-                  <InstagramIcon className="w-4 h-4" />
-                  Instagramを見る（{igHandle}）
-                </a>
+                  <a href={igUrl} target="_blank" rel="noopener noreferrer">
+                    <Instagram className="w-4 h-4" />
+                    Instagramを見る（{igHandle}）
+                  </a>
+                </Button>
               )}
             </div>
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
@@ -332,12 +286,12 @@ export default function ExhibitorsSection() {
         <div className="text-center mb-14 reveal">
           <div className="inline-flex items-center gap-2 mb-3">
             <span className="text-2xl">🌿</span>
-            <span
-              className="font-display text-sm tracking-widest px-4 py-1 rounded-full text-white"
+            <Badge
+              className="font-display text-sm tracking-widest px-4 py-1 rounded-full text-white border-transparent"
               style={{ backgroundColor: "oklch(0.42 0.16 145)" }}
             >
               Exhibitors
-            </span>
+            </Badge>
             <span className="text-2xl">🌿</span>
           </div>
           <h2

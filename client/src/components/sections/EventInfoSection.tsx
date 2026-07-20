@@ -4,6 +4,7 @@
  * Motifs: スタンプバッジ、バンティングフラッグ、葉シルエット
  */
 import { asset } from "@/lib/asset";
+import { Badge } from "@/components/ui/badge";
 
 function LeafDecor({ className = "" }: { className?: string }) {
   return (
@@ -18,12 +19,13 @@ function LeafDecor({ className = "" }: { className?: string }) {
 
 function StampBadge({ children, color }: { children: React.ReactNode; color: string }) {
   return (
-    <div
-      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm border-2 border-dashed"
+    <Badge
+      variant="outline"
+      className="gap-2 px-5 py-2.5 rounded-full font-bold text-sm border-2 border-dashed bg-transparent"
       style={{ borderColor: color, color }}
     >
       {children}
-    </div>
+    </Badge>
   );
 }
 
@@ -57,12 +59,12 @@ export default function EventInfoSection() {
         <div className="text-center mb-14 reveal">
           <BuntingRow colors={flagColors} />
           <div className="mt-6 mb-3">
-            <span
-              className="inline-block font-display text-sm tracking-widest px-4 py-1 rounded-full text-white"
+            <Badge
+              className="font-display text-sm tracking-widest px-4 py-1 rounded-full text-white border-transparent"
               style={{ backgroundColor: "oklch(0.42 0.16 145)" }}
             >
               Event Info
-            </span>
+            </Badge>
           </div>
           <h2
             className="text-3xl md:text-4xl font-bold text-[oklch(0.18_0.05_145)]"

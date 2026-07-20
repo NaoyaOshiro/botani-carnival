@@ -1,8 +1,14 @@
 /**
  * FaqSection — よくある質問
  * Design: Tropical Fiesta — サンドベース背景
+ * アコーディオンは shadcn/ui の Accordion を使用。
  */
-import { useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const faqs = [
   {
@@ -27,50 +33,6 @@ const faqs = [
   },
 ];
 
-function FaqItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div
-      className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[oklch(0.88_0.04_85)] reveal"
-      style={{ transitionDelay: `${index * 80}ms` }}
-    >
-      <button
-        className="w-full text-left px-6 py-5 flex items-start gap-4 hover:bg-[oklch(0.98_0.02_85)] transition-colors"
-        onClick={() => setOpen(!open)}
-      >
-        <span
-          className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold mt-0.5"
-          style={{ backgroundColor: "oklch(0.42 0.16 145)" }}
-        >
-          Q
-        </span>
-        <span className="flex-1 font-bold text-[oklch(0.18_0.05_145)] text-base leading-relaxed" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          {faq.q}
-        </span>
-        <span
-          className="flex-shrink-0 text-[oklch(0.42_0.16_145)] text-xl font-bold transition-transform duration-200"
-          style={{ transform: open ? "rotate(45deg)" : "rotate(0deg)" }}
-        >
-          +
-        </span>
-      </button>
-      {open && (
-        <div className="px-6 pb-5 flex gap-4">
-          <span
-            className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold mt-0.5"
-            style={{ backgroundColor: "oklch(0.72 0.18 55)" }}
-          >
-            A
-          </span>
-          <p className="text-[oklch(0.35_0.05_145)] leading-relaxed text-sm pt-1">
-            {faq.a}
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function FaqSection() {
   return (
     <section id="faq" className="py-24 px-4" style={{ backgroundColor: "oklch(0.96 0.03 85)" }}>
@@ -91,11 +53,47 @@ export default function FaqSection() {
           <div className="w-16 h-1 bg-[oklch(0.42_0.16_145)] mx-auto mt-4 rounded-full" />
         </div>
 
-        <div className="space-y-4">
+        <Accordion type="single" collapsible className="space-y-4">
           {faqs.map((faq, i) => (
-            <FaqItem key={i} faq={faq} index={i} />
+            <div
+              key={i}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[oklch(0.88_0.04_85)] reveal"
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
+              <AccordionItem value={`q${i}`} className="border-b-0">
+                <AccordionTrigger className="px-6 py-5 hover:no-underline hover:bg-[oklch(0.98_0.02_85)] [&>svg]:text-[oklch(0.42_0.16_145)] [&>svg]:mt-2">
+                  <span className="flex items-start gap-4 flex-1">
+                    <span
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      style={{ backgroundColor: "oklch(0.42 0.16 145)" }}
+                    >
+                      Q
+                    </span>
+                    <span
+                      className="flex-1 font-bold text-[oklch(0.18_0.05_145)] text-base leading-relaxed"
+                      style={{ fontFamily: "'Noto Serif JP', serif" }}
+                    >
+                      {faq.q}
+                    </span>
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6">
+                  <div className="flex gap-4">
+                    <span
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      style={{ backgroundColor: "oklch(0.72 0.18 55)" }}
+                    >
+                      A
+                    </span>
+                    <p className="text-[oklch(0.35_0.05_145)] leading-relaxed text-sm pt-1">
+                      {faq.a}
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </div>
           ))}
-        </div>
+        </Accordion>
       </div>
 
       {/* Wave divider */}
