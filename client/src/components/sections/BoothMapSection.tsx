@@ -2,6 +2,8 @@
  * BoothMapSection — 出展ブース配置図（2日分）
  * Design: Tropical Fiesta — ジャングルダーク背景
  */
+import { asset } from "@/lib/asset";
+
 export default function BoothMapSection() {
   return (
     <section
@@ -36,7 +38,7 @@ export default function BoothMapSection() {
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <img
-              src="/images/booth-map-placeholder_3616fca9.jpg"
+              src={asset("images/booth-map-placeholder_3616fca9.jpg")}
               alt="8月29日（土）ブース配置図"
               className="w-full object-contain"
               style={{ maxHeight: "500px" }}
@@ -57,7 +59,7 @@ export default function BoothMapSection() {
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <img
-              src="/images/booth-map-placeholder_3616fca9.jpg"
+              src={asset("images/booth-map-placeholder_3616fca9.jpg")}
               alt="8月30日（日）ブース配置図"
               className="w-full object-contain"
               style={{ maxHeight: "500px" }}

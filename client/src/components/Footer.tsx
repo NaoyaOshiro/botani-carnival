@@ -2,6 +2,8 @@
  * Footer — BOTANI CARNIVAL
  * Design: Tropical Fiesta — ジャングルダーク背景
  */
+import { asset } from "@/lib/asset";
+
 export default function Footer() {
   return (
     <footer
@@ -11,7 +13,7 @@ export default function Footer() {
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-center gap-3 mb-4">
           <img
-            src="/images/logo-mark_44fa6323.png"
+            src={asset("images/logo-mark_44fa6323.png")}
             alt="BOTANI CARNIVAL"
             className="w-12 h-12 object-contain opacity-90"
           />

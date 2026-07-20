@@ -3,6 +3,7 @@
  * Design: Tropical Fiesta
  */
 import { useState, useEffect } from "react";
+import { asset } from "@/lib/asset";
 
 const navItems = [
   { label: "イベント情報", href: "#event-info" },
@@ -34,7 +35,7 @@ export default function NavBar() {
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2">
           <img
-            src="/images/logo-mark_44fa6323.png"
+            src={asset("images/logo-mark_44fa6323.png")}
             alt="BOTANI CARNIVAL"
             className="w-10 h-10 object-contain"
           />

@@ -3,6 +3,7 @@
  * Design: Tropical Fiesta — サンドベース背景
  * Motifs: スタンプバッジ、バンティングフラッグ、葉シルエット
  */
+import { asset } from "@/lib/asset";
 
 function LeafDecor({ className = "" }: { className?: string }) {
   return (
@@ -136,7 +137,7 @@ export default function EventInfoSection() {
           <div className="rounded-3xl overflow-hidden shadow-xl flex flex-col md:flex-row items-stretch" style={{ backgroundColor: "oklch(0.18 0.05 145)" }}>
             <div className="md:w-1/2 h-52 md:h-auto overflow-hidden">
               <img
-                src="/images/kitchen-car_6061db9c.jpg"
+                src={asset("images/kitchen-car_6061db9c.jpg")}
                 alt="キッチンカー"
                 className="w-full h-full object-cover"
               />

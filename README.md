@@ -95,9 +95,27 @@ pnpm build
 
 ---
 
+## 🌐 デプロイ（GitHub Pages）
+
+`main` ブランチに push すると、GitHub Actions（`.github/workflows/deploy.yml`）が自動でビルドして GitHub Pages に公開します。
+
+公開URL: **https://naoyaoshiro.github.io/botani-carnival/**
+
+### 初回のみ必要な設定
+
+リポジトリの **Settings → Pages → Build and deployment → Source** を **「GitHub Actions」** に設定してください（一度だけ）。
+
+### 仕組み・注意点
+
+- プロジェクトページはサブパス（`/botani-carnival/`）で配信されるため、Vite の `base` を本番ビルド時のみ `/botani-carnival/` に設定しています（`vite.config.ts`）。
+- 画像などの静的アセットは `asset()` ヘルパー、クライアントルーティングは wouter の `base` により、サブパスでも正しく解決されます。
+- 独自ドメインや別ホスト（ルート直下配信）に移す場合は、ビルド時に環境変数 `VITE_BASE_PATH=/` を指定すれば base を変更できます。
+
+---
+
 ## 🖼 画像・アセットの管理
 
-商品画像・ロゴ等の静的アセットは `client/public/images/` に配置し、コード側では `/images/ファイル名` で参照しています。
+商品画像・ロゴ等の静的アセットは `client/public/images/` に配置します。コード側では、GitHub Pages のサブパス配信に対応するため `asset("images/ファイル名")`（`client/src/lib/asset.ts`）ヘルパー経由で参照しています。
 
 現在コードから参照されているが未配置のファイル（Manus環境からダウンロードして配置してください）：
 

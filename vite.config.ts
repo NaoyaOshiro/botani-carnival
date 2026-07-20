@@ -5,7 +5,11 @@ import { defineConfig } from "vite";
 
 const plugins = [react(), tailwindcss()];
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // GitHub Pages のプロジェクトページはサブパス配信（例: /botani-carnival/）。
+  // 本番ビルド時のみ base を付与し、ローカル開発（vite dev）はルート直下にする。
+  // 独自ドメインや別ホストに移す場合は VITE_BASE_PATH で上書き可能。
+  base: command === "build" ? process.env.VITE_BASE_PATH ?? "/botani-carnival/" : "/",
   plugins,
   resolve: {
     alias: {
@@ -29,4 +33,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

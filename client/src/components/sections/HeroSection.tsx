@@ -4,6 +4,7 @@
  * SP (md未満): 縦フライヤー（珍奇植物市場Vol9.jpg）を中央表示
  * Design: Tropical Fiesta
  */
+import { asset } from "@/lib/asset";
 
 function BuntingFlags({ count = 20, colors }: { count?: number; colors: string[] }) {
   return (
@@ -37,7 +38,7 @@ export default function HeroSection() {
       {/* PC: 横長フライヤー（md以上で表示） */}
       <div className="hidden md:block w-full">
         <img
-          src="/images/flyer_pc_72483ab8.webp"
+          src={asset("images/flyer_pc_72483ab8.webp")}
           alt="BOTANI CARNIVAL 珍奇植物市場 Vol.9 フライヤー"
           className="w-full object-cover"
           style={{ display: "block" }}
@@ -47,7 +48,7 @@ export default function HeroSection() {
       {/* SP: 縦フライヤー（md未満で表示） */}
       <div className="block md:hidden w-full flex justify-center px-4">
         <img
-          src="/images/flyer_ec004d74.jpg"
+          src={asset("images/flyer_ec004d74.jpg")}
           alt="BOTANI CARNIVAL 珍奇植物市場 Vol.9 フライヤー"
           className="w-full max-w-lg object-contain"
           style={{ display: "block" }}
