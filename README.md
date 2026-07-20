@@ -117,13 +117,16 @@ pnpm build
 
 商品画像・ロゴ等の静的アセットは `client/public/images/` に配置します。コード側では、GitHub Pages のサブパス配信に対応するため `asset("images/ファイル名")`（`client/src/lib/asset.ts`）ヘルパー経由で参照しています。
 
-現在コードから参照されているが未配置のファイル（Manus環境からダウンロードして配置してください）：
+### 配置済みの画像
 
-- `logo-mark_44fa6323.png`（ヘッダー・フッターのロゴ）
-- `flyer_pc_72483ab8.webp`（ヒーロー画像 PC用）
-- `flyer_ec004d74.jpg`（ヒーロー画像 SP用）
-- `booth-map-placeholder_3616fca9.jpg`（会場配置図）
-- `kitchen-car_6061db9c.jpg`（キッチンカー紹介）
+- `logo-mark.webp`（ヘッダー・フッターのロゴ）
+- `flyer-pc.png`（ヒーロー画像 PC用）
+- `flyer-sp.jpg`（ヒーロー画像 SP用）
+- `booth-map.webp`（会場配置図。現在は 8/29・8/30 で同じ画像を表示）
+- `kitchen-car.webp`（キッチンカー紹介）
+
+### 未配置の画像（今後差し替え予定）
+
 - `oshiro_logo_f2699919.jpg`（おーしろ製作所アイコン）
 - `oshiro_product2_b2892d60.jpg` / `oshiro_product3_813b6ba1.jpg`（おーしろ製作所 商品画像）
 - `section-plants_f29bcf52.jpg`（出店業者カードの画像読み込み失敗時フォールバック）

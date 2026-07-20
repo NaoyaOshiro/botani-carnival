@@ -38,7 +38,7 @@ export default function HeroSection() {
       {/* PC: 横長フライヤー（md以上で表示） */}
       <div className="hidden md:block w-full">
         <img
-          src={asset("images/flyer_pc_72483ab8.webp")}
+          src={asset("images/flyer-pc.png")}
           alt="BOTANI CARNIVAL 珍奇植物市場 Vol.9 フライヤー"
           className="w-full object-cover"
           style={{ display: "block" }}
@@ -48,7 +48,7 @@ export default function HeroSection() {
       {/* SP: 縦フライヤー（md未満で表示） */}
       <div className="block md:hidden w-full flex justify-center px-4">
         <img
-          src={asset("images/flyer_ec004d74.jpg")}
+          src={asset("images/flyer-sp.jpg")}
           alt="BOTANI CARNIVAL 珍奇植物市場 Vol.9 フライヤー"
           className="w-full max-w-lg object-contain"
           style={{ display: "block" }}

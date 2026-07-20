@@ -38,7 +38,7 @@ export default function BoothMapSection() {
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <img
-              src={asset("images/booth-map-placeholder_3616fca9.jpg")}
+              src={asset("images/booth-map.webp")}
               alt="8月29日（土）ブース配置図"
               className="w-full object-contain"
               style={{ maxHeight: "500px" }}
@@ -59,7 +59,7 @@ export default function BoothMapSection() {
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <img
-              src={asset("images/booth-map-placeholder_3616fca9.jpg")}
+              src={asset("images/booth-map.webp")}
               alt="8月30日（日）ブース配置図"
               className="w-full object-contain"
               style={{ maxHeight: "500px" }}
