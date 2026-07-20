@@ -4,6 +4,7 @@
  */
 import { asset } from "@/lib/asset";
 import { Separator } from "@/components/ui/separator";
+import SectionHeading from "@/components/SectionHeading";
 
 export default function BoothMapSection() {
   return (
@@ -13,21 +14,7 @@ export default function BoothMapSection() {
       style={{ backgroundColor: "oklch(0.18 0.05 145)" }}
     >
       <div className="max-w-5xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-14 reveal">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="text-2xl">🗺️</span>
-            <span className="text-sm font-bold tracking-widest text-[oklch(0.80_0.16_85)] uppercase">Booth Map</span>
-            <span className="text-2xl">🗺️</span>
-          </div>
-          <h2
-            className="text-3xl md:text-4xl font-bold text-white"
-            style={{ fontFamily: "'Noto Serif JP', serif" }}
-          >
-            出展ブース配置図
-          </h2>
-          <div className="w-16 h-1 bg-[oklch(0.80_0.16_85)] mx-auto mt-4 rounded-full" />
-        </div>
+        <SectionHeading overline="Booth Map" title="出展ブース配置図" tone="dark" />
 
         {/* Day 1 */}
         <div className="mb-12 reveal">

@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
+import SectionHeading from "@/components/SectionHeading";
 
 const faqs = [
   {
@@ -38,21 +39,7 @@ export default function FaqSection() {
   return (
     <section id="faq" className="py-24 px-4" style={{ backgroundColor: "oklch(0.96 0.03 85)" }}>
       <div className="max-w-3xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-14 reveal">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="text-2xl">❓</span>
-            <span className="text-sm font-bold tracking-widest text-[oklch(0.42_0.16_145)] uppercase">FAQ</span>
-            <span className="text-2xl">❓</span>
-          </div>
-          <h2
-            className="text-3xl md:text-4xl font-bold text-[oklch(0.18_0.05_145)]"
-            style={{ fontFamily: "'Noto Serif JP', serif" }}
-          >
-            よくある質問
-          </h2>
-          <div className="w-16 h-1 bg-[oklch(0.42_0.16_145)] mx-auto mt-4 rounded-full" />
-        </div>
+        <SectionHeading overline="FAQ" title="よくある質問" />
 
         <Accordion type="single" collapsible className="space-y-4">
           {faqs.map((faq, i) => (

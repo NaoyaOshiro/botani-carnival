@@ -5,6 +5,7 @@
 import { Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import SectionHeading from "@/components/SectionHeading";
 
 export default function ContactSection() {
   return (
@@ -13,24 +14,11 @@ export default function ContactSection() {
       className="py-24 px-4"
       style={{ backgroundColor: "oklch(0.18 0.05 145)" }}
     >
-      <div className="max-w-2xl mx-auto text-center">
-        {/* Section header */}
-        <div className="mb-12 reveal">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="text-2xl">📩</span>
-            <span className="text-sm font-bold tracking-widest text-[oklch(0.80_0.16_85)] uppercase">Contact</span>
-            <span className="text-2xl">📩</span>
-          </div>
-          <h2
-            className="text-3xl md:text-4xl font-bold text-white"
-            style={{ fontFamily: "'Noto Serif JP', serif" }}
-          >
-            お問い合わせ
-          </h2>
-          <div className="w-16 h-1 bg-[oklch(0.80_0.16_85)] mx-auto mt-4 rounded-full" />
-        </div>
+      {/* 見出しは左寄せ（エディトリアル）、カードの中身は中央寄せのまま維持する */}
+      <div className="max-w-2xl mx-auto">
+        <SectionHeading overline="Contact" title="お問い合わせ" tone="dark" />
 
-        <Card className="bg-white/5 border-white/10 rounded-3xl p-10 reveal gap-0 py-0">
+        <Card className="bg-white/5 border-white/10 rounded-3xl p-10 reveal gap-0 py-0 text-center">
           <p className="text-white/80 leading-relaxed mb-8 text-base">
             イベントに関するご質問・出店のご相談など、<br />
             お気軽に主催者のInstagramまでDMをお送りください。

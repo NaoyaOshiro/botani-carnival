@@ -11,6 +11,7 @@ import { asset } from "@/lib/asset";
 import { exhibitors, type Exhibitor } from "@/data/exhibitors";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import SectionHeading from "@/components/SectionHeading";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -389,33 +390,17 @@ export default function ExhibitorsSection() {
       }} />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section header */}
-        <div className="text-center mb-14 reveal">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="text-2xl">🌿</span>
-            <Badge
-              className="font-display text-sm tracking-widest px-4 py-1 rounded-full text-white border-transparent"
-              style={{ backgroundColor: "oklch(0.42 0.16 145)" }}
-            >
-              Exhibitors
-            </Badge>
-            <span className="text-2xl">🌿</span>
-          </div>
-          <h2
-            className="text-3xl md:text-4xl font-bold text-[oklch(0.18_0.05_145)]"
-            style={{ fontFamily: "'Noto Serif JP', serif" }}
-          >
-            出店業者紹介
-          </h2>
-          <div className="w-16 h-1 bg-[oklch(0.42_0.16_145)] mx-auto mt-4 rounded-full" />
-          <p className="mt-4 text-[oklch(0.50_0.05_145)] text-sm">
-            ※現在出店者情報を収集中です。随時更新予定です。
-          </p>
-        </div>
+        <SectionHeading overline="Exhibitors" title="出店業者紹介">
+          全{allExhibitors.length}の出店業者が参加予定です。
+          両日出店の業者には <span className="font-bold" style={{ color: BOTH_COLOR }}>両日</span> バッジが付きます。
+          <br />
+          ※現在出店者情報を収集中です。随時更新予定です。
+        </SectionHeading>
 
         {/* 日程フィルタ + 一覧（両日出店の業者も1枚のみ描画） */}
         <Tabs value={filter} onValueChange={handleFilterChange} className="gap-0">
-          <TabsList className="mx-auto mb-4 h-auto gap-1 rounded-full bg-[oklch(0.91_0.03_85)] p-1.5 reveal">
+          {/* 見出しが左寄せになったので、フィルタも左に揃える */}
+          <TabsList className="mr-auto mb-8 h-auto gap-1 rounded-full bg-[oklch(0.91_0.03_85)] p-1.5 reveal">
             {FILTERS.map((f) => (
               <TabsTrigger
                 key={f.id}
@@ -428,11 +413,6 @@ export default function ExhibitorsSection() {
               </TabsTrigger>
             ))}
           </TabsList>
-
-          <p className="text-center text-xs text-[oklch(0.50_0.05_145)] mb-8">
-            全{allExhibitors.length}の出店業者が参加予定です。
-            両日出店の業者には <span className="font-bold" style={{ color: BOTH_COLOR }}>両日</span> バッジが付きます
-          </p>
 
           {/*
             パネルに reveal は付けない。Home.tsx の IntersectionObserver は

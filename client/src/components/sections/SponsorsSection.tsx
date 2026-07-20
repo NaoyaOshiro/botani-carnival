@@ -4,8 +4,7 @@
  * ダーク背景はセクションのリズム（サンド⇄ダーク交互）を保つため維持。
  */
 import { ArrowUpRight } from "lucide-react";
-
-const GOLD = "oklch(0.80 0.16 85)"; // ダーク背景上のアクセント（他セクションと共通）
+import SectionHeading from "@/components/SectionHeading";
 
 const sponsors = [
   {
@@ -36,21 +35,7 @@ export default function SponsorsSection() {
       style={{ backgroundColor: "oklch(0.18 0.05 145)" }}
     >
       <div className="max-w-3xl mx-auto">
-        {/* Section header */}
-        <div className="mb-12 reveal">
-          <p
-            className="text-xs font-bold tracking-[0.35em] uppercase mb-3"
-            style={{ color: GOLD }}
-          >
-            Sponsors
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold text-white"
-            style={{ fontFamily: "'Noto Serif JP', serif" }}
-          >
-            協賛
-          </h2>
-        </div>
+        <SectionHeading overline="Sponsors" title="協賛" tone="dark" />
 
         {/* Sponsor rows — 行全体がリンク */}
         <div className="reveal">

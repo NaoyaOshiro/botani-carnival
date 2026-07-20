@@ -7,6 +7,7 @@
 import { MapPin } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { Button } from "@/components/ui/button";
+import SectionHeading from "@/components/SectionHeading";
 
 const INK = "oklch(0.18 0.05 145)"; // 見出し・本文の濃緑
 const MUTED = "oklch(0.50 0.05 145)"; // 補足テキスト
@@ -34,21 +35,7 @@ export default function EventInfoSection() {
       style={{ backgroundColor: "oklch(0.96 0.03 85)" }}
     >
       <div className="max-w-3xl mx-auto">
-        {/* Section header */}
-        <div className="mb-12 reveal">
-          <p
-            className="text-xs font-bold tracking-[0.35em] uppercase mb-3"
-            style={{ color: DAY1_COLOR }}
-          >
-            Event Info
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif JP', serif", color: INK }}
-          >
-            イベント情報
-          </h2>
-        </div>
+        <SectionHeading overline="Event Info" title="イベント情報" />
 
         {/* Date — 大きなタイポグラフィ */}
         <div className="mb-12 reveal">
