@@ -82,7 +82,7 @@ export default function SponsorsSection() {
       </div>
 
       {/* Wave divider */}
-      <div className="relative mt-16 -mb-24">
+      <div className="relative mt-16 -mb-24 -mx-4">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full" style={{ height: "60px" }}>
           <path d="M0,40 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="oklch(0.96 0.03 85)" />
         </svg>

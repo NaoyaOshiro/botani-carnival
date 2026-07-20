@@ -73,7 +73,7 @@ export default function BoothMapSection() {
       </div>
 
       {/* Wave divider */}
-      <div className="relative mt-16 -mb-24">
+      <div className="relative mt-16 -mb-24 -mx-4">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full" style={{ height: "60px" }}>
           <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.96 0.03 85)" />
         </svg>

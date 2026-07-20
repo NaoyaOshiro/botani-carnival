@@ -425,7 +425,7 @@ export default function ExhibitorsSection() {
       </div>
 
       {/* Wave divider */}
-      <div className="relative mt-8 -mb-24">
+      <div className="relative mt-8 -mb-24 -mx-4">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full" style={{ height: "60px" }}>
           <path d="M0,20 C480,60 960,0 1440,20 L1440,60 L0,60 Z" fill="oklch(0.18 0.05 145)" />
         </svg>
