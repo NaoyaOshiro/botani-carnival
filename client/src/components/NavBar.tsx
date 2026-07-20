@@ -41,13 +41,17 @@ export default function NavBar() {
     >
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2">
-          {/* 40px表示。元の logo-mark.webp は 1920px/892KB とオーバースペックだった */}
+          {/*
+            イベントアイコン（円形バッジ）。元画像は透過を持たない正方形で、
+            四隅の白がヘッダー透明時・フッターの濃緑上で出てしまうため
+            rounded-full で円形にクリップする。
+          */}
           <img
-            src={asset("images/logo-mark-144.png")}
+            src={asset("images/logo-event-144.png")}
             alt="BOTANI CARNIVAL"
             width={144}
             height={144}
-            className="w-10 h-10 object-contain"
+            className="w-10 h-10 object-contain rounded-full"
           />
           <div className={`leading-tight transition-colors duration-300 ${scrolled ? "text-[oklch(0.18_0.05_145)]" : "text-white"}`}>
             <div className="font-display text-sm">BOTANI</div>
