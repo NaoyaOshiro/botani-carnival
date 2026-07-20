@@ -1,7 +1,7 @@
 /**
  * FaqSection — よくある質問
- * Design: Tropical Fiesta — サンドベース背景
- * アコーディオンは shadcn/ui の Accordion を使用。
+ * Design: エディトリアル — 罫線区切りのアコーディオン（イベント情報の定義リストと同じ文法）。
+ * 白カード・Q/Aの丸バッジ・影は持たない。質問文自体が見出しとして機能する。
  */
 import {
   Accordion,
@@ -9,8 +9,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card } from "@/components/ui/card";
 import SectionHeading from "@/components/SectionHeading";
+
+const INK = "oklch(0.18 0.05 145)";
+const MUTED = "oklch(0.45 0.05 145)";
+const LINE = "oklch(0.88 0.04 85)";
 
 const faqs = [
   {
@@ -41,52 +44,39 @@ export default function FaqSection() {
       <div className="max-w-3xl mx-auto">
         <SectionHeading overline="FAQ" title="よくある質問" />
 
-        <Accordion type="single" collapsible className="space-y-4">
+        <Accordion type="single" collapsible className="reveal">
           {faqs.map((faq, i) => (
-            <Card
+            <AccordionItem
               key={i}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border-[oklch(0.88_0.04_85)] reveal gap-0 py-0"
-              style={{ transitionDelay: `${i * 80}ms` }}
+              value={`q${i}`}
+              className="border-b-0 border-t"
+              style={{ borderColor: LINE }}
             >
-              <AccordionItem value={`q${i}`} className="border-b-0">
-                <AccordionTrigger className="px-6 py-5 hover:no-underline hover:bg-[oklch(0.98_0.02_85)] [&>svg]:text-[oklch(0.42_0.16_145)] [&>svg]:mt-2">
-                  <span className="flex items-start gap-4 flex-1">
-                    <span
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                      style={{ backgroundColor: "oklch(0.42 0.16 145)" }}
-                    >
-                      Q
-                    </span>
-                    <span
-                      className="flex-1 font-bold text-[oklch(0.18_0.05_145)] text-base leading-relaxed"
-                      style={{ fontFamily: "'Noto Serif JP', serif" }}
-                    >
-                      {faq.q}
-                    </span>
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className="px-6">
-                  <div className="flex gap-4">
-                    <span
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                      style={{ backgroundColor: "oklch(0.72 0.18 55)" }}
-                    >
-                      A
-                    </span>
-                    <p className="text-[oklch(0.35_0.05_145)] leading-relaxed text-sm pt-1">
-                      {faq.a}
-                    </p>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Card>
+              <AccordionTrigger
+                className="gap-4 py-5 text-left text-base font-bold hover:no-underline [&>svg]:size-5"
+                style={{ fontFamily: "'Noto Serif JP', serif", color: INK }}
+              >
+                {faq.q}
+              </AccordionTrigger>
+              <AccordionContent className="pb-6 text-sm leading-relaxed" style={{ color: MUTED }}>
+                {faq.a}
+              </AccordionContent>
+            </AccordionItem>
           ))}
+          {/* 最終行の下辺。イベント情報・協賛のリストと同じ閉じ方に揃える。 */}
+          <div className="border-t" style={{ borderColor: LINE }} />
         </Accordion>
       </div>
 
       {/* Wave divider */}
       <div className="relative mt-16 -mb-24 -mx-4">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full" style={{ height: "60px" }}>
+        <svg
+          viewBox="0 0 1440 60"
+          preserveAspectRatio="none"
+          className="w-full"
+          style={{ height: "60px" }}
+          aria-hidden="true"
+        >
           <path d="M0,20 C480,60 960,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.18 0.05 145)" />
         </svg>
       </div>
