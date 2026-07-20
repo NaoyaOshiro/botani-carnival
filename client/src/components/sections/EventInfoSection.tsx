@@ -4,7 +4,9 @@
  * 大きな日付見出し + 定義リスト。装飾（バンティング・葉・色カード）は持たない。
  * SAT/SUN の色は出店業者一覧の日程フィルタ（緑=8/29 / 赤=8/30）と揃えている。
  */
+import { MapPin } from "lucide-react";
 import { asset } from "@/lib/asset";
+import { Button } from "@/components/ui/button";
 
 const INK = "oklch(0.18 0.05 145)"; // 見出し・本文の濃緑
 const MUTED = "oklch(0.50 0.05 145)"; // 補足テキスト
@@ -12,13 +14,16 @@ const LINE = "oklch(0.88 0.04 85)"; // 罫線
 const DAY1_COLOR = "oklch(0.42 0.16 145)"; // 土 = 緑（出店業者フィルタと同色）
 const DAY2_COLOR = "oklch(0.55 0.22 0)"; // 日 = 赤（同上）
 
-// 定義リストの行データ
+// 会場のGoogleマップ（共有リンク）
+const MAP_URL = "https://maps.app.goo.gl/8soxNcdA9EZiwg8H6";
+
+// 定義リストの行データ。mapUrl があれば「マップで開く」ボタンを添える。
 const details = [
   { label: "時間", value: "11:00 – 16:00", note: "両日共通" },
-  { label: "場所", value: "西原さわふじ広場", note: "西原さわふじマルシェ" },
+  { label: "場所", value: "西原さわふじ広場", note: "西原さわふじマルシェ", mapUrl: MAP_URL },
   { label: "入場", value: "無料", note: "どなたでもご来場いただけます" },
   { label: "グルメ", value: "キッチンカー出店", note: "フード・ドリンク・スイーツ" },
-];
+] as { label: string; value: string; note: string; mapUrl?: string }[];
 
 export default function EventInfoSection() {
   return (
@@ -93,13 +98,29 @@ export default function EventInfoSection() {
               <dt className="text-xs font-bold tracking-widest" style={{ color: MUTED }}>
                 {d.label}
               </dt>
-              <dd className="flex flex-wrap items-baseline gap-x-3">
-                <span className="text-base md:text-lg font-bold" style={{ color: INK }}>
-                  {d.value}
-                </span>
-                <span className="text-xs" style={{ color: MUTED }}>
-                  {d.note}
-                </span>
+              <dd>
+                <div className="flex flex-wrap items-baseline gap-x-3">
+                  <span className="text-base md:text-lg font-bold" style={{ color: INK }}>
+                    {d.value}
+                  </span>
+                  <span className="text-xs" style={{ color: MUTED }}>
+                    {d.note}
+                  </span>
+                </div>
+                {d.mapUrl && (
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="mt-3 h-auto gap-1.5 rounded-full bg-transparent px-4 py-1.5 text-xs font-bold"
+                    style={{ borderColor: DAY1_COLOR, color: DAY1_COLOR }}
+                  >
+                    <a href={d.mapUrl} target="_blank" rel="noopener noreferrer">
+                      <MapPin className="size-3.5" />
+                      マップで開く
+                    </a>
+                  </Button>
+                )}
               </dd>
             </div>
           ))}
