@@ -97,7 +97,20 @@ pnpm build
 
 ## 🖼 画像・アセットの管理
 
-商品画像・ロゴ等の静的アセットは `/home/ubuntu/webdev-static-assets/` に保存し、`manus-upload-file --webdev` でアップロードしたURLを使用しています。
+商品画像・ロゴ等の静的アセットは `client/public/images/` に配置し、コード側では `/images/ファイル名` で参照しています。
+
+現在コードから参照されているが未配置のファイル（Manus環境からダウンロードして配置してください）：
+
+- `logo-mark_44fa6323.png`（ヘッダー・フッターのロゴ）
+- `flyer_pc_72483ab8.webp`（ヒーロー画像 PC用）
+- `flyer_ec004d74.jpg`（ヒーロー画像 SP用）
+- `booth-map-placeholder_3616fca9.jpg`（会場配置図）
+- `kitchen-car_6061db9c.jpg`（キッチンカー紹介）
+- `oshiro_logo_f2699919.jpg`（おーしろ製作所アイコン）
+- `oshiro_product2_b2892d60.jpg` / `oshiro_product3_813b6ba1.jpg`（おーしろ製作所 商品画像）
+- `section-plants_f29bcf52.jpg`（出店業者カードの画像読み込み失敗時フォールバック）
+
+なお出店業者カードの商品画像（おーしろ製作所以外）は Unsplash の外部URLを暫定利用しています。
 
 ---
 

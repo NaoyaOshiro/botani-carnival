@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-center gap-3 mb-4">
           <img
-            src="/manus-storage/logo-mark_44fa6323.png"
+            src="/images/logo-mark_44fa6323.png"
             alt="BOTANI CARNIVAL"
             className="w-12 h-12 object-contain opacity-90"
           />

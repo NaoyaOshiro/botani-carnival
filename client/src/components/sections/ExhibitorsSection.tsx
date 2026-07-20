@@ -75,11 +75,11 @@ const oshiroFactory: Exhibitor = {
   name: "おーしろ製作所",
   category: "雑貨・植木鉢",
   instagram: "https://www.instagram.com/oshiro_factory/",
-  logo: "/manus-storage/oshiro_logo_f2699919.jpg",
+  logo: "/images/oshiro_logo_f2699919.jpg",
   comment: "おーしろ製作所では本物の植物は取り扱いしていませんが、本物の植物を楽しむように自分好みの鉢を選べる、そして無限にカチカチしてしまう。そんな存在のアイテム、「ボタニカルクリッカー」を製作販売しています。",
   productImages: [
-    "/manus-storage/oshiro_product3_813b6ba1.jpg",
-    "/manus-storage/oshiro_product2_b2892d60.jpg",
+    "/images/oshiro_product3_813b6ba1.jpg",
+    "/images/oshiro_product2_b2892d60.jpg",
   ],
 };
 const day1Exhibitors = [oshiroFactory, ...generateExhibitors(0)];
@@ -103,7 +103,7 @@ function ModalCarousel({ images }: { images: string[] }) {
         src={images[idx]}
         alt={`商品${idx + 1}`}
         className="w-full h-full object-cover transition-opacity duration-200"
-        onError={(e) => { (e.target as HTMLImageElement).src = "/manus-storage/section-plants_f29bcf52.jpg"; }}
+        onError={(e) => { (e.target as HTMLImageElement).src = "/images/section-plants_f29bcf52.jpg"; }}
       />
       {images.length > 1 && (
         <>
@@ -165,7 +165,7 @@ function ExhibitorCard({ exhibitor, boothNum }: { exhibitor: Exhibitor; boothNum
             src={exhibitor.productImages[imgIndex]}
             alt={`商品${imgIndex + 1}`}
             className="w-full h-full object-cover transition-opacity duration-200"
-            onError={(e) => { (e.target as HTMLImageElement).src = "/manus-storage/section-plants_f29bcf52.jpg"; }}
+            onError={(e) => { (e.target as HTMLImageElement).src = "/images/section-plants_f29bcf52.jpg"; }}
           />
           {exhibitor.productImages.length > 1 && (
             <>
