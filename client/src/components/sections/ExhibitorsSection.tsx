@@ -6,7 +6,7 @@
  * タップ: カード→モーダル詳細表示 / Instagramアイコン→外部遷移
  */
 import React, { useEffect, useState } from "react";
-import { Instagram } from "lucide-react";
+import { ChevronRight, Instagram } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { exhibitors, type Exhibitor } from "@/data/exhibitors";
 import { Button } from "@/components/ui/button";
@@ -179,14 +179,14 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
           </div>
         </div>
 
-        {/* 3. 説明文（2行省略） */}
-        <div className="px-3 py-1 min-h-[2.8rem]">
-          <p className="text-xs text-[oklch(0.45_0.05_145)] leading-relaxed line-clamp-2">
+        {/* 3. 説明文（スマホ1行 / sm以上は2行省略） */}
+        <div className="px-3 py-1 min-h-[1.4rem] sm:min-h-[2.8rem]">
+          <p className="text-xs text-[oklch(0.45_0.05_145)] leading-relaxed line-clamp-1 sm:line-clamp-2">
             {exhibitor.description || " "}
           </p>
         </div>
 
-        {/* 4. Instagramアイコン（左） */}
+        {/* 4. Instagramアイコン（左） + 詳細を開けることを示すアイコン（右） */}
         <div className="flex items-center px-3 pb-3 pt-1 min-h-[2.5rem]">
           {igUrl && (
             <Button
@@ -206,6 +206,18 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
               </a>
             </Button>
           )}
+
+          {/*
+            カード全体が開くトリガーなので、これは操作要素ではなく目印。
+            クリックは下のCardのonClickに任せる（pointer-events-none）。
+          */}
+          <span
+            className="ml-auto flex items-center gap-1 text-[oklch(0.50_0.05_145)] pointer-events-none"
+            aria-hidden="true"
+          >
+            <span className="text-[10px] font-bold hidden sm:inline">詳細</span>
+            <ChevronRight className="w-4 h-4" />
+          </span>
         </div>
       </Card>
 
