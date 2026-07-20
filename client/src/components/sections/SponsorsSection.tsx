@@ -1,8 +1,11 @@
 /**
  * SponsorsSection — 協賛紹介
- * Design: Tropical Fiesta — ジャングルダーク背景
+ * Design: エディトリアル — 罫線区切りの行リスト（イベント情報と同じ文法）。
+ * ダーク背景はセクションのリズム（サンド⇄ダーク交互）を保つため維持。
  */
-import { Card } from "@/components/ui/card";
+import { ArrowUpRight } from "lucide-react";
+
+const GOLD = "oklch(0.80 0.16 85)"; // ダーク背景上のアクセント（他セクションと共通）
 
 const sponsors = [
   {
@@ -32,52 +35,45 @@ export default function SponsorsSection() {
       className="py-24 px-4"
       style={{ backgroundColor: "oklch(0.18 0.05 145)" }}
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Section header */}
-        <div className="text-center mb-14 reveal">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="text-2xl">🤝</span>
-            <span className="text-sm font-bold tracking-widest text-[oklch(0.80_0.16_85)] uppercase">Sponsors</span>
-            <span className="text-2xl">🤝</span>
-          </div>
+        <div className="mb-12 reveal">
+          <p
+            className="text-xs font-bold tracking-[0.35em] uppercase mb-3"
+            style={{ color: GOLD }}
+          >
+            Sponsors
+          </p>
           <h2
             className="text-3xl md:text-4xl font-bold text-white"
             style={{ fontFamily: "'Noto Serif JP', serif" }}
           >
             協賛
           </h2>
-          <div className="w-16 h-1 bg-[oklch(0.80_0.16_85)] mx-auto mt-4 rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+        {/* Sponsor rows — 行全体がリンク */}
+        <div className="reveal">
           {sponsors.map((sponsor) => (
             <a
               key={sponsor.id}
               href={sponsor.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block"
+              className="group flex items-center gap-4 py-6 border-t border-white/15"
             >
-              <Card className="h-full bg-white/5 border-white/10 rounded-2xl p-8 text-center text-white gap-0 py-0 hover:bg-white/10 hover:-translate-y-1 transition-all duration-150">
-                {/* Logo placeholder */}
-                <div
-                  className="w-20 h-20 rounded-2xl mx-auto mb-4 flex items-center justify-center text-2xl font-bold text-white"
-                  style={{ backgroundColor: "oklch(0.30 0.08 145)" }}
-                >
-                  {sponsor.name.charAt(0)}
-                </div>
-                <div className="font-bold text-white mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              <div className="flex-1 min-w-0">
+                <div className="text-lg md:text-xl font-bold text-white transition-colors group-hover:text-[oklch(0.80_0.16_85)]">
                   {sponsor.name}
                 </div>
-                <div className="text-white/50 text-sm leading-relaxed">
+                <div className="mt-1 text-xs text-white/50">
                   {sponsor.description}
                 </div>
-                <div className="mt-4 text-[oklch(0.80_0.16_85)] text-xs font-medium group-hover:underline">
-                  ウェブサイトを見る →
-                </div>
-              </Card>
+              </div>
+              <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-white/40 transition-all group-hover:text-[oklch(0.80_0.16_85)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           ))}
+          <div className="border-t border-white/15" />
         </div>
       </div>
 
