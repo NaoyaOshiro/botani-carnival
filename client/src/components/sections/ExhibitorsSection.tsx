@@ -152,6 +152,13 @@ function ImageCarousel({ images, size }: { images: string[]; size: "card" | "mod
 function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
   const images = productImages(exhibitor);
   const icon = iconSrc(exhibitor);
+  // モーダルでは最後にアイコン画像も見せる。
+  // 商品画像が無い場合は no_image を出さずアイコン1枚にする。
+  const modalImages = icon
+    ? exhibitor.images.length > 0
+      ? [...images, icon]
+      : [icon]
+    : images;
   const igUrl = instagramUrl(exhibitor);
   const igHandle = exhibitor.instagram ? `@${exhibitor.instagram}` : "";
   const badge = dayBadge(exhibitor);
@@ -274,7 +281,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
             </DialogHeader>
 
             {/* Modal image carousel */}
-            <ImageCarousel images={images} size="modal" />
+            <ImageCarousel images={modalImages} size="modal" />
 
             {/* Modal body */}
             <div className="p-4">
