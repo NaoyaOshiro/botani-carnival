@@ -174,7 +174,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
             alt={`${exhibitor.name} アイコン`}
             className="w-9 h-9 rounded-full object-cover flex-shrink-0"
           />
-          <div className="font-bold text-sm text-[oklch(0.12_0.02_145)] truncate flex-1">
+          <div className="font-bold text-[11px] leading-tight text-[oklch(0.12_0.02_145)] truncate flex-1">
             {exhibitor.name}
           </div>
         </div>
