@@ -20,7 +20,7 @@ export default function BoothMapSection() {
       style={{ backgroundColor: "oklch(0.18 0.05 145)" }}
     >
       <div className="max-w-3xl mx-auto">
-        <SectionHeading overline="Booth Map" title="出展ブース配置図" tone="dark">
+        <SectionHeading overline="Booth Map" title="ブースマップ" tone="dark">
           当日の各ブースの位置をご確認いただけます。
         </SectionHeading>
 
