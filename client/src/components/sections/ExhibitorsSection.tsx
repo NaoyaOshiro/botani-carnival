@@ -1,9 +1,10 @@
 /**
  * ExhibitorsSection — 出店業者紹介（日別セクション）
  * Design: Tropical Fiesta — マーケット・ポスターボード感
- * 各社：ロゴ、アイコン、屋号、カテゴリ、Instagramリンク、商品画像×2
+ * カード: SNSアイコン・屋号・Instagramリンク・カテゴリ・商品画像カルーセル・説明文2行省略
+ * タップ: Instagramリンク→外部遷移 / その他→モーダル詳細表示
  */
-import React from "react";
+import React, { useState, useRef } from "react";
 
 type Category = "植物" | "植木鉢" | "雑貨" | "植物・植木鉢" | "植物・雑貨" | "雑貨・植木鉢";
 
@@ -12,7 +13,7 @@ interface Exhibitor {
   name: string;
   category: Category;
   instagram: string;
-  productImages: [string, string];
+  productImages: string[];
   logo?: string;
   comment?: string;
 }
@@ -84,85 +85,243 @@ const oshiroFactory: Exhibitor = {
 const day1Exhibitors = [oshiroFactory, ...generateExhibitors(0)];
 const day2Exhibitors = generateExhibitors(1);
 
+function ModalCarousel({ images }: { images: string[] }) {
+  const [idx, setIdx] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const prev = () => setIdx((i) => (i - 1 + images.length) % images.length);
+  const next = () => setIdx((i) => (i + 1) % images.length);
+  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { if (diff > 0) next(); else prev(); }
+    touchStartX.current = null;
+  };
+  return (
+    <div className="relative bg-[oklch(0.95_0.02_85)]" style={{ height: "200px" }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <img
+        src={images[idx]}
+        alt={`商品${idx + 1}`}
+        className="w-full h-full object-cover transition-opacity duration-200"
+        onError={(e) => { (e.target as HTMLImageElement).src = "/manus-storage/section-plants_f29bcf52.jpg"; }}
+      />
+      {images.length > 1 && (
+        <>
+          <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center text-lg hover:bg-black/60 transition-colors" aria-label="前の画像">‹</button>
+          <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center text-lg hover:bg-black/60 transition-colors" aria-label="次の画像">›</button>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {images.map((_, i) => (
+              <div key={i} className="w-2 h-2 rounded-full transition-colors" style={{ backgroundColor: i === idx ? "white" : "rgba(255,255,255,0.4)" }} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function ExhibitorCard({ exhibitor, boothNum }: { exhibitor: Exhibitor; boothNum: number }) {
   const bgColor = iconColors[exhibitor.id % iconColors.length];
   const initial = exhibitor.name.charAt(0);
   const cat = categoryConfig[exhibitor.category];
+  const [imgIndex, setImgIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const instagramHandle = exhibitor.instagram.replace("https://www.instagram.com/", "@").replace(/\/$/, "");
+
+  const prevImg = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setImgIndex((i) => (i - 1 + exhibitor.productImages.length) % exhibitor.productImages.length);
+  };
+  const nextImg = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setImgIndex((i) => (i + 1) % exhibitor.productImages.length);
+  };
+  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) setImgIndex((i) => (i + 1) % exhibitor.productImages.length);
+      else setImgIndex((i) => (i - 1 + exhibitor.productImages.length) % exhibitor.productImages.length);
+    }
+    touchStartX.current = null;
+  };
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 group border border-[oklch(0.90_0.04_85)]">
-      {/* Booth number badge */}
-      <div className="relative">
-        <div className="grid grid-cols-2 h-28">
-          <img
-            src={exhibitor.productImages[0]}
-            alt="商品1"
-            className="w-full h-full object-cover"
-            onError={(e) => { (e.target as HTMLImageElement).src = "/manus-storage/section-plants_f29bcf52.jpg"; }}
-          />
-          <img
-            src={exhibitor.productImages[1]}
-            alt="商品2"
-            className="w-full h-full object-cover border-l-2 border-white"
-            onError={(e) => { (e.target as HTMLImageElement).src = "/manus-storage/section-plants_f29bcf52.jpg"; }}
-          />
-        </div>
-        {/* Booth number */}
-        <div
-          className="absolute top-2 left-2 w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md"
-          style={{ backgroundColor: bgColor }}
-        >
-          {boothNum}
-        </div>
-        {/* Category badge */}
-        <div
-          className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full text-xs font-bold"
-          style={{ backgroundColor: cat.bg, color: cat.text }}
-        >
-          {cat.icon} {cat.label}
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className="p-3">
-        <div className="flex items-center gap-2 mb-2">
-          {exhibitor.logo ? (
-            <img
-              src={exhibitor.logo}
-              alt={`${exhibitor.name} ロゴ`}
-              className="w-8 h-8 rounded-full object-cover flex-shrink-0 border border-[oklch(0.90_0.04_85)]"
-            />
-          ) : (
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
-              style={{ backgroundColor: bgColor }}
-            >
-              {initial}
+    <>
+      {/* Card */}
+      <div
+        className="bg-white rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border border-[oklch(0.90_0.04_85)] flex flex-col"
+        onClick={() => setOpen(true)}
+      >
+        {/* Top: icon + name + instagram + category */}
+        <div className="p-3 pb-2">
+          <div className="flex items-center gap-2 mb-1.5">
+            {exhibitor.logo ? (
+              <img
+                src={exhibitor.logo}
+                alt={`${exhibitor.name} アイコン`}
+                className="w-10 h-10 rounded-full object-cover flex-shrink-0 border-2 border-[oklch(0.90_0.04_85)]"
+              />
+            ) : (
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-base flex-shrink-0"
+                style={{ backgroundColor: bgColor }}
+              >
+                {initial}
+              </div>
+            )}
+            <div className="min-w-0 flex-1">
+              <div className="font-bold text-sm text-[oklch(0.18_0.05_145)] truncate" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                {exhibitor.name}
+              </div>
+              <a
+                href={exhibitor.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-1 text-xs font-medium mt-0.5 hover:underline"
+                style={{ color: "oklch(0.50 0.15 300)" }}
+              >
+                <svg className="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                {instagramHandle}
+              </a>
             </div>
-          )}
-          <div className="font-bold text-sm text-[oklch(0.18_0.05_145)] truncate flex-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-            {exhibitor.name}
+          </div>
+          {/* Category badge */}
+          <div className="flex items-center gap-1 mt-1">
+            <span
+              className="px-2 py-0.5 rounded-full text-xs font-bold"
+              style={{ backgroundColor: cat.bg, color: cat.text }}
+            >
+              {cat.icon} {cat.label}
+            </span>
           </div>
         </div>
-        {exhibitor.comment && (
-          <p className="text-xs text-[oklch(0.45_0.05_145)] mb-2 line-clamp-3 leading-relaxed">
-            {exhibitor.comment}
-          </p>
-        )}
-        <a
-          href={exhibitor.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 text-xs font-medium transition-colors"
-          style={{ color: "oklch(0.50 0.15 300)" }}
+
+        {/* Product image carousel */}
+        <div
+          className="relative overflow-hidden bg-[oklch(0.95_0.02_85)]"
+          style={{ height: "140px" }}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
-          <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
-          Instagram
-        </a>
+          <img
+            src={exhibitor.productImages[imgIndex]}
+            alt={`商品${imgIndex + 1}`}
+            className="w-full h-full object-cover transition-opacity duration-200"
+            onError={(e) => { (e.target as HTMLImageElement).src = "/manus-storage/section-plants_f29bcf52.jpg"; }}
+          />
+          {exhibitor.productImages.length > 1 && (
+            <>
+              <button
+                onClick={prevImg}
+                className="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/40 text-white flex items-center justify-center text-xs hover:bg-black/60 transition-colors"
+                aria-label="前の画像"
+              >‹</button>
+              <button
+                onClick={nextImg}
+                className="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/40 text-white flex items-center justify-center text-xs hover:bg-black/60 transition-colors"
+                aria-label="次の画像"
+              >›</button>
+              <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex gap-1">
+                {exhibitor.productImages.map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="w-1.5 h-1.5 rounded-full transition-colors"
+                    style={{ backgroundColor: idx === imgIndex ? "white" : "rgba(255,255,255,0.4)" }}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Comment (2-line clamp) */}
+        {exhibitor.comment && (
+          <div className="px-3 pt-2 pb-3">
+            <p className="text-xs text-[oklch(0.45_0.05_145)] leading-relaxed line-clamp-2">
+              {exhibitor.comment}
+            </p>
+          </div>
+        )}
       </div>
-    </div>
+
+      {/* Modal */}
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
+          onClick={() => setOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl overflow-hidden w-full max-w-sm shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal header */}
+            <div className="flex items-center gap-3 p-4 border-b border-[oklch(0.92_0.02_85)]">
+              {exhibitor.logo ? (
+                <img
+                  src={exhibitor.logo}
+                  alt={`${exhibitor.name} アイコン`}
+                  className="w-12 h-12 rounded-full object-cover flex-shrink-0 border-2 border-[oklch(0.90_0.04_85)]"
+                />
+              ) : (
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
+                  style={{ backgroundColor: bgColor }}
+                >
+                  {initial}
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-base text-[oklch(0.18_0.05_145)]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                  {exhibitor.name}
+                </div>
+                <span
+                  className="inline-block px-2 py-0.5 rounded-full text-xs font-bold mt-1"
+                  style={{ backgroundColor: cat.bg, color: cat.text }}
+                >
+                  {cat.icon} {cat.label}
+                </span>
+              </div>
+              <button
+                onClick={() => setOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[oklch(0.50_0.05_145)] hover:bg-[oklch(0.95_0.02_85)] transition-colors text-lg"
+                aria-label="閉じる"
+              >×</button>
+            </div>
+
+            {/* Modal image carousel */}
+            <ModalCarousel images={exhibitor.productImages} />
+
+            {/* Modal body */}
+            <div className="p-4">
+              {exhibitor.comment && (
+                <p className="text-sm text-[oklch(0.35_0.05_145)] leading-relaxed mb-4">
+                  {exhibitor.comment}
+                </p>
+              )}
+              <a
+                href={exhibitor.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white font-bold text-sm transition-opacity hover:opacity-90"
+                style={{ background: "linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)" }}
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                Instagramを見る（{instagramHandle}）
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
