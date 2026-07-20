@@ -1,8 +1,8 @@
 /**
- * ExhibitorsSection — 出店業者紹介（日別セクション）
+ * ExhibitorsSection — 出店業者紹介（日程フィルタ付き単一リスト）
  * Design: Tropical Fiesta — マーケット・ポスターボード感
  * データは client/src/data/exhibitors.ts（CSV由来）を参照。
- * カード: アイコン・屋号・Instagramリンク・商品画像カルーセル・説明文2行省略
+ * カード: 出店日バッジ・アイコン・屋号・Instagramリンク・商品画像カルーセル・説明文2行省略
  * タップ: カード→モーダル詳細表示 / Instagramアイコン→外部遷移
  */
 import React, { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ import { exhibitors, type Exhibitor } from "@/data/exhibitors";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -49,8 +49,30 @@ function instagramUrl(e: Exhibitor): string | null {
   return e.instagram ? `https://www.instagram.com/${e.instagram}/` : null;
 }
 
-const day1Exhibitors = exhibitors.filter((e) => e.days.includes(1));
-const day2Exhibitors = exhibitors.filter((e) => e.days.includes(2));
+// 出店日が未確定の業者は非表示。両日出店の業者も1枚だけ描画し、
+// 日程はカード上のバッジで示す（同じカードを2度出さないための単一リスト）。
+const allExhibitors = exhibitors.filter((e) => e.days.length > 0);
+
+const DAY1_COLOR = "oklch(0.42 0.16 145)";
+const DAY2_COLOR = "oklch(0.55 0.22 0)";
+const BOTH_COLOR = "oklch(0.60 0.16 85)";
+
+// カードに出す日程バッジ。両日 / 片日 で色分けする。
+function dayBadge(e: Exhibitor): { text: string; color: string } {
+  const d1 = e.days.includes(1);
+  const d2 = e.days.includes(2);
+  if (d1 && d2) return { text: "両日", color: BOTH_COLOR };
+  if (d1) return { text: "8/29", color: DAY1_COLOR };
+  return { text: "8/30", color: DAY2_COLOR };
+}
+
+// フィルタ定義。すべて / 各日 の3種。
+// short はモバイル用。3つ並べると375px幅で曜日カッコが入りきらないため。
+const FILTERS = [
+  { id: "all", label: "すべて", short: "すべて", color: "oklch(0.30 0.06 145)", match: () => true },
+  { id: "day1", label: "8/29（土）", short: "8/29", color: DAY1_COLOR, match: (e: Exhibitor) => e.days.includes(1) },
+  { id: "day2", label: "8/30（日）", short: "8/30", color: DAY2_COLOR, match: (e: Exhibitor) => e.days.includes(2) },
+] as const;
 
 // 商品画像カルーセル（shadcn/ui Carousel = embla。スワイプ・キーボード対応）
 // size="card": 正方形サムネイル / size="modal": モーダル内の大きめ表示
@@ -121,6 +143,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
   const icon = iconSrc(exhibitor);
   const igUrl = instagramUrl(exhibitor);
   const igHandle = exhibitor.instagram ? `@${exhibitor.instagram}` : "";
+  const badge = dayBadge(exhibitor);
   const [open, setOpen] = useState(false);
 
   return (
@@ -130,8 +153,16 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
         className="bg-white rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border-[oklch(0.90_0.04_85)] gap-0 py-0"
         onClick={() => setOpen(true)}
       >
-        {/* 1. 商品画像カルーセル（正方形） */}
-        <ImageCarousel images={images} size="card" />
+        {/* 1. 商品画像カルーセル（正方形） + 出店日バッジ */}
+        <div className="relative">
+          <ImageCarousel images={images} size="card" />
+          <Badge
+            className="absolute top-2 left-2 z-10 text-white border-transparent text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm pointer-events-none"
+            style={{ backgroundColor: badge.color }}
+          >
+            {badge.text}
+          </Badge>
+        </div>
 
         {/* 2. アイコン + 屋号（ゴシック体） */}
         <div className="flex items-center gap-2 px-3 pt-3 pb-1">
@@ -208,6 +239,25 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
 
             {/* Modal body */}
             <div className="p-4">
+              {/* 出店日 */}
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {exhibitor.days.includes(1) && (
+                  <Badge
+                    className="text-white border-transparent text-xs font-bold px-2.5 py-0.5 rounded-full"
+                    style={{ backgroundColor: DAY1_COLOR }}
+                  >
+                    8月29日（土）
+                  </Badge>
+                )}
+                {exhibitor.days.includes(2) && (
+                  <Badge
+                    className="text-white border-transparent text-xs font-bold px-2.5 py-0.5 rounded-full"
+                    style={{ backgroundColor: DAY2_COLOR }}
+                  >
+                    8月30日（日）
+                  </Badge>
+                )}
+              </div>
               {exhibitor.description && (
                 <p className="text-sm text-[oklch(0.35_0.05_145)] leading-relaxed mb-4 whitespace-pre-line">
                   {exhibitor.description}
@@ -233,40 +283,12 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
   );
 }
 
-function DaySection({ day, date, color, exhibitors, dayLabel }: {
-  day: string;
-  date: string;
-  color: string;
-  exhibitors: Exhibitor[];
-  dayLabel: string;
-}) {
+function ExhibitorGrid({ list }: { list: Exhibitor[] }) {
   return (
-    <div className="mb-20 reveal">
-      {/* Day header */}
-      <div className="flex items-center gap-4 mb-8">
-        <div
-          className="text-white font-bold px-6 py-3 rounded-full text-base shadow-lg font-display"
-          style={{ backgroundColor: color }}
-        >
-          {day}
-        </div>
-        <div>
-          <div className="font-bold text-[oklch(0.18_0.05_145)] text-lg" style={{ fontFamily: "'Noto Serif JP', serif" }}>{date}</div>
-          <div className="text-sm text-[oklch(0.50_0.05_145)]">{exhibitors.length}店舗出店予定</div>
-        </div>
-        <Separator className="flex-1" style={{ backgroundColor: `${color}50` }} />
-        <div
-          className="text-white text-xs font-bold px-3 py-1 rounded-full"
-          style={{ backgroundColor: color, opacity: 0.7 }}
-        >
-          {dayLabel}
-        </div>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {exhibitors.map((ex, i) => (
-          <ExhibitorCard key={`${ex.instagram ?? ex.name}-${i}`} exhibitor={ex} />
-        ))}
-      </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      {list.map((ex, i) => (
+        <ExhibitorCard key={`${ex.instagram ?? ex.name}-${i}`} exhibitor={ex} />
+      ))}
     </div>
   );
 }
@@ -305,20 +327,46 @@ export default function ExhibitorsSection() {
           </p>
         </div>
 
-        <DaySection
-          day="Day 1"
-          date="8月29日（土）"
-          color="oklch(0.42 0.16 145)"
-          exhibitors={day1Exhibitors}
-          dayLabel="1日目"
-        />
-        <DaySection
-          day="Day 2"
-          date="8月30日（日）"
-          color="oklch(0.55 0.22 0)"
-          exhibitors={day2Exhibitors}
-          dayLabel="2日目"
-        />
+        {/* 日程フィルタ + 一覧（両日出店の業者も1枚のみ描画） */}
+        <Tabs defaultValue="all" className="gap-0">
+          <TabsList className="mx-auto mb-4 h-auto gap-1 rounded-full bg-[oklch(0.91_0.03_85)] p-1.5 reveal">
+            {FILTERS.map((f) => (
+              <TabsTrigger
+                key={f.id}
+                value={f.id}
+                className="rounded-full px-3 py-2 text-sm font-bold text-[oklch(0.40_0.05_145)] transition-colors sm:px-5 data-[state=active]:bg-[var(--tab-active)] data-[state=active]:text-white data-[state=active]:shadow-md"
+                style={{ "--tab-active": f.color } as React.CSSProperties}
+              >
+                <span className="sm:hidden">{f.short}</span>
+                <span className="hidden sm:inline">{f.label}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          <p className="text-center text-xs text-[oklch(0.50_0.05_145)] mb-8">
+            全{allExhibitors.length}の出店業者が参加予定です。
+            両日出店の業者には <span className="font-bold" style={{ color: BOTH_COLOR }}>両日</span> バッジが付きます
+          </p>
+
+          {/*
+            パネルに reveal は付けない。Home.tsx の IntersectionObserver は
+            マウント時に一度 .reveal を集めるだけなので、タブ切替で後から
+            マウントされるパネルは永久に非表示のままになる。加えて43枚の
+            グリッドは背が高く、threshold:0.1 を満たしにくい。
+            非アクティブなパネルは Radix が未マウントに保つため描画は1つ分。
+          */}
+          {FILTERS.map((f) => (
+            // 非アクティブ側は display:none になるため、表示に戻るたび
+            // CSSアニメーションが再生される＝タブ切替のたびに毎回動く。
+            <TabsContent
+              key={f.id}
+              value={f.id}
+              className="animate-in fade-in-0 slide-in-from-bottom-3 duration-300 ease-out"
+            >
+              <ExhibitorGrid list={allExhibitors.filter(f.match)} />
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
 
       {/* Wave divider */}
