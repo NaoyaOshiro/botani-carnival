@@ -161,7 +161,9 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
     <>
       {/* Card */}
       <Card
-        className="bg-white rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border-[oklch(0.90_0.04_85)] gap-0 py-0"
+        // ベースはブース配置図・協賛などのセクション背景と共通のジャングルダーク。
+        // 文字は白系に反転する。
+        className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border-0 gap-0 py-0"
         onClick={() => setOpen(true)}
       >
         {/* 1. 商品画像カルーセル（正方形） + 出店日バッジ */}
@@ -184,14 +186,14 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
             decoding="async"
             className="w-9 h-9 rounded-full object-cover flex-shrink-0"
           />
-          <div className="font-bold text-[11px] leading-tight text-[oklch(0.12_0.02_145)] truncate flex-1">
+          <div className="font-bold text-[11px] leading-tight text-white truncate flex-1">
             {exhibitor.name}
           </div>
         </div>
 
         {/* 3. 説明文（スマホ1行 / sm以上は2行省略） */}
         <div className="px-3 py-0.5">
-          <p className="text-xs text-[oklch(0.45_0.05_145)] leading-relaxed line-clamp-1 sm:line-clamp-2">
+          <p className="text-xs text-white/60 leading-relaxed line-clamp-1 sm:line-clamp-2">
             {exhibitor.description || " "}
           </p>
         </div>
@@ -208,7 +210,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
               asChild
               variant="ghost"
               size="icon-sm"
-              className="rounded-full text-[oklch(0.40_0.10_300)] hover:bg-[oklch(0.95_0.02_85)] hover:text-[oklch(0.40_0.10_300)]"
+              className="rounded-full text-white/80 hover:bg-white/15 hover:text-white"
             >
               <a
                 href={igUrl}
@@ -227,7 +229,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
             クリックは下のCardのonClickに任せる（pointer-events-none）。
           */}
           <span
-            className="ml-auto flex items-center gap-1 text-[oklch(0.50_0.05_145)] pointer-events-none"
+            className="ml-auto flex items-center gap-1 text-white/60 pointer-events-none"
             aria-hidden="true"
           >
             <span className="text-[10px] font-bold hidden sm:inline">詳細</span>
@@ -238,10 +240,15 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
 
       {/* Modal（shadcn/ui Dialog） */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="p-0 gap-0 overflow-hidden max-w-sm sm:max-w-sm bg-white">
+        {/*
+          カードと同じジャングルダーク。text-white は閉じるボタン(X)にも効かせるため
+          ここで指定する（shadcn の Close は currentColor を継承するので、
+          白地前提のままだと濃背景でほぼ見えなくなる）。
+        */}
+        <DialogContent className="p-0 gap-0 overflow-hidden max-w-sm sm:max-w-sm bg-[var(--jungle-dark)] text-white border-white/15">
           <div className="max-h-[85vh] overflow-y-auto">
             {/* Modal header */}
-            <DialogHeader className="flex-row items-center gap-3 space-y-0 p-4 pr-10 text-left border-b border-[oklch(0.92_0.02_85)]">
+            <DialogHeader className="flex-row items-center gap-3 space-y-0 p-4 pr-10 text-left border-b border-white/15">
               <img
                 src={icon ?? noImage}
                 alt={`${exhibitor.name} アイコン`}
@@ -251,13 +258,13 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
               />
               <div className="flex-1 min-w-0">
                 <DialogTitle
-                  className="font-bold text-base text-[oklch(0.18_0.05_145)] truncate"
+                  className="font-bold text-base text-white truncate"
                   style={{ fontFamily: "'Noto Serif JP', serif" }}
                 >
                   {exhibitor.name}
                 </DialogTitle>
                 {igHandle ? (
-                  <DialogDescription className="text-xs text-[oklch(0.50_0.05_145)] mt-0.5 truncate">
+                  <DialogDescription className="text-xs text-white/50 mt-0.5 truncate">
                     {igHandle}
                   </DialogDescription>
                 ) : (
@@ -291,7 +298,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
                 )}
               </div>
               {exhibitor.description && (
-                <p className="text-sm text-[oklch(0.35_0.05_145)] leading-relaxed mb-4 whitespace-pre-line">
+                <p className="text-sm text-white/70 leading-relaxed mb-4 whitespace-pre-line">
                   {exhibitor.description}
                 </p>
               )}
@@ -333,18 +340,19 @@ function ExhibitorGrid({ list }: { list: Exhibitor[] }) {
 // 切替時に高さが飛ばないようにする。
 function SkeletonCard() {
   return (
-    <Card className="bg-white rounded-xl overflow-hidden shadow-md border-[oklch(0.90_0.04_85)] gap-0 py-0">
+    <Card className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-md border-0 gap-0 py-0">
+      {/* 画像部分だけは実カードでも写真が入るまで明るいので、そのまま淡色にする */}
       <Skeleton className="aspect-square w-full rounded-none bg-[oklch(0.92_0.02_85)]" />
       <div className="flex items-center gap-2 px-3 pt-3 pb-1">
-        <Skeleton className="w-9 h-9 rounded-full flex-shrink-0 bg-[oklch(0.92_0.02_85)]" />
-        <Skeleton className="h-4 flex-1 bg-[oklch(0.92_0.02_85)]" />
+        <Skeleton className="w-9 h-9 rounded-full flex-shrink-0 bg-white/15" />
+        <Skeleton className="h-4 flex-1 bg-white/15" />
       </div>
       <div className="px-3 py-1 min-h-[2.8rem] space-y-1.5">
-        <Skeleton className="h-3 w-full bg-[oklch(0.92_0.02_85)]" />
-        <Skeleton className="h-3 w-4/5 bg-[oklch(0.92_0.02_85)]" />
+        <Skeleton className="h-3 w-full bg-white/15" />
+        <Skeleton className="h-3 w-4/5 bg-white/15" />
       </div>
       <div className="flex items-center px-3 pb-3 pt-1 min-h-[2.5rem]">
-        <Skeleton className="w-6 h-6 rounded-full bg-[oklch(0.92_0.02_85)]" />
+        <Skeleton className="w-6 h-6 rounded-full bg-white/15" />
       </div>
     </Card>
   );
