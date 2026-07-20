@@ -71,10 +71,7 @@ function ImageCarousel({ images, size }: { images: string[]; size: "card" | "mod
   }, [api]);
 
   const multiple = images.length > 1;
-  const imgClass =
-    size === "card"
-      ? "aspect-square w-full object-cover"
-      : "h-[200px] w-full object-cover";
+  const imgClass = "aspect-square w-full object-cover";
   const arrowClass = size === "card" ? "w-6 h-6 text-xs" : "w-8 h-8 text-lg";
   const stop = (e: React.MouseEvent) => e.stopPropagation();
 
@@ -180,7 +177,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
 
       {/* Modal（shadcn/ui Dialog） */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="p-0 gap-0 overflow-hidden max-w-sm bg-white">
+        <DialogContent className="p-0 gap-0 overflow-hidden max-w-sm sm:max-w-sm bg-white">
           <div className="max-h-[85vh] overflow-y-auto">
             {/* Modal header */}
             <DialogHeader className="flex-row items-center gap-3 space-y-0 p-4 pr-10 text-left border-b border-[oklch(0.92_0.02_85)]">
