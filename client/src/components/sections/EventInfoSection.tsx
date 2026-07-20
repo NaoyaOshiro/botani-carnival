@@ -1,167 +1,125 @@
 /**
  * EventInfoSection — イベント詳細情報
- * Design: Tropical Fiesta — サンドベース背景
- * Motifs: スタンプバッジ、バンティングフラッグ、葉シルエット
+ * Design: エディトリアル — タイポグラフィ主役のミニマル構成。
+ * 大きな日付見出し + 定義リスト。装飾（バンティング・葉・色カード）は持たない。
+ * SAT/SUN の色は出店業者一覧の日程フィルタ（緑=8/29 / 赤=8/30）と揃えている。
  */
 import { asset } from "@/lib/asset";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 
-function LeafDecor({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M40 110 C40 110 5 70 10 30 C15 -10 65 -10 70 30 C75 70 40 110 40 110Z" fill="currentColor" opacity="0.15" />
-      <line x1="40" y1="110" x2="40" y2="10" stroke="currentColor" strokeWidth="1.5" opacity="0.2" />
-      <line x1="40" y1="80" x2="15" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.15" />
-      <line x1="40" y1="60" x2="65" y2="35" stroke="currentColor" strokeWidth="1" opacity="0.15" />
-    </svg>
-  );
-}
+const INK = "oklch(0.18 0.05 145)"; // 見出し・本文の濃緑
+const MUTED = "oklch(0.50 0.05 145)"; // 補足テキスト
+const LINE = "oklch(0.88 0.04 85)"; // 罫線
+const DAY1_COLOR = "oklch(0.42 0.16 145)"; // 土 = 緑（出店業者フィルタと同色）
+const DAY2_COLOR = "oklch(0.55 0.22 0)"; // 日 = 赤（同上）
 
-function StampBadge({ children, color }: { children: React.ReactNode; color: string }) {
-  return (
-    <Badge
-      variant="outline"
-      className="gap-2 px-5 py-2.5 rounded-full font-bold text-sm border-2 border-dashed bg-transparent"
-      style={{ borderColor: color, color }}
-    >
-      {children}
-    </Badge>
-  );
-}
-
-function BuntingRow({ colors }: { colors: string[] }) {
-  return (
-    <div className="flex items-end justify-center w-full overflow-hidden py-1">
-      {Array.from({ length: 20 }).map((_, i) => (
-        <div key={i} className="flex flex-col items-center" style={{ margin: "0 3px" }}>
-          <div className="w-px bg-current opacity-30" style={{ height: "16px" }} />
-          <svg width="18" height="22" viewBox="0 0 18 22" style={{ animationDelay: `${i * 0.15}s` }} className="animate-bunting">
-            <polygon points="0,0 18,0 9,22" fill={colors[i % colors.length]} opacity="0.85" />
-          </svg>
-        </div>
-      ))}
-    </div>
-  );
-}
+// 定義リストの行データ
+const details = [
+  { label: "時間", value: "11:00 – 16:00", note: "両日共通" },
+  { label: "場所", value: "西原さわふじ広場", note: "西原さわふじマルシェ" },
+  { label: "入場", value: "無料", note: "どなたでもご来場いただけます" },
+  { label: "グルメ", value: "キッチンカー出店", note: "フード・ドリンク・スイーツ" },
+];
 
 export default function EventInfoSection() {
-  const flagColors = ["#e74c3c", "#f39c12", "#27ae60", "#3498db", "#9b59b6", "#e67e22", "#1abc9c", "#e91e63"];
-
   return (
-    <section id="event-info" className="py-20 px-4 relative overflow-hidden" style={{ backgroundColor: "oklch(0.96 0.03 85)" }}>
-      {/* Leaf decorations */}
-      <LeafDecor className="absolute -left-6 top-20 w-20 h-30 text-[oklch(0.42_0.16_145)] rotate-12" />
-      <LeafDecor className="absolute -right-6 top-40 w-20 h-30 text-[oklch(0.42_0.16_145)] -rotate-12" />
-      <LeafDecor className="absolute left-10 bottom-20 w-16 h-24 text-[oklch(0.72_0.18_55)] rotate-45" />
-
-      <div className="max-w-5xl mx-auto relative z-10">
+    <section
+      id="event-info"
+      className="py-20 px-4"
+      style={{ backgroundColor: "oklch(0.96 0.03 85)" }}
+    >
+      <div className="max-w-3xl mx-auto">
         {/* Section header */}
-        <div className="text-center mb-14 reveal">
-          <BuntingRow colors={flagColors} />
-          <div className="mt-6 mb-3">
-            <Badge
-              className="font-display text-sm tracking-widest px-4 py-1 rounded-full text-white border-transparent"
-              style={{ backgroundColor: "oklch(0.42 0.16 145)" }}
-            >
-              Event Info
-            </Badge>
-          </div>
+        <div className="mb-12 reveal">
+          <p
+            className="text-xs font-bold tracking-[0.35em] uppercase mb-3"
+            style={{ color: DAY1_COLOR }}
+          >
+            Event Info
+          </p>
           <h2
-            className="text-3xl md:text-4xl font-bold text-[oklch(0.18_0.05_145)]"
-            style={{ fontFamily: "'Noto Serif JP', serif" }}
+            className="text-3xl md:text-4xl font-bold"
+            style={{ fontFamily: "'Noto Serif JP', serif", color: INK }}
           >
             イベント情報
           </h2>
-          <div className="w-16 h-1 bg-[oklch(0.72_0.18_55)] mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Main description */}
-        <Card className="bg-white rounded-3xl p-8 md:p-12 shadow-lg mb-10 reveal border-l-4 border-[oklch(0.42_0.16_145)] gap-0 py-0">
-          <p className="text-lg md:text-xl text-[oklch(0.25_0.05_145)] leading-relaxed mb-6" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
-            今年の珍奇植物市場は、いつもとはひと味違う。<br />
-            会場全体が植物たちの<strong className="text-[oklch(0.42_0.16_145)]">カーニバル</strong>に──
+        {/* Date — 大きなタイポグラフィ */}
+        <div className="mb-12 reveal">
+          <p className="text-sm tracking-[0.3em] mb-2" style={{ color: MUTED }}>
+            2026
           </p>
-          <p className="text-base text-[oklch(0.35_0.05_145)] leading-relaxed mb-8">
+          <p
+            className="font-bold leading-none tracking-tight tabular-nums"
+            style={{ color: INK, fontSize: "clamp(2.75rem, 9vw, 5.5rem)" }}
+          >
+            8.29
+            <span className="text-[0.35em] font-bold align-middle ml-2 mr-4" style={{ color: DAY1_COLOR }}>
+              SAT
+            </span>
+            <span style={{ color: LINE }}>—</span>
+            <span className="ml-4">8.30</span>
+            <span className="text-[0.35em] font-bold align-middle ml-2" style={{ color: DAY2_COLOR }}>
+              SUN
+            </span>
+          </p>
+        </div>
+
+        {/* Lead copy */}
+        <div className="mb-12 reveal">
+          <p
+            className="text-lg md:text-xl leading-relaxed mb-4"
+            style={{ fontFamily: "'Noto Serif JP', serif", color: INK }}
+          >
+            今年の珍奇植物市場は、いつもとはひと味違う。
+            <br />
+            会場全体が植物たちのカーニバルに──
+          </p>
+          <p className="text-sm leading-relaxed max-w-prose" style={{ color: MUTED }}>
             色鮮やかな装飾、フォトスポット、そして集まる珍奇植物たち。
             見て、出会って、お気に入りの一株を探す2日間。
             初心者の方からコレクターまで楽しめる、夏限定の植物イベントです。
           </p>
-          <div className="flex flex-wrap gap-3">
-            <StampBadge color="oklch(0.42 0.16 145)">🌵 珍奇植物大集合</StampBadge>
-            <StampBadge color="oklch(0.65 0.18 55)">🚚 キッチンカーあり</StampBadge>
-            <StampBadge color="oklch(0.55 0.22 0)">📸 フォトスポットあり</StampBadge>
-            <StampBadge color="oklch(0.60 0.16 85)">🎉 入場無料</StampBadge>
+        </div>
+
+        {/* Details — 定義リスト */}
+        <dl className="reveal">
+          {details.map((d) => (
+            <div
+              key={d.label}
+              className="grid grid-cols-[5rem_1fr] items-baseline gap-4 py-4 border-t"
+              style={{ borderColor: LINE }}
+            >
+              <dt className="text-xs font-bold tracking-widest" style={{ color: MUTED }}>
+                {d.label}
+              </dt>
+              <dd className="flex flex-wrap items-baseline gap-x-3">
+                <span className="text-base md:text-lg font-bold" style={{ color: INK }}>
+                  {d.value}
+                </span>
+                <span className="text-xs" style={{ color: MUTED }}>
+                  {d.note}
+                </span>
+              </dd>
+            </div>
+          ))}
+          <div className="border-t" style={{ borderColor: LINE }} />
+        </dl>
+
+        {/* Kitchen car — 控えめな写真バナー */}
+        <figure className="mt-12 reveal">
+          <div className="rounded-2xl overflow-hidden">
+            <img
+              src={asset("images/kitchen-car.webp")}
+              alt="キッチンカー"
+              className="w-full aspect-[21/9] object-cover"
+              loading="lazy"
+            />
           </div>
-        </Card>
-
-        {/* Info cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
-          {/* Date */}
-          <Card className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.42 0.16 145)" }}>
-            <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
-            <div className="relative z-10">
-              <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Date</div>
-              <div className="text-lg font-bold" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                2026年<br />
-                8月29日（土）<br />
-                8月30日（日）
-              </div>
-            </div>
-          </Card>
-
-          {/* Time */}
-          <Card className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.65 0.18 55)" }}>
-            <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
-            <div className="relative z-10">
-              <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Time</div>
-              <div className="text-lg font-bold" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                11:00〜16:00<br />
-                <span className="text-sm font-normal opacity-80">両日同じ時間</span>
-              </div>
-            </div>
-          </Card>
-
-          {/* Location */}
-          <Card className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.55 0.22 0)" }}>
-            <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
-            <div className="relative z-10">
-              <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Location</div>
-              <div className="text-lg font-bold" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                西原さわふじ広場<br />
-                <span className="text-sm font-normal opacity-80">（西原さわふじマルシェ）</span>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        {/* Kitchen car info */}
-        <div className="mt-10 reveal">
-          <Card className="rounded-3xl overflow-hidden shadow-xl flex-col md:flex-row items-stretch gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.18 0.05 145)" }}>
-            <div className="md:w-1/2 h-52 md:h-auto overflow-hidden">
-              <img
-                src={asset("images/kitchen-car.webp")}
-                alt="キッチンカー"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="md:w-1/2 p-8 text-white flex flex-col justify-center">
-              <div className="text-3xl mb-3">🚚</div>
-              <h3 className="text-xl font-bold mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                キッチンカーも出店！
-              </h3>
-              <p className="text-white/80 leading-relaxed text-sm mb-4">
-                植物を楽しみながら、美味しいグルメも満喫できます。
-                家族や友人と一緒に、一日中楽しめるイベントです。
-              </p>
-              <div className="flex gap-2 flex-wrap">
-                <span className="bg-white/10 border border-white/20 text-white/80 px-3 py-1 rounded-full text-xs">🍜 フード</span>
-                <span className="bg-white/10 border border-white/20 text-white/80 px-3 py-1 rounded-full text-xs">🧃 ドリンク</span>
-                <span className="bg-white/10 border border-white/20 text-white/80 px-3 py-1 rounded-full text-xs">🍦 スイーツ</span>
-              </div>
-            </div>
-          </Card>
-        </div>
+          <figcaption className="mt-2 text-xs" style={{ color: MUTED }}>
+            キッチンカーも出店。植物と一緒にグルメもお楽しみください。
+          </figcaption>
+        </figure>
       </div>
 
       {/* Wave divider */}
