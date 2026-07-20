@@ -6,35 +6,13 @@
  */
 import { asset } from "@/lib/asset";
 
-function BuntingFlags({ count = 20, colors }: { count?: number; colors: string[] }) {
-  return (
-    <div className="flex items-end justify-center w-full">
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="flex flex-col items-center" style={{ margin: "0 3px" }}>
-          <div className="w-px bg-yellow-200/60" style={{ height: "16px" }} />
-          <svg width="18" height="22" viewBox="0 0 18 22" className="animate-bunting" style={{ animationDelay: `${i * 0.2}s` }}>
-            <polygon points="0,0 18,0 9,22" fill={colors[i % colors.length]} opacity="0.9" />
-          </svg>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export default function HeroSection() {
-  const flagColors = ["#e74c3c", "#f39c12", "#27ae60", "#3498db", "#9b59b6", "#e67e22", "#1abc9c", "#e91e63"];
-
   return (
     <section
       id="hero"
       className="relative flex flex-col items-center justify-start overflow-hidden pt-16"
       style={{ backgroundColor: "oklch(0.18 0.05 145)" }}
     >
-      {/* Bunting flags */}
-      <div className="w-full px-4 py-2 z-10">
-        <BuntingFlags count={20} colors={flagColors} />
-      </div>
-
       {/* PC: 横長フライヤー（md以上で表示） */}
       <div className="hidden md:block w-full">
         <img
