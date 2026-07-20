@@ -168,7 +168,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
         </div>
 
         {/* 2. アイコン + 屋号（ゴシック体） */}
-        <div className="flex items-center gap-2 px-3 pt-3 pb-1">
+        <div className="flex items-center gap-2 px-3 pt-1.5 pb-0.5">
           <img
             src={icon ?? noImage}
             alt={`${exhibitor.name} アイコン`}
@@ -180,14 +180,19 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
         </div>
 
         {/* 3. 説明文（スマホ1行 / sm以上は2行省略） */}
-        <div className="px-3 py-1 min-h-[1.4rem] sm:min-h-[2.8rem]">
+        <div className="px-3 py-0.5">
           <p className="text-xs text-[oklch(0.45_0.05_145)] leading-relaxed line-clamp-1 sm:line-clamp-2">
             {exhibitor.description || " "}
           </p>
         </div>
 
-        {/* 4. Instagramアイコン（左） + 詳細を開けることを示すアイコン（右） */}
-        <div className="flex items-center px-3 pb-3 pt-1 min-h-[2.5rem]">
+        {/*
+          4. Instagramアイコン（左） + 詳細を開けることを示すアイコン（右）
+          mt-auto でカード下端に固定する。説明文が無い／1行／2行で行数が
+          変わるため、これが無いと横に並ぶカード間で位置がズレる。
+          （Cardは flex-col、グリッド項目は stretch するので下端が揃う）
+        */}
+        <div className="mt-auto flex items-center px-3 pb-1.5 pt-0.5">
           {igUrl && (
             <Button
               asChild
