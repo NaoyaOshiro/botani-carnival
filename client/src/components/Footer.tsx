@@ -13,8 +13,11 @@ export default function Footer() {
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-center gap-3 mb-4">
           <img
-            src={asset("images/logo-mark.webp")}
+            src={asset("images/logo-mark-144.png")}
             alt="BOTANI CARNIVAL"
+            width={144}
+            height={144}
+            loading="lazy"
             className="w-12 h-12 object-contain opacity-90"
           />
           <div className="text-left">

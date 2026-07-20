@@ -105,9 +105,15 @@ function ImageCarousel({ images, size }: { images: string[]; size: "card" | "mod
       <CarouselContent className="ml-0">
         {images.map((src, i) => (
           <CarouselItem key={i} className="pl-0 basis-full">
+            {/*
+              カルーセルは全スライドをDOMに置くので、lazy が無いと
+              43枚のカード分（約84枚・14MB）を一斉にダウンロードしてしまう。
+            */}
             <img
               src={src}
               alt={`商品${i + 1}`}
+              loading="lazy"
+              decoding="async"
               className={imgClass}
               onError={(e) => { (e.target as HTMLImageElement).src = noImage; }}
             />
@@ -172,6 +178,8 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
           <img
             src={icon ?? noImage}
             alt={`${exhibitor.name} アイコン`}
+            loading="lazy"
+            decoding="async"
             className="w-9 h-9 rounded-full object-cover flex-shrink-0"
           />
           <div className="font-bold text-[11px] leading-tight text-[oklch(0.12_0.02_145)] truncate flex-1">
@@ -235,6 +243,8 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
               <img
                 src={icon ?? noImage}
                 alt={`${exhibitor.name} アイコン`}
+                loading="lazy"
+                decoding="async"
                 className="w-12 h-12 rounded-full object-cover flex-shrink-0"
               />
               <div className="flex-1 min-w-0">

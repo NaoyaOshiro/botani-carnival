@@ -41,6 +41,8 @@ export default function BoothMapSection() {
             <img
               src={asset("images/booth-map.webp")}
               alt="8月29日（土）ブース配置図"
+              loading="lazy"
+              decoding="async"
               className="w-full object-contain"
               style={{ maxHeight: "500px" }}
             />
@@ -62,6 +64,8 @@ export default function BoothMapSection() {
             <img
               src={asset("images/booth-map.webp")}
               alt="8月30日（日）ブース配置図"
+              loading="lazy"
+              decoding="async"
               className="w-full object-contain"
               style={{ maxHeight: "500px" }}
             />
