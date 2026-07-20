@@ -11,6 +11,8 @@ import { asset } from "@/lib/asset";
 import { exhibitors, type Exhibitor } from "@/data/exhibitors";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -127,8 +129,8 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
   return (
     <>
       {/* Card */}
-      <div
-        className="bg-white rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border border-[oklch(0.90_0.04_85)] flex flex-col"
+      <Card
+        className="bg-white rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border-[oklch(0.90_0.04_85)] gap-0 py-0"
         onClick={() => setOpen(true)}
       >
         {/* 1. 商品画像カルーセル（正方形） */}
@@ -174,7 +176,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
             </Button>
           )}
         </div>
-      </div>
+      </Card>
 
       {/* Modal（shadcn/ui Dialog） */}
       <Dialog open={open} onOpenChange={setOpen}>
@@ -255,7 +257,7 @@ function DaySection({ day, date, color, exhibitors, dayLabel }: {
           <div className="font-bold text-[oklch(0.18_0.05_145)] text-lg" style={{ fontFamily: "'Noto Serif JP', serif" }}>{date}</div>
           <div className="text-sm text-[oklch(0.50_0.05_145)]">{exhibitors.length}店舗出店予定</div>
         </div>
-        <div className="flex-1 h-px" style={{ backgroundColor: `${color}50` }} />
+        <Separator className="flex-1" style={{ backgroundColor: `${color}50` }} />
         <div
           className="text-white text-xs font-bold px-3 py-1 rounded-full"
           style={{ backgroundColor: color, opacity: 0.7 }}

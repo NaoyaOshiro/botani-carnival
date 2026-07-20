@@ -4,6 +4,7 @@
  */
 import { Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function ContactSection() {
   return (
@@ -29,14 +30,14 @@ export default function ContactSection() {
           <div className="w-16 h-1 bg-[oklch(0.80_0.16_85)] mx-auto mt-4 rounded-full" />
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-10 reveal">
+        <Card className="bg-white/5 border-white/10 rounded-3xl p-10 reveal gap-0 py-0">
           <p className="text-white/80 leading-relaxed mb-8 text-base">
             イベントに関するご質問・出店のご相談など、<br />
             お気軽に主催者のInstagramまでDMをお送りください。
           </p>
 
           {/* Instagram profile card */}
-          <div className="bg-white/10 rounded-2xl p-6 mb-8 flex items-center gap-4 text-left">
+          <Card className="bg-white/10 rounded-2xl p-6 mb-8 flex-row items-center gap-4 text-left border-0">
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ background: "linear-gradient(135deg, oklch(0.72 0.18 55), oklch(0.60 0.22 0), oklch(0.55 0.18 300))" }}
@@ -47,7 +48,7 @@ export default function ContactSection() {
               <div className="text-white font-bold text-lg">@tanikunchu</div>
               <div className="text-white/50 text-sm">BOTANI CARNIVAL 主催者</div>
             </div>
-          </div>
+          </Card>
 
           <Button
             asChild
@@ -66,7 +67,7 @@ export default function ContactSection() {
           <p className="text-white/30 text-xs mt-6">
             ※ お返事にはお時間をいただく場合がございます。ご了承ください。
           </p>
-        </div>
+        </Card>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@
  * SponsorsSection — 協賛紹介
  * Design: Tropical Fiesta — ジャングルダーク背景
  */
+import { Card } from "@/components/ui/card";
 
 const sponsors = [
   {
@@ -55,24 +56,26 @@ export default function SponsorsSection() {
               href={sponsor.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-white/5 border border-white/10 rounded-2xl p-8 text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-150"
+              className="group block"
             >
-              {/* Logo placeholder */}
-              <div
-                className="w-20 h-20 rounded-2xl mx-auto mb-4 flex items-center justify-center text-2xl font-bold text-white"
-                style={{ backgroundColor: "oklch(0.30 0.08 145)" }}
-              >
-                {sponsor.name.charAt(0)}
-              </div>
-              <div className="font-bold text-white mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                {sponsor.name}
-              </div>
-              <div className="text-white/50 text-sm leading-relaxed">
-                {sponsor.description}
-              </div>
-              <div className="mt-4 text-[oklch(0.80_0.16_85)] text-xs font-medium group-hover:underline">
-                ウェブサイトを見る →
-              </div>
+              <Card className="h-full bg-white/5 border-white/10 rounded-2xl p-8 text-center text-white gap-0 py-0 hover:bg-white/10 hover:-translate-y-1 transition-all duration-150">
+                {/* Logo placeholder */}
+                <div
+                  className="w-20 h-20 rounded-2xl mx-auto mb-4 flex items-center justify-center text-2xl font-bold text-white"
+                  style={{ backgroundColor: "oklch(0.30 0.08 145)" }}
+                >
+                  {sponsor.name.charAt(0)}
+                </div>
+                <div className="font-bold text-white mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                  {sponsor.name}
+                </div>
+                <div className="text-white/50 text-sm leading-relaxed">
+                  {sponsor.description}
+                </div>
+                <div className="mt-4 text-[oklch(0.80_0.16_85)] text-xs font-medium group-hover:underline">
+                  ウェブサイトを見る →
+                </div>
+              </Card>
             </a>
           ))}
         </div>

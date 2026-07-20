@@ -3,6 +3,7 @@
  * Design: Tropical Fiesta — ジャングルダーク背景
  */
 import { asset } from "@/lib/asset";
+import { Separator } from "@/components/ui/separator";
 
 export default function BoothMapSection() {
   return (
@@ -34,7 +35,7 @@ export default function BoothMapSection() {
             <div className="bg-[oklch(0.72_0.18_55)] text-white font-bold px-5 py-2 rounded-full text-sm">
               8月29日（土）
             </div>
-            <div className="flex-1 h-px bg-white/20" />
+            <Separator className="flex-1 bg-white/20" />
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <img
@@ -55,7 +56,7 @@ export default function BoothMapSection() {
             <div className="bg-[oklch(0.60_0.22_0)] text-white font-bold px-5 py-2 rounded-full text-sm">
               8月30日（日）
             </div>
-            <div className="flex-1 h-px bg-white/20" />
+            <Separator className="flex-1 bg-white/20" />
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <img

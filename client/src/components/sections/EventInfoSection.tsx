@@ -5,6 +5,7 @@
  */
 import { asset } from "@/lib/asset";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 function LeafDecor({ className = "" }: { className?: string }) {
   return (
@@ -76,7 +77,7 @@ export default function EventInfoSection() {
         </div>
 
         {/* Main description */}
-        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-lg mb-10 reveal border-l-4 border-[oklch(0.42_0.16_145)]">
+        <Card className="bg-white rounded-3xl p-8 md:p-12 shadow-lg mb-10 reveal border-l-4 border-[oklch(0.42_0.16_145)] gap-0 py-0">
           <p className="text-lg md:text-xl text-[oklch(0.25_0.05_145)] leading-relaxed mb-6" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
             今年の珍奇植物市場は、いつもとはひと味違う。<br />
             会場全体が植物たちの<strong className="text-[oklch(0.42_0.16_145)]">カーニバル</strong>に──
@@ -92,12 +93,12 @@ export default function EventInfoSection() {
             <StampBadge color="oklch(0.55 0.22 0)">📸 フォトスポットあり</StampBadge>
             <StampBadge color="oklch(0.60 0.16 85)">🎉 入場無料</StampBadge>
           </div>
-        </div>
+        </Card>
 
         {/* Info cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
           {/* Date */}
-          <div className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden" style={{ backgroundColor: "oklch(0.42 0.16 145)" }}>
+          <Card className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.42 0.16 145)" }}>
             <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
             <div className="relative z-10">
               <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Date</div>
@@ -107,10 +108,10 @@ export default function EventInfoSection() {
                 8月30日（日）
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Time */}
-          <div className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden" style={{ backgroundColor: "oklch(0.65 0.18 55)" }}>
+          <Card className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.65 0.18 55)" }}>
             <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
             <div className="relative z-10">
               <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Time</div>
@@ -119,10 +120,10 @@ export default function EventInfoSection() {
                 <span className="text-sm font-normal opacity-80">両日同じ時間</span>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Location */}
-          <div className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden" style={{ backgroundColor: "oklch(0.55 0.22 0)" }}>
+          <Card className="rounded-2xl p-6 shadow-lg text-center text-white relative overflow-hidden gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.55 0.22 0)" }}>
             <LeafDecor className="absolute -right-4 -bottom-4 w-20 h-28 text-white" />
             <div className="relative z-10">
               <div className="font-display font-bold mb-3 opacity-90" style={{fontSize: '30px'}}>Location</div>
@@ -131,12 +132,12 @@ export default function EventInfoSection() {
                 <span className="text-sm font-normal opacity-80">（西原さわふじマルシェ）</span>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Kitchen car info */}
         <div className="mt-10 reveal">
-          <div className="rounded-3xl overflow-hidden shadow-xl flex flex-col md:flex-row items-stretch" style={{ backgroundColor: "oklch(0.18 0.05 145)" }}>
+          <Card className="rounded-3xl overflow-hidden shadow-xl flex-col md:flex-row items-stretch gap-0 py-0 border-0" style={{ backgroundColor: "oklch(0.18 0.05 145)" }}>
             <div className="md:w-1/2 h-52 md:h-auto overflow-hidden">
               <img
                 src={asset("images/kitchen-car.webp")}
@@ -159,7 +160,7 @@ export default function EventInfoSection() {
                 <span className="bg-white/10 border border-white/20 text-white/80 px-3 py-1 rounded-full text-xs">🍦 スイーツ</span>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
 

@@ -9,6 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Card } from "@/components/ui/card";
 
 const faqs = [
   {
@@ -55,9 +56,9 @@ export default function FaqSection() {
 
         <Accordion type="single" collapsible className="space-y-4">
           {faqs.map((faq, i) => (
-            <div
+            <Card
               key={i}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[oklch(0.88_0.04_85)] reveal"
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border-[oklch(0.88_0.04_85)] reveal gap-0 py-0"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
               <AccordionItem value={`q${i}`} className="border-b-0">
@@ -91,7 +92,7 @@ export default function FaqSection() {
                   </div>
                 </AccordionContent>
               </AccordionItem>
-            </div>
+            </Card>
           ))}
         </Accordion>
       </div>
