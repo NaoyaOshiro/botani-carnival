@@ -1,13 +1,38 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <html lang="ja">
+    <!-- maximum-scale は付けない。ピンチズームを禁止すると弱視のユーザーが拡大できず WCAG 違反になる。 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>BOTANI CARNIVAL | 珍奇植物市場 Vol.9</title>
     <meta name="description" content="植物が主役の真夏の祭典。珍奇植物市場 Vol.9「BOTANI CARNIVAL」2026年8月29日・30日 西原さわふじ広場にて開催。" />
+    <link rel="canonical" href="https://naoyaoshiro.github.io/botani-carnival/" />
+
+    <!--
+      OGP / Twitter Card
+      集客の主経路が Instagram DM・ストーリーズ・LINE のため、シェア時にフライヤーが出ることが重要。
+      画像は flyer-pc.png を 1200x630 にレターボックス（余白はジャングルダーク）した og-image.jpg。
+      content の URL は絶対パス必須。Vite は meta タグの中身を書き換えないので base も含めて直書きする。
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BOTANI CARNIVAL" />
+    <meta property="og:title" content="BOTANI CARNIVAL | 珍奇植物市場 Vol.9" />
+    <meta property="og:description" content="植物が主役の真夏の祭典。2026年8月29日（土）・30日（日）11:00〜16:00、西原さわふじ広場にて開催。入場無料。" />
+    <meta property="og:url" content="https://naoyaoshiro.github.io/botani-carnival/" />
+    <meta property="og:image" content="https://naoyaoshiro.github.io/botani-carnival/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOTANI CARNIVAL 珍奇植物市場 Vol.9 フライヤー" />
+    <meta property="og:locale" content="ja_JP" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BOTANI CARNIVAL | 珍奇植物市場 Vol.9" />
+    <meta name="twitter:description" content="植物が主役の真夏の祭典。2026年8月29日（土）・30日（日）11:00〜16:00、西原さわふじ広場にて開催。入場無料。" />
+    <meta name="twitter:image" content="https://naoyaoshiro.github.io/botani-carnival/images/og-image.jpg" />
+
+    <meta name="theme-color" content="#0F241A" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Noto+Serif+JP:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
