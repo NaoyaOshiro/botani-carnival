@@ -12,6 +12,7 @@ import { exhibitors, type Exhibitor } from "@/data/exhibitors";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
@@ -73,6 +74,8 @@ const FILTERS = [
   { id: "day1", label: "8/29（土）", short: "8/29", color: DAY1_COLOR, match: (e: Exhibitor) => e.days.includes(1) },
   { id: "day2", label: "8/30（日）", short: "8/30", color: DAY2_COLOR, match: (e: Exhibitor) => e.days.includes(2) },
 ] as const;
+
+type FilterId = (typeof FILTERS)[number]["id"];
 
 // 商品画像カルーセル（shadcn/ui Carousel = embla。スワイプ・キーボード対応）
 // size="card": 正方形サムネイル / size="modal": モーダル内の大きめ表示
@@ -283,9 +286,13 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
   );
 }
 
+const GRID_CLASS = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4";
+
 function ExhibitorGrid({ list }: { list: Exhibitor[] }) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    // 骨組みから実カードへ切り替わる瞬間をフェードで繋ぐ。
+    // pending が解けるとこの div は新規マウントされるので毎回再生される。
+    <div className={`${GRID_CLASS} animate-in fade-in-0 duration-300 ease-out`}>
       {list.map((ex, i) => (
         <ExhibitorCard key={`${ex.instagram ?? ex.name}-${i}`} exhibitor={ex} />
       ))}
@@ -293,7 +300,58 @@ function ExhibitorGrid({ list }: { list: Exhibitor[] }) {
   );
 }
 
+// 実カードと同じ骨格（正方形画像→アイコン+屋号→説明2行→Instagram）にして
+// 切替時に高さが飛ばないようにする。
+function SkeletonCard() {
+  return (
+    <Card className="bg-white rounded-xl overflow-hidden shadow-md border-[oklch(0.90_0.04_85)] gap-0 py-0">
+      <Skeleton className="aspect-square w-full rounded-none bg-[oklch(0.92_0.02_85)]" />
+      <div className="flex items-center gap-2 px-3 pt-3 pb-1">
+        <Skeleton className="w-9 h-9 rounded-full flex-shrink-0 bg-[oklch(0.92_0.02_85)]" />
+        <Skeleton className="h-4 flex-1 bg-[oklch(0.92_0.02_85)]" />
+      </div>
+      <div className="px-3 py-1 min-h-[2.8rem] space-y-1.5">
+        <Skeleton className="h-3 w-full bg-[oklch(0.92_0.02_85)]" />
+        <Skeleton className="h-3 w-4/5 bg-[oklch(0.92_0.02_85)]" />
+      </div>
+      <div className="flex items-center px-3 pb-3 pt-1 min-h-[2.5rem]">
+        <Skeleton className="w-6 h-6 rounded-full bg-[oklch(0.92_0.02_85)]" />
+      </div>
+    </Card>
+  );
+}
+
+function SkeletonGrid({ count }: { count: number }) {
+  return (
+    <div className={GRID_CLASS} aria-hidden="true">
+      {Array.from({ length: count }).map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
+    </div>
+  );
+}
+
+// 骨組みを見せる時間。短すぎると認識できず、長すぎると待たされる。
+const SKELETON_MS = 400;
+
 export default function ExhibitorsSection() {
+  const [filter, setFilter] = useState<FilterId>("all");
+  // タブを押した直後だけ骨組みを出し、切り替わったことを知覚させる。
+  // データはローカルなので実際の待ち時間は無く、演出目的の遅延。
+  const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    if (!pending) return;
+    const timer = setTimeout(() => setPending(false), SKELETON_MS);
+    return () => clearTimeout(timer);
+  }, [pending, filter]);
+
+  const handleFilterChange = (value: string) => {
+    if (value === filter) return;
+    setFilter(value as FilterId);
+    setPending(true);
+  };
+
   return (
     <section id="exhibitors" className="py-24 px-4 relative overflow-hidden" style={{ backgroundColor: "oklch(0.96 0.03 85)" }}>
       {/* Background texture dots */}
@@ -328,7 +386,7 @@ export default function ExhibitorsSection() {
         </div>
 
         {/* 日程フィルタ + 一覧（両日出店の業者も1枚のみ描画） */}
-        <Tabs defaultValue="all" className="gap-0">
+        <Tabs value={filter} onValueChange={handleFilterChange} className="gap-0">
           <TabsList className="mx-auto mb-4 h-auto gap-1 rounded-full bg-[oklch(0.91_0.03_85)] p-1.5 reveal">
             {FILTERS.map((f) => (
               <TabsTrigger
@@ -355,17 +413,14 @@ export default function ExhibitorsSection() {
             グリッドは背が高く、threshold:0.1 を満たしにくい。
             非アクティブなパネルは Radix が未マウントに保つため描画は1つ分。
           */}
-          {FILTERS.map((f) => (
-            // 非アクティブ側は display:none になるため、表示に戻るたび
-            // CSSアニメーションが再生される＝タブ切替のたびに毎回動く。
-            <TabsContent
-              key={f.id}
-              value={f.id}
-              className="animate-in fade-in-0 slide-in-from-bottom-3 duration-300 ease-out"
-            >
-              <ExhibitorGrid list={allExhibitors.filter(f.match)} />
-            </TabsContent>
-          ))}
+          {FILTERS.map((f) => {
+            const list = allExhibitors.filter(f.match);
+            return (
+              <TabsContent key={f.id} value={f.id}>
+                {pending ? <SkeletonGrid count={list.length} /> : <ExhibitorGrid list={list} />}
+              </TabsContent>
+            );
+          })}
         </Tabs>
       </div>
 
