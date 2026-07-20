@@ -248,7 +248,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
         <DialogContent className="p-0 gap-0 overflow-hidden max-w-[21.5rem] sm:max-w-sm bg-[var(--jungle-dark)] text-white border-white/15">
           <div className="max-h-[85vh] overflow-y-auto">
             {/* Modal header */}
-            <DialogHeader className="flex-row items-center gap-3 space-y-0 p-4 pr-10 text-left border-b border-white/15">
+            <DialogHeader className="flex-row items-center gap-3 space-y-0 px-4 py-2 pr-10 text-left border-b border-white/15">
               <img
                 src={icon ?? noImage}
                 alt={`${exhibitor.name} アイコン`}
@@ -310,7 +310,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
                 >
                   <a href={igUrl} target="_blank" rel="noopener noreferrer">
                     <Instagram className="w-4 h-4" />
-                    Instagramを見る（{igHandle}）
+                    Instagramを見る
                   </a>
                 </Button>
               )}
