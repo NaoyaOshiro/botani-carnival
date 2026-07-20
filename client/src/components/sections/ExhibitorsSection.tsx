@@ -245,7 +245,7 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
           ここで指定する（shadcn の Close は currentColor を継承するので、
           白地前提のままだと濃背景でほぼ見えなくなる）。
         */}
-        <DialogContent className="p-0 gap-0 overflow-hidden max-w-sm sm:max-w-sm bg-[var(--jungle-dark)] text-white border-white/15">
+        <DialogContent className="p-0 gap-0 overflow-hidden max-w-[21.5rem] sm:max-w-sm bg-[var(--jungle-dark)] text-white border-white/15">
           <div className="max-h-[85vh] overflow-y-auto">
             {/* Modal header */}
             <DialogHeader className="flex-row items-center gap-3 space-y-0 p-4 pr-10 text-left border-b border-white/15">
