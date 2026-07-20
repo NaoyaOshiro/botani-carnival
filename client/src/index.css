@@ -4,7 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Pacifico", cursive;
+  /* 英字ディスプレイ用。日本語グリフは持たないので Noto Sans JP に落とす */
+  --font-display: "Montserrat", "Noto Sans JP", sans-serif;
   --font-serif-jp: "Noto Serif JP", serif;
   --font-sans-jp: "Noto Sans JP", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
@@ -180,7 +181,7 @@
 
 .animate-float-up { animation: float-up 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
-.font-display { font-family: "Pacifico", cursive; }
+.font-display { font-family: "Montserrat", "Noto Sans JP", sans-serif; }
 .font-serif-jp { font-family: "Noto Serif JP", serif; }
 
 /* Scroll-triggered fade-in */

@@ -264,10 +264,12 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
                 className="w-12 h-12 rounded-full object-cover flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
-                <DialogTitle
-                  className="font-bold text-base text-white truncate"
-                  style={{ fontFamily: "'Noto Serif JP', serif" }}
-                >
+                {/*
+                  屋号はゴシック。カード側は11pxで明朝だと潰れるためゴシックにして
+                  おり、同じ情報が場所によって書体が変わらないよう合わせる。
+                  明朝は「語りかける言葉」（見出し・リード文・FAQの質問）に限る。
+                */}
+                <DialogTitle className="font-bold text-base text-white truncate">
                   {exhibitor.name}
                 </DialogTitle>
                 {igHandle ? (

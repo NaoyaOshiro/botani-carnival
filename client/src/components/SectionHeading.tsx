@@ -34,7 +34,7 @@ export default function SectionHeading({
   return (
     <div className="mb-12 reveal">
       <p
-        className="text-xs font-bold tracking-[0.35em] uppercase mb-3"
+        className="font-display text-xs font-bold tracking-[0.35em] uppercase mb-3"
         style={{ color: isDark ? ACCENT_DARK : ACCENT_LIGHT }}
       >
         {overline}

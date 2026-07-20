@@ -54,8 +54,8 @@ export default function NavBar() {
             className="w-10 h-10 object-contain rounded-full"
           />
           <div className={`leading-tight transition-colors duration-300 ${scrolled ? "text-[oklch(0.18_0.05_145)]" : "text-white"}`}>
-            <div className="font-display text-sm">BOTANI</div>
-            <div className="font-display text-sm">CARNIVAL</div>
+            <div className="font-display font-bold text-sm tracking-[0.15em]">BOTANI</div>
+            <div className="font-display font-bold text-sm tracking-[0.15em]">CARNIVAL</div>
           </div>
         </a>
 
@@ -88,7 +88,7 @@ export default function NavBar() {
           </SheetTrigger>
           <SheetContent side="right" className="w-64 bg-white">
             <SheetHeader>
-              <SheetTitle className="font-display text-[oklch(0.18_0.05_145)]">
+              <SheetTitle className="font-display font-bold tracking-[0.2em] text-[oklch(0.18_0.05_145)]">
                 MENU
               </SheetTitle>
             </SheetHeader>

@@ -22,7 +22,7 @@ export default function Footer() {
             className="w-12 h-12 object-contain rounded-full opacity-90"
           />
           <div className="text-left">
-            <div className="font-display text-xl text-white">BOTANI CARNIVAL</div>
+            <div className="font-display font-bold text-xl tracking-[0.12em] text-white">BOTANI CARNIVAL</div>
             <div className="text-xs opacity-70">珍奇植物市場 Vol.9</div>
           </div>
         </div>

@@ -2,7 +2,7 @@
  * BOTANI CARNIVAL 特設サイト
  * Design: Tropical Fiesta — メキシカン・フィエスタ × トロピカル・ジャングル × ヴィンテージ・フェスティバル
  * Colors: Carnival Green, Fiesta Orange, Magenta Bloom, Gold Accent, Jungle Dark, Sand Base
- * Fonts: Pacifico (display), Noto Serif JP (JP headings), Noto Sans JP (body)
+ * Fonts: Montserrat (英字ディスプレイ: ロゴ・Overline・日付), Noto Serif JP (見出し明朝), Noto Sans JP (本文)
  */
 import { useEffect, useRef, useState } from "react";
 import HeroSection from "@/components/sections/HeroSection";

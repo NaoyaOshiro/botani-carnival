@@ -39,11 +39,11 @@ export default function EventInfoSection() {
 
         {/* Date — 大きなタイポグラフィ */}
         <div className="mb-12 reveal">
-          <p className="text-sm tracking-[0.3em] mb-2" style={{ color: MUTED }}>
+          <p className="font-display text-sm font-bold tracking-[0.3em] mb-2" style={{ color: MUTED }}>
             2026
           </p>
           <p
-            className="font-bold leading-none tracking-tight tabular-nums"
+            className="font-display font-extrabold leading-none tracking-tight tabular-nums"
             style={{ color: INK, fontSize: "clamp(2.75rem, 9vw, 5.5rem)" }}
           >
             8.29
