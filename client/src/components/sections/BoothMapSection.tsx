@@ -12,7 +12,6 @@ import { useState } from "react";
 import type { Exhibitor } from "@/data/exhibitors";
 import { findByHandle, iconSrc, noImage } from "@/lib/exhibitor";
 import {
-  kitchenCarNotes,
   kitchenCarRow,
   kitchenCarSide,
   leftFacilities,
@@ -24,8 +23,8 @@ import {
 } from "@/data/boothMap";
 import SectionHeading from "@/components/SectionHeading";
 import ExhibitorDialog from "@/components/ExhibitorDialog";
+import BoothMapDecor from "@/components/sections/BoothMapDecor";
 
-const SHEET = "oklch(0.97 0.02 85)"; // 会場図の地
 const INK = "oklch(0.18 0.05 145)";
 const MUTED = "oklch(0.50 0.05 145)";
 const LINE = "oklch(0.87 0.03 85)";
@@ -39,8 +38,10 @@ function Occupant({
   onOpen: (e: Exhibitor) => void;
 }) {
   const exhibitor = findByHandle(handle);
+  // スマホは屋号を出さずアイコンだけにする（横スクロールを無くすため）。
+  // 屋号はボタンの aria-label とタップ後のダイアログで担保する。
   const base =
-    "flex min-w-0 flex-1 items-center gap-1.5 rounded-md px-1 py-1 text-left transition-all";
+    "flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md px-1 py-1 text-left transition-all sm:justify-start";
 
   const inner = (
     <>
@@ -49,9 +50,9 @@ function Occupant({
         alt=""
         loading="lazy"
         decoding="async"
-        className="size-7 flex-shrink-0 rounded-full object-cover ring-1 ring-black/5"
+        className="size-9 flex-shrink-0 rounded-full object-cover ring-1 ring-black/5 sm:size-7"
       />
-      <span className="min-w-0 flex-1 text-[10px] leading-tight font-bold break-words">
+      <span className="hidden min-w-0 flex-1 text-[10px] leading-tight font-bold break-words sm:block">
         {exhibitor?.name ?? handle}
       </span>
     </>
@@ -95,15 +96,9 @@ function Booth({
 }) {
   const span = wide ? "col-span-2" : "";
 
+  // 空き区画は何も描かない。グリッドの位置だけ確保して並びを崩さない。
   if (!handle) {
-    return (
-      <div
-        className={`${span} flex min-h-[3.25rem] items-center justify-center rounded-lg border border-dashed text-[10px]`}
-        style={{ borderColor: LINE, color: MUTED }}
-      >
-        空き
-      </div>
-    );
+    return <div className={`${span} min-h-[3.25rem]`} />;
   }
 
   const handles = handle.split("+");
@@ -133,9 +128,10 @@ function SideStrip({ handle, onOpen }: { handle: string; onOpen: (e: Exhibitor) 
         alt=""
         loading="lazy"
         decoding="async"
-        className="size-7 rounded-full object-cover ring-1 ring-black/5"
+        className="size-9 rounded-full object-cover ring-1 ring-black/5 sm:size-7"
       />
-      <span className="text-center text-[10px] leading-tight font-bold break-words">
+      {/* 区画と同じく、スマホでは屋号を出さない */}
+      <span className="hidden text-center text-[10px] leading-tight font-bold break-words sm:block">
         {exhibitor?.name ?? handle}
       </span>
     </>
@@ -196,7 +192,8 @@ function FacilityBox({ facility }: { facility: Facility }) {
         </div>
       )}
       <div
-        className="flex flex-1 items-center justify-center rounded-lg px-1 py-3 text-center text-[10px] font-bold tracking-wider sm:text-xs"
+        // スマホは列幅が40px前後しかないため縦書きにする
+        className="flex flex-1 items-center justify-center rounded-lg px-1 py-3 text-center text-[10px] font-bold tracking-wider [writing-mode:vertical-rl] sm:text-xs sm:[writing-mode:horizontal-tb]"
         style={{
           backgroundColor: cream ? "oklch(0.95 0.04 85)" : "oklch(0.99 0.01 85)",
           border: `1px solid ${LINE}`,
@@ -209,13 +206,14 @@ function FacilityBox({ facility }: { facility: Facility }) {
   );
 }
 
-/** 「テント」などのエリア見出し。他セクションのOverlineと同じ文法。 */
+/**
+ * 「テント」などのエリア見出し。
+ * フライヤーの木板サインに寄せる（wood-sign は index.css）。
+ * エリアの幅いっぱいに渡す帯にして、元の配置図の「テント」バンドとも揃える。
+ */
 function AreaLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="font-display pb-1 text-[10px] font-bold tracking-[0.25em] uppercase"
-      style={{ color: MUTED }}
-    >
+    <div className="wood-sign font-display mb-2 rounded-md py-1.5 text-center text-[10px] font-bold tracking-[0.3em] text-white uppercase">
       {children}
     </div>
   );
@@ -244,14 +242,14 @@ export default function BoothMapSection() {
           ※こちらは前回（Vol.8）の配置図です。Vol.9の配置は決まり次第公開します。
         </SectionHeading>
 
-        <div
-          className="reveal overflow-x-auto rounded-2xl p-4 shadow-xl sm:p-6"
-          style={{ backgroundColor: SHEET }}
-        >
-          <div className="min-w-[42rem]">
+        {/* map-paper は index.css。紙のムラとざらつきを持つ地。 */}
+        <div className="map-paper reveal relative overflow-x-auto rounded-2xl p-4 shadow-xl sm:p-6">
+          <BoothMapDecor layer="back" />
+          {/* 装飾より上に描くため relative を付ける */}
+          <div className="relative sm:min-w-[42rem]">
             <div className="flex gap-3">
               {/* 左: 設備 */}
-              <div className="flex w-[13%] flex-col gap-2 pt-5">
+              <div className="flex w-[13%] flex-col gap-2">
                 {leftFacilities.map((f) => (
                   <FacilityBox key={f.label} facility={f} />
                 ))}
@@ -259,8 +257,8 @@ export default function BoothMapSection() {
 
               {/* 中央: テント */}
               <div className="flex flex-1 flex-col">
-                <AreaLabel>Tent</AreaLabel>
-                <div className="flex flex-1 flex-col gap-3">
+                {/* 島どうしの間隔＝通路。区画内の gap-1.5 とは別物。 */}
+                <div className="flex flex-1 flex-col gap-6">
                   {tentBlocks.map((b, i) => (
                     <Block key={i} block={b} onOpen={handleOpen} />
                   ))}
@@ -278,7 +276,7 @@ export default function BoothMapSection() {
                 {[0, 1].map((i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-center rounded-md py-5 text-[9px] font-bold"
+                    className="flex items-center justify-center rounded-md py-5 text-[9px] font-bold [writing-mode:vertical-rl] sm:[writing-mode:horizontal-tb]"
                     style={{ backgroundColor: "oklch(0.93 0.02 85)", color: MUTED }}
                   >
                     梱包
@@ -287,7 +285,7 @@ export default function BoothMapSection() {
               </div>
 
               {/* 右: 建物 */}
-              <div className="flex w-[16%] flex-col gap-2 pt-5">
+              <div className="flex w-[16%] flex-col gap-2">
                 {rightFacilities.map((f) => (
                   <FacilityBox key={f.label} facility={f} />
                 ))}
@@ -300,7 +298,7 @@ export default function BoothMapSection() {
                 <AreaLabel>Parking Area</AreaLabel>
 
                 {/* テント: ブロックを横に並べる */}
-                <div className="flex gap-3">
+                <div className="flex gap-6">
                   {parkingBlocks.map((b, i) => (
                     <div key={i} className="flex-1">
                       <Block block={b} onOpen={handleOpen} />
@@ -316,12 +314,7 @@ export default function BoothMapSection() {
 
                 {/* キッチンカーエリア: 横一列 */}
                 <div className="mt-3">
-                  <div
-                    className="font-display pb-1 text-[9px] font-bold tracking-[0.2em] uppercase"
-                    style={{ color: "oklch(0.52 0.12 55)" }}
-                  >
-                    Kitchen Car
-                  </div>
+                  <AreaLabel>Kitchen Car</AreaLabel>
                   <div
                     className="grid gap-1.5"
                     style={{ gridTemplateColumns: `repeat(${kitchenCarRow.length}, minmax(0, 1fr))` }}
@@ -331,16 +324,12 @@ export default function BoothMapSection() {
                     ))}
                   </div>
                 </div>
-
-                {/* 図に添える出店者 */}
-                <ul className="mt-3 space-y-0.5 text-[10px] font-bold" style={{ color: MUTED }}>
-                  {kitchenCarNotes.map((h) => (
-                    <li key={h}>・{findByHandle(h)?.name ?? h}</li>
-                  ))}
-                </ul>
               </div>
             </div>
           </div>
+
+          {/* 区画の上に覆いかぶさる葉。pointer-events-none なのでタップは通る。 */}
+          <BoothMapDecor layer="front" />
         </div>
       </div>
 

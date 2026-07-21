@@ -79,9 +79,6 @@ export const kitchenCarRow: string[] = ["28cubano", "badu_coffee", "marble.3261"
 /** 駐車場テント右端の縦帯。不要なら null。 */
 export const kitchenCarSide: string | null = null;
 
-/** 図の下に添える出店者。 */
-export const kitchenCarNotes: string[] = ["cafe_jiji_2024", "marble.3261"];
-
 /** 設備・建物などブース以外の区画。size は縦方向の比率。 */
 export interface Facility {
   label: string;
