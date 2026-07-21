@@ -17,6 +17,8 @@ export interface Exhibitor {
   icon: string | null;
   /** 商品画像ファイル名の配列（例: ["1.jpg","2.jpg"]）。空なら no_image */
   images: string[];
+  /** キッチンカーかどうか（CSVの【キッチンカー】ブロックに載っている） */
+  kitchen: boolean;
 }
 
 export const exhibitors: Exhibitor[] = [
@@ -28,6 +30,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "badu_coffee",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: true,
   },
   {
     name: "すぱいすキッチンmarble",
@@ -37,6 +40,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "marble.3261",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg"],
+    kitchen: true,
   },
   {
     name: "ニッパチクバーノ",
@@ -46,6 +50,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "28cubano",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: true,
   },
   {
     name: "自家焙煎Café JIJI",
@@ -55,6 +60,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "cafe_jiji_2024",
     icon: "icon.png",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: true,
   },
   {
     name: "SUMMER PIZZA",
@@ -64,6 +70,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "summer_pizza13",
     icon: "icon.png",
     images: ["1.png", "2.png"],
+    kitchen: true,
   },
   {
     name: "飯や",
@@ -73,6 +80,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "meshiya098",
     icon: "icon.png",
     images: ["1.png", "2.jpg", "3.jpg"],
+    kitchen: true,
   },
   {
     name: "たにくんちゅ",
@@ -82,6 +90,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "tanikunchu",
     icon: "icon.png",
     images: ["1.jpg"],
+    kitchen: false,
   },
   {
     name: "yaraTakeshi",
@@ -91,6 +100,7 @@ export const exhibitors: Exhibitor[] = [
     slug: null,
     icon: null,
     images: [],
+    kitchen: false,
   },
   {
     name: "おーしろ製作所",
@@ -100,6 +110,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "oshiro_factory",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "ambien_2020",
@@ -109,6 +120,7 @@ export const exhibitors: Exhibitor[] = [
     slug: null,
     icon: null,
     images: [],
+    kitchen: false,
   },
   {
     name: "新垣洋らん園",
@@ -118,6 +130,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "arakaki_orchid_bikaku",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "ちーぱっぱガーデン",
@@ -127,6 +140,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "chipapa_garden",
     icon: "icon.png",
     images: ["1.jpg", "2.jpg"],
+    kitchen: false,
   },
   {
     name: "kiri6590",
@@ -136,6 +150,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "kiri6590",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "ANDES farm.",
@@ -145,6 +160,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "andesfarm.okinawa",
     icon: "icon.jpg",
     images: ["1.png", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "ishigaki_jka1995",
@@ -154,6 +170,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "ishigaki_jka1995",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"],
+    kitchen: false,
   },
   {
     name: "Plants Factory (プランツファクトリー)",
@@ -163,6 +180,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "plants_factory_island",
     icon: "icon.png",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg"],
+    kitchen: false,
   },
   {
     name: "db_nursery",
@@ -172,6 +190,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "db_nursery",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "陶房然庵",
@@ -181,6 +200,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "zenan.okinawa",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg"],
+    kitchen: false,
   },
   {
     name: "DORADO PLANTS＆Eno's plants",
@@ -190,6 +210,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "dorado.plants",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "plants　junkie",
@@ -199,6 +220,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "plantjunkielife",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "Taiyo Pharmacy and Plants",
@@ -208,6 +230,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "taiyo_pharmacyandplants",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "OKINWA刺刺屋",
@@ -217,6 +240,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "okinawa_togetogeya",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"],
+    kitchen: false,
   },
   {
     name: "Ai-PLANTS OKINAWA",
@@ -226,6 +250,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "ai_plants_okinawa",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "ジョワガーデン",
@@ -235,6 +260,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "joie.garden",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "manoa",
@@ -244,6 +270,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "manoa831",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg"],
+    kitchen: false,
   },
   {
     name: "3787(サナハナ)",
@@ -253,6 +280,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "3787record",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "Kanekon_plants",
@@ -262,6 +290,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "kanekon_plants",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "smile8plants",
@@ -271,6 +300,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "8smileplants8",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "貴実生（たかみしょう）",
@@ -280,6 +310,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "taka_misho",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "UNERI LABO",
@@ -289,6 +320,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "taka.hirogoya",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "Sunny Branch",
@@ -298,6 +330,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "sunny_branch_",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"],
+    kitchen: false,
   },
   {
     name: "なみひら陶房",
@@ -307,6 +340,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "y.namihira",
     icon: "icon.png",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.png", "5.jpg"],
+    kitchen: false,
   },
   {
     name: "美ら麋会",
@@ -316,6 +350,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "190cm_botanical",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "ArtPlantsWork",
@@ -325,6 +360,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "artplantswork",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg"],
+    kitchen: false,
   },
   {
     name: "LUCKPLANTSOKINAWA",
@@ -334,6 +370,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "luckplantsokinawa",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "亀福ファーム",
@@ -343,6 +380,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "163dwarfplanet",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "多肉屋ゆいま〜る",
@@ -352,6 +390,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "tanikuya.yuimaru",
     icon: "icon.jpg",
     images: ["1.jpg"],
+    kitchen: false,
   },
   {
     name: "樹",
@@ -361,6 +400,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "koizumishun",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "cafe.",
@@ -370,6 +410,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "cafe.green09",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "やちむん工房　與那嶺",
@@ -379,6 +420,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "yachimunyonamine",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "K'z plants",
@@ -388,6 +430,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "kz.plants",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "ReBirth",
@@ -397,6 +440,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "rebirth.collection_",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "matakichi46",
@@ -406,6 +450,7 @@ export const exhibitors: Exhibitor[] = [
     slug: null,
     icon: null,
     images: [],
+    kitchen: false,
   },
   {
     name: "A&I",
@@ -415,6 +460,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "ichitakasasaki",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "DDoS Plants",
@@ -424,6 +470,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "d_d_o_s_plants",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "真夜中の植物屋さん　River.Labo",
@@ -433,6 +480,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "river.labo",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+    kitchen: false,
   },
   {
     name: "南くるファーム",
@@ -442,6 +490,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "nancul_farm78",
     icon: "icon.png",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "小さな多肉屋さん",
@@ -451,6 +500,7 @@ export const exhibitors: Exhibitor[] = [
     slug: "chiisana_tanikuyasan",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
   {
     name: "Cactus Airline",
@@ -460,5 +510,6 @@ export const exhibitors: Exhibitor[] = [
     slug: "cactus_airline",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    kitchen: false,
   },
 ];

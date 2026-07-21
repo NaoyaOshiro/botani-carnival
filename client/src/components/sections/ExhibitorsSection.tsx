@@ -182,6 +182,31 @@ function SkeletonGrid({ count }: { count: number }) {
   );
 }
 
+/**
+ * 「キッチンカー」「出店業者」の区切り。
+ * カード側にバッジを足すと49枚すべてが煩雑になるため、種別は並びで示す。
+ * データの並びは既にキッチンカーが先頭（CSVの順）なので、順序は変えていない。
+ * 絞り込みで該当が無い日は、見出しごと出さない。
+ */
+function Group({ overline, list }: { overline: string; list: Exhibitor[] }) {
+  if (list.length === 0) return null;
+
+  return (
+    <div>
+      <div className="mb-4 flex items-baseline gap-3">
+        <span
+          className="font-display text-xs font-bold tracking-[0.3em] uppercase"
+          style={{ color: "oklch(0.42 0.16 145)" }}
+        >
+          {overline}
+        </span>
+        <span className="h-px flex-1" style={{ backgroundColor: "oklch(0.85 0.03 85)" }} />
+      </div>
+      <ExhibitorGrid list={list} />
+    </div>
+  );
+}
+
 // 骨組みを見せる時間。短すぎると認識できず、長すぎると待たされる。
 const SKELETON_MS = 400;
 
@@ -244,9 +269,18 @@ export default function ExhibitorsSection() {
           */}
           {FILTERS.map((f) => {
             const list = allExhibitors.filter(f.match);
+            const cars = list.filter((e) => e.kitchen);
+            const shops = list.filter((e) => !e.kitchen);
             return (
               <TabsContent key={f.id} value={f.id}>
-                {pending ? <SkeletonGrid count={list.length} /> : <ExhibitorGrid list={list} />}
+                {pending ? (
+                  <SkeletonGrid count={list.length} />
+                ) : (
+                  <div className="space-y-12">
+                    <Group overline="Kitchen Car" list={cars} />
+                    <Group overline="Exhibitors" list={shops} />
+                  </div>
+                )}
               </TabsContent>
             );
           })}
