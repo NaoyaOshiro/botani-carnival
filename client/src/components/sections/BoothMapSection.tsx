@@ -8,17 +8,15 @@
  * Design: 濃緑のセクションに「1枚の会場図」を敷く構成。
  * 区画は白いチップとして浮かせ、設備は沈ませて主役（出店ブース）を立たせる。
  */
-import { useState } from "react";
+import React, { useState } from "react";
 import type { Exhibitor } from "@/data/exhibitors";
 import { findByHandle, iconSrc, noImage } from "@/lib/exhibitor";
 import {
-  kitchenCarRow,
-  kitchenCarSide,
+  dayLayouts,
   leftFacilities,
-  parkingBlocks,
   rightFacilities,
-  tentBlocks,
   type BoothBlock,
+  type DayLayout,
   type Facility,
 } from "@/data/boothMap";
 import SectionHeading from "@/components/SectionHeading";
@@ -219,6 +217,103 @@ function AreaLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** 1日ぶんの会場図。日程を切り替えても設備・建物は共通。 */
+function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor) => void }) {
+  return (
+    /* map-paper は index.css。紙のムラとざらつきを持つ地。 */
+    <div className="map-paper relative overflow-x-auto rounded-2xl p-4 shadow-xl sm:p-6">
+      <BoothMapDecor layer="back" />
+      {/* 装飾より上に描くため relative を付ける */}
+      <div className="relative sm:min-w-[42rem]">
+        <div className="flex gap-3">
+          {/* 左: 設備 */}
+          <div className="flex w-[13%] flex-col gap-2">
+            {leftFacilities.map((f) => (
+              <FacilityBox key={f.label} facility={f} />
+            ))}
+          </div>
+
+          {/* 中央: テント */}
+          <div className="flex flex-1 flex-col">
+            {/* 島どうしの間隔＝通路。区画内の gap-1.5 とは別物。 */}
+            <div className="flex flex-1 flex-col gap-6">
+              {layout.tentBlocks.map((b, i) => (
+                <Block key={i} block={b} onOpen={onOpen} />
+              ))}
+              <div
+                className="rounded-lg py-2.5 text-center text-[11px] font-bold tracking-widest text-white"
+                style={{ backgroundColor: "oklch(0.30 0.10 145)" }}
+              >
+                モニュメント
+              </div>
+            </div>
+          </div>
+
+          {/* 梱包スペース */}
+          <div className="flex w-[5%] flex-col justify-around py-12">
+            {[0, 1].map((i) => (
+              <div
+                key={i}
+                className="flex items-center justify-center rounded-md py-5 text-[9px] font-bold [writing-mode:vertical-rl] sm:[writing-mode:horizontal-tb]"
+                style={{ backgroundColor: "oklch(0.93 0.02 85)", color: MUTED }}
+              >
+                梱包
+              </div>
+            ))}
+          </div>
+
+          {/* 右: 建物 */}
+          <div className="flex w-[16%] flex-col gap-2">
+            {rightFacilities.map((f) => (
+              <FacilityBox key={f.label} facility={f} />
+            ))}
+          </div>
+        </div>
+
+        {/* 駐車場エリア */}
+        <div className="mt-8 flex justify-end">
+          <div className="w-[72%]">
+            <AreaLabel>Parking Area</AreaLabel>
+
+            {/* テント: ブロックを横に並べる */}
+            <div className="flex gap-6">
+              {layout.parkingBlocks.map((b, i) => (
+                <div key={i} className="flex-1">
+                  <Block block={b} onOpen={onOpen} />
+                </div>
+              ))}
+              {/* 右端の縦帯（キッチンカー1台分） */}
+              {layout.kitchenCarSide && (
+                <div className="w-[14%]">
+                  <SideStrip handle={layout.kitchenCarSide} onOpen={onOpen} />
+                </div>
+              )}
+            </div>
+
+            {/* キッチンカーエリア: 横一列 */}
+            <div className="mt-3">
+              <AreaLabel>Kitchen Car</AreaLabel>
+              <div
+                className="grid gap-1.5"
+                style={{
+                  gridTemplateColumns: `repeat(${layout.kitchenCarRow.length}, minmax(0, 1fr))`,
+                }}
+              >
+                {layout.kitchenCarRow.map((h) => (
+                  <Booth key={h} handle={h} onOpen={onOpen} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 区画の上に覆いかぶさる葉。pointer-events-none なのでタップは通る。 */}
+      <BoothMapDecor layer="front" />
+    </div>
+  );
+}
+
 export default function BoothMapSection() {
   // マップ全体で1つのダイアログを使い回す（区画ごとに持つと数十個できてしまう）
   const [selected, setSelected] = useState<Exhibitor | null>(null);
@@ -239,97 +334,26 @@ export default function BoothMapSection() {
         <SectionHeading overline="Booth Map" title="ブースマップ" tone="dark">
           区画をタップすると出店業者の詳細をご覧いただけます。
           <br />
-          ※こちらは前回（Vol.8）の配置図です。Vol.9の配置は決まり次第公開します。
+          ※配置は変更になる場合があります。
         </SectionHeading>
 
-        {/* map-paper は index.css。紙のムラとざらつきを持つ地。 */}
-        <div className="map-paper reveal relative overflow-x-auto rounded-2xl p-4 shadow-xl sm:p-6">
-          <BoothMapDecor layer="back" />
-          {/* 装飾より上に描くため relative を付ける */}
-          <div className="relative sm:min-w-[42rem]">
-            <div className="flex gap-3">
-              {/* 左: 設備 */}
-              <div className="flex w-[13%] flex-col gap-2">
-                {leftFacilities.map((f) => (
-                  <FacilityBox key={f.label} facility={f} />
-                ))}
+        {/* 日程は並べて出す。スクロールすると2日目が現れる。 */}
+        <div className="space-y-14">
+          {dayLayouts.map((d) => (
+            <div key={d.id} className="reveal">
+              {/* 日付の見出し。色は出店紹介のフィルタと同じ日程カラートークン。 */}
+              <div className="mb-4">
+                <span
+                  className="inline-block rounded-full px-4 py-1.5 text-sm font-bold text-white"
+                  style={{ backgroundColor: `var(--day-${d.id})` }}
+                >
+                  {d.label}
+                </span>
               </div>
 
-              {/* 中央: テント */}
-              <div className="flex flex-1 flex-col">
-                {/* 島どうしの間隔＝通路。区画内の gap-1.5 とは別物。 */}
-                <div className="flex flex-1 flex-col gap-6">
-                  {tentBlocks.map((b, i) => (
-                    <Block key={i} block={b} onOpen={handleOpen} />
-                  ))}
-                  <div
-                    className="rounded-lg py-2.5 text-center text-[11px] font-bold tracking-widest text-white"
-                    style={{ backgroundColor: "oklch(0.30 0.10 145)" }}
-                  >
-                    モニュメント
-                  </div>
-                </div>
-              </div>
-
-              {/* 梱包スペース */}
-              <div className="flex w-[5%] flex-col justify-around py-12">
-                {[0, 1].map((i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-center rounded-md py-5 text-[9px] font-bold [writing-mode:vertical-rl] sm:[writing-mode:horizontal-tb]"
-                    style={{ backgroundColor: "oklch(0.93 0.02 85)", color: MUTED }}
-                  >
-                    梱包
-                  </div>
-                ))}
-              </div>
-
-              {/* 右: 建物 */}
-              <div className="flex w-[16%] flex-col gap-2">
-                {rightFacilities.map((f) => (
-                  <FacilityBox key={f.label} facility={f} />
-                ))}
-              </div>
+              <MapSheet layout={d} onOpen={handleOpen} />
             </div>
-
-            {/* 駐車場エリア */}
-            <div className="mt-8 flex justify-end">
-              <div className="w-[72%]">
-                <AreaLabel>Parking Area</AreaLabel>
-
-                {/* テント: ブロックを横に並べる */}
-                <div className="flex gap-6">
-                  {parkingBlocks.map((b, i) => (
-                    <div key={i} className="flex-1">
-                      <Block block={b} onOpen={handleOpen} />
-                    </div>
-                  ))}
-                  {/* 右端の縦帯（キッチンカー1台分） */}
-                  {kitchenCarSide && (
-                    <div className="w-[14%]">
-                      <SideStrip handle={kitchenCarSide} onOpen={handleOpen} />
-                    </div>
-                  )}
-                </div>
-
-                {/* キッチンカーエリア: 横一列 */}
-                <div className="mt-3">
-                  <AreaLabel>Kitchen Car</AreaLabel>
-                  <div
-                    className="grid gap-1.5"
-                    style={{ gridTemplateColumns: `repeat(${kitchenCarRow.length}, minmax(0, 1fr))` }}
-                  >
-                    {kitchenCarRow.map((h) => (
-                      <Booth key={h} handle={h} onOpen={handleOpen} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 区画の上に覆いかぶさる葉。pointer-events-none なのでタップは通る。 */}
-          <BoothMapDecor layer="front" />
+          ))}
         </div>
       </div>
 
