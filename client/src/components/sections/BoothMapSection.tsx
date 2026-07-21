@@ -49,7 +49,7 @@ function Occupant({
         decoding="async"
         className="size-9 flex-shrink-0 rounded-full object-cover ring-1 ring-black/5 sm:size-7"
       />
-      <span className="min-w-0 flex-1 text-center text-[9px] leading-tight font-bold break-words sm:text-left sm:text-[10px]">
+      <span className="min-w-0 flex-1 text-center text-[9px] leading-tight font-bold [overflow-wrap:anywhere] sm:text-left sm:text-[10px]">
         {exhibitor?.name ?? handle}
       </span>
     </>
@@ -127,7 +127,7 @@ function SideStrip({ handle, onOpen }: { handle: string; onOpen: (e: Exhibitor) 
         decoding="async"
         className="size-9 rounded-full object-cover ring-1 ring-black/5 sm:size-7"
       />
-      <span className="text-center text-[9px] leading-tight font-bold break-words sm:text-[10px]">
+      <span className="text-center text-[9px] leading-tight font-bold [overflow-wrap:anywhere] sm:text-[10px]">
         {exhibitor?.name ?? handle}
       </span>
     </>
@@ -157,8 +157,10 @@ function SideStrip({ handle, onOpen }: { handle: string; onOpen: (e: Exhibitor) 
 }
 
 function Block({ block, onOpen }: { block: BoothBlock; onOpen: (e: Exhibitor) => void }) {
+  // grid の 1fr は minmax(auto,1fr) なので、長い屋号があると列が min-content
+  // まで広がって溢れる。下限を 0 にして列が縮めるようにする。
   return (
-    <div className="grid grid-cols-2 gap-1.5">
+    <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-1.5">
       {block.rows.flatMap((row, r) =>
         row.map((handle, c) => (
           <Booth
@@ -248,8 +250,8 @@ function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor
             </div>
           </div>
 
-          {/* 梱包スペース */}
-          <div className="flex w-[5%] flex-col justify-around py-12">
+          {/* 梱包スペース。設備・建物と同じくスマホでは出さない。 */}
+          <div className="hidden w-[5%] flex-col justify-around py-12 sm:flex">
             {[0, 1].map((i) => (
               <div
                 key={i}
@@ -271,7 +273,8 @@ function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor
 
         {/* 駐車場エリア */}
         <div className="mt-8 flex justify-end">
-          <div className="w-[72%]">
+          {/* スマホは設備を出さないので、左の余白まで使って全幅にする */}
+          <div className="w-full sm:w-[72%]">
             <AreaLabel>Parking Area</AreaLabel>
 
             {/* テント: ブロックを横に並べる */}
