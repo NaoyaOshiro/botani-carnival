@@ -21,15 +21,6 @@ export interface Exhibitor {
 
 export const exhibitors: Exhibitor[] = [
   {
-    name: "自家焙煎Café JIJI",
-    instagram: "cafe_jiji_2024",
-    description: "“ほっ。とひと息”をお届けしています。 自家焙煎Cafe’ JIJIは、軽トラ移動販売車(カフェカー)で県内各地で商品を提供しています。 こだわりの自家焙煎豆を使ったハンドドリップコーヒー、エスプレッソコーヒーメニュー(ラテ系ドリンク)、ソフトドリンクを提供しています。 他にも、グルテンフリーのガレット(国産そば粉100%)も提供していますので コーヒーのお供にどうぞ。",
-    days: [2],
-    slug: null,
-    icon: null,
-    images: [],
-  },
-  {
     name: "BADU COFFEE(バドゥコーヒー)",
     instagram: "badu_coffee",
     description: "BADU COFFEEでは、自家焙煎珈琲を使用したおすすめの3種ドリップコーヒーをはじめ、県産黒糖を使用した黒糖オレやコーヒーゼリーオレ、ハイビスカスレモネードや沖縄県産梅100%の自家製梅ソーダなどをご用意しております。ぜひ一度ご賞味ください🍃",
@@ -55,6 +46,15 @@ export const exhibitors: Exhibitor[] = [
     slug: "28cubano",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg"],
+  },
+  {
+    name: "自家焙煎Café JIJI",
+    instagram: "cafe_jiji_2024",
+    description: "“ほっ。とひと息”をお届けしています。 自家焙煎Cafe’ JIJIは、軽トラ移動販売車(カフェカー)で県内各地で商品を提供しています。 こだわりの自家焙煎豆を使ったハンドドリップコーヒー、エスプレッソコーヒーメニュー(ラテ系ドリンク)、ソフトドリンクを提供しています。 他にも、グルテンフリーのガレット(国産そば粉100%)も提供していますので コーヒーのお供にどうぞ。",
+    days: [2],
+    slug: "cafe_jiji_2024",
+    icon: "icon.png",
+    images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
   },
   {
     name: "SUMMER PIZZA",
@@ -87,7 +87,7 @@ export const exhibitors: Exhibitor[] = [
     name: "yaraTakeshi",
     instagram: "yaraTakeshi",
     description: "",
-    days: [2],
+    days: [],
     slug: null,
     icon: null,
     images: [],
@@ -230,7 +230,7 @@ export const exhibitors: Exhibitor[] = [
   {
     name: "ジョワガーデン",
     instagram: "joie.garden",
-    description: "植物好きな7人の作家さんで\n年に4回開催する\nガーデン雑貨＆植物イベント\n🪴ジョワガーデン🌵\n\nガーデン木工・モルタル作品\nリメイク鉢・多肉植物などを\n販売してます。\n\n〜コラボ販売やお楽しみ企画〜\nワクワクする楽しみがいっぱいの\n「ジョワガーデン」で\nお気に入りをみつけに来てくださいね😊",
+    description: "植物好きな7人の作家さんで年に4回開催する\nガーデン雑貨＆植物イベント🪴ジョワガーデン🌵\n\nガーデン木工・モルタル作品・リメイク鉢・多肉植物などを販売してます。\n\n〜コラボ販売やお楽しみ企画〜\nワクワクする楽しみがいっぱいの「ジョワガーデン」でお気に入りをみつけに来てくださいね😊",
     days: [1],
     slug: "joie.garden",
     icon: "icon.jpg",
@@ -368,8 +368,8 @@ export const exhibitors: Exhibitor[] = [
     description: "安い！早い！\n珍しい！",
     days: [2],
     slug: "cafe.green09",
-    icon: null,
-    images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    icon: "icon.jpg",
+    images: ["1.jpg", "2.jpg", "3.jpg"],
   },
   {
     name: "やちむん工房　與那嶺",
@@ -447,7 +447,7 @@ export const exhibitors: Exhibitor[] = [
     name: "小さな多肉屋さん",
     instagram: "chiisana_tanikuyasan",
     description: "多肉植物や塊根植物、アガベ、観葉植物など、一つひとつ大切に育てた植物を販売しております。初心者の方から植物好きの方まで楽しんでいただけるよう、さまざまな種類をご用意してお待ちしております",
-    days: [2],
+    days: [],
     slug: "chiisana_tanikuyasan",
     icon: "icon.jpg",
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
