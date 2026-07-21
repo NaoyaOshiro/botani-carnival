@@ -36,10 +36,9 @@ function Occupant({
   onOpen: (e: Exhibitor) => void;
 }) {
   const exhibitor = findByHandle(handle);
-  // スマホは屋号を出さずアイコンだけにする（横スクロールを無くすため）。
-  // 屋号はボタンの aria-label とタップ後のダイアログで担保する。
+  // スマホはアイコンの下に屋号（縦積み）、sm以上は横並び。
   const base =
-    "flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md px-1 py-1 text-left transition-all sm:justify-start";
+    "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-md px-1 py-1 transition-all sm:flex-row sm:justify-start sm:gap-1.5 sm:text-left";
 
   const inner = (
     <>
@@ -50,7 +49,7 @@ function Occupant({
         decoding="async"
         className="size-9 flex-shrink-0 rounded-full object-cover ring-1 ring-black/5 sm:size-7"
       />
-      <span className="hidden min-w-0 flex-1 text-[10px] leading-tight font-bold break-words sm:block">
+      <span className="min-w-0 flex-1 text-center text-[9px] leading-tight font-bold break-words sm:text-left sm:text-[10px]">
         {exhibitor?.name ?? handle}
       </span>
     </>
@@ -96,14 +95,14 @@ function Booth({
 
   // 空き区画は何も描かない。グリッドの位置だけ確保して並びを崩さない。
   if (!handle) {
-    return <div className={`${span} min-h-[3.25rem]`} />;
+    return <div className={`${span} min-h-[4.75rem] sm:min-h-[3.25rem]`} />;
   }
 
   const handles = handle.split("+");
 
   return (
     <div
-      className={`${span} flex min-h-[3.25rem] items-center gap-1 rounded-lg border px-1.5 py-1.5 transition-all hover:-translate-y-0.5 hover:shadow-md`}
+      className={`${span} flex min-h-[4.75rem] items-center gap-1 rounded-lg border px-1.5 py-1.5 sm:min-h-[3.25rem] transition-all hover:-translate-y-0.5 hover:shadow-md`}
       style={{
         backgroundColor: "white",
         borderColor: LINE,
@@ -128,8 +127,7 @@ function SideStrip({ handle, onOpen }: { handle: string; onOpen: (e: Exhibitor) 
         decoding="async"
         className="size-9 rounded-full object-cover ring-1 ring-black/5 sm:size-7"
       />
-      {/* 区画と同じく、スマホでは屋号を出さない */}
-      <span className="hidden text-center text-[10px] leading-tight font-bold break-words sm:block">
+      <span className="text-center text-[9px] leading-tight font-bold break-words sm:text-[10px]">
         {exhibitor?.name ?? handle}
       </span>
     </>
@@ -227,7 +225,8 @@ function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor
       <div className="relative sm:min-w-[42rem]">
         <div className="flex gap-3">
           {/* 左: 設備 */}
-          <div className="flex w-[13%] flex-col gap-2">
+          {/* 設備・建物はスマホでは出さない。区画の幅を確保するため。 */}
+          <div className="hidden w-[13%] flex-col gap-2 sm:flex">
             {leftFacilities.map((f) => (
               <FacilityBox key={f.label} facility={f} />
             ))}
@@ -263,7 +262,7 @@ function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor
           </div>
 
           {/* 右: 建物 */}
-          <div className="flex w-[16%] flex-col gap-2">
+          <div className="hidden w-[16%] flex-col gap-2 sm:flex">
             {rightFacilities.map((f) => (
               <FacilityBox key={f.label} facility={f} />
             ))}
