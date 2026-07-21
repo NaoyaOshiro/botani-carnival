@@ -148,6 +148,9 @@ const day2: DayLayout = {
 
 export const dayLayouts: DayLayout[] = [day1, day2];
 
+/** 会場名。図の一番上に帯で出す。 */
+export const venueLabel = "さわふじ広場";
+
 /** 設備・建物などブース以外の区画。size は縦方向の比率。両日共通。 */
 export interface Facility {
   label: string;

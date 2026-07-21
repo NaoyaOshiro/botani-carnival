@@ -15,6 +15,7 @@ import {
   dayLayouts,
   leftFacilities,
   rightFacilities,
+  venueLabel,
   type BoothBlock,
   type DayLayout,
   type Facility,
@@ -204,6 +205,18 @@ function FacilityBox({ facility }: { facility: Facility }) {
   );
 }
 
+/** モニュメントや広場名など、区画ではない目印の帯。 */
+function Landmark({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="rounded-lg py-2.5 text-center text-[11px] font-bold tracking-widest text-white"
+      style={{ backgroundColor: "oklch(0.30 0.10 145)" }}
+    >
+      {children}
+    </div>
+  );
+}
+
 /**
  * 「テント」などのエリア見出し。
  * フライヤーの木板サインに寄せる（wood-sign は index.css）。
@@ -236,31 +249,17 @@ function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor
 
           {/* 中央: テント */}
           <div className="flex flex-1 flex-col">
+            {/* 会場名。左右は倉庫・西原劇場が上端まで来るので、中央にだけ渡す。 */}
+            <div className="mb-3">
+              <Landmark>{venueLabel}</Landmark>
+            </div>
             {/* 島どうしの間隔＝通路。区画内の gap-1.5 とは別物。 */}
             <div className="flex flex-1 flex-col gap-6">
               {layout.tentBlocks.map((b, i) => (
                 <Block key={i} block={b} onOpen={onOpen} />
               ))}
-              <div
-                className="rounded-lg py-2.5 text-center text-[11px] font-bold tracking-widest text-white"
-                style={{ backgroundColor: "oklch(0.30 0.10 145)" }}
-              >
-                モニュメント
-              </div>
+              <Landmark>モニュメント</Landmark>
             </div>
-          </div>
-
-          {/* 梱包スペース。設備・建物と同じくスマホでは出さない。 */}
-          <div className="hidden w-[5%] flex-col justify-around py-12 sm:flex">
-            {[0, 1].map((i) => (
-              <div
-                key={i}
-                className="flex items-center justify-center rounded-md py-5 text-[9px] font-bold [writing-mode:vertical-rl] sm:[writing-mode:horizontal-tb]"
-                style={{ backgroundColor: "oklch(0.93 0.02 85)", color: MUTED }}
-              >
-                梱包
-              </div>
-            ))}
           </div>
 
           {/* 右: 建物 */}
