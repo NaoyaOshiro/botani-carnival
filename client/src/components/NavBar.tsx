@@ -15,8 +15,8 @@ import {
 
 const navItems = [
   { label: "イベント情報", href: "#event-info" },
-  { label: "会場マップ", href: "#booth-map" },
-  { label: "出店業者", href: "#exhibitors" },
+  { label: "ブースマップ", href: "#booth-map" },
+  { label: "出店紹介", href: "#exhibitors" },
   { label: "協賛", href: "#sponsors" },
   { label: "よくある質問", href: "#faq" },
   { label: "お問い合わせ", href: "#contact" },
