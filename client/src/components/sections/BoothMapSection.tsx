@@ -184,7 +184,7 @@ function FacilityBox({ facility }: { facility: Facility }) {
     <div className="flex flex-col" style={{ flexGrow: facility.size, flexBasis: 0 }}>
       {facility.note && (
         <div
-          className="pb-0.5 text-center text-[8px] font-bold tracking-wider"
+          className="hidden pb-0.5 text-center text-[8px] font-bold tracking-wider sm:block"
           style={{ color: "oklch(0.58 0.18 25)" }}
         >
           {facility.note}
@@ -240,8 +240,8 @@ function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor
       <div className="relative sm:min-w-[42rem]">
         <div className="flex gap-3">
           {/* 左: 設備 */}
-          {/* 設備・建物はスマホでは出さない。区画の幅を確保するため。 */}
-          <div className="hidden w-[13%] flex-col gap-2 sm:flex">
+          {/* スマホでは細く（各10%）。ラベルは縦書きなのでこの幅でも入る。 */}
+          <div className="flex w-[10%] flex-col gap-2 sm:w-[13%]">
             {leftFacilities.map((f) => (
               <FacilityBox key={f.label} facility={f} />
             ))}
@@ -263,7 +263,7 @@ function MapSheet({ layout, onOpen }: { layout: DayLayout; onOpen: (e: Exhibitor
           </div>
 
           {/* 右: 建物 */}
-          <div className="hidden w-[16%] flex-col gap-2 sm:flex">
+          <div className="flex w-[10%] flex-col gap-2 sm:w-[16%]">
             {rightFacilities.map((f) => (
               <FacilityBox key={f.label} facility={f} />
             ))}
