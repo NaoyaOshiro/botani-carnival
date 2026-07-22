@@ -19,6 +19,7 @@ import {
   noImage,
   productImages,
 } from "@/lib/exhibitor";
+import { dayKey, trackInstagramClick, trackSelectExhibitor } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SectionHeading from "@/components/SectionHeading";
@@ -56,7 +57,15 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
         // ベースはブース配置図・協賛などのセクション背景と共通のジャングルダーク。
         // 文字は白系に反転する。
         className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border-0 gap-0 py-0"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          trackSelectExhibitor({
+            name: exhibitor.name,
+            handle: exhibitor.instagram,
+            source: "list",
+            day: dayKey(exhibitor.days),
+          });
+          setOpen(true);
+        }}
       >
         {/* 1. 商品画像カルーセル（正方形） + 出店日バッジ */}
         <div className="relative">
@@ -108,7 +117,15 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
                 href={igUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  // カードのonClick（詳細を開く）に伝播させない。
+                  e.stopPropagation();
+                  trackInstagramClick({
+                    name: exhibitor.name,
+                    handle: exhibitor.instagram,
+                    source: "card",
+                  });
+                }}
                 aria-label="Instagramを見る"
               >
                 <Instagram className="w-4 h-4" />

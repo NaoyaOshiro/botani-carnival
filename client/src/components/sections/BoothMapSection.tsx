@@ -11,6 +11,7 @@
 import React, { useState } from "react";
 import type { Exhibitor } from "@/data/exhibitors";
 import { findByHandle, iconSrc, noImage } from "@/lib/exhibitor";
+import { trackSelectExhibitor } from "@/lib/analytics";
 import {
   dayLayouts,
   leftFacilities,
@@ -320,7 +321,14 @@ export default function BoothMapSection() {
   const [selected, setSelected] = useState<Exhibitor | null>(null);
   const [open, setOpen] = useState(false);
 
-  const handleOpen = (e: Exhibitor) => {
+  // dayId は開いた地図の日程（1 or 2）。どちらの日の配置から開かれたかを計測する。
+  const handleOpen = (e: Exhibitor, dayId: 1 | 2) => {
+    trackSelectExhibitor({
+      name: e.name,
+      handle: e.instagram,
+      source: "booth_map",
+      day: `day${dayId}`,
+    });
     setSelected(e);
     setOpen(true);
   };
@@ -352,7 +360,7 @@ export default function BoothMapSection() {
                 </span>
               </div>
 
-              <MapSheet layout={d} onOpen={handleOpen} />
+              <MapSheet layout={d} onOpen={(e) => handleOpen(e, d.id)} />
             </div>
           ))}
         </div>

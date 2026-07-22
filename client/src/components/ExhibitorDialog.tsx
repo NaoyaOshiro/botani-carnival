@@ -4,6 +4,7 @@
  */
 import { Instagram } from "lucide-react";
 import type { Exhibitor } from "@/data/exhibitors";
+import { trackInstagramClick } from "@/lib/analytics";
 import {
   DAY1_COLOR,
   DAY2_COLOR,
@@ -122,7 +123,18 @@ function Body({ exhibitor }: { exhibitor: Exhibitor }) {
                 background: "linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)",
               }}
             >
-              <a href={igUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={igUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  trackInstagramClick({
+                    name: exhibitor.name,
+                    handle: exhibitor.instagram,
+                    source: "dialog",
+                  })
+                }
+              >
                 <Instagram className="w-4 h-4" />
                 Instagramを見る
               </a>
