@@ -109,7 +109,7 @@ export const exhibitors: Exhibitor[] = [
     days: [1, 2],
     slug: "oshiro_factory",
     icon: "icon.jpg",
-    images: ["1.jpg", "2.jpg", "3.jpg"],
+    images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
     kitchen: false,
   },
   {
