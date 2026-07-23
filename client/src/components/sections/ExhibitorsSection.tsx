@@ -71,29 +71,37 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
           setOpen(true);
         }}
       >
-        {/* 1. 商品画像カルーセル（正方形） + 出店日バッジ */}
+        {/* 1. 商品画像カルーセル（正方形） + アイコン */}
         <div className="relative">
           <ExhibitorCarousel images={images} size="card" />
-          <Badge
-            className="absolute top-2 left-2 z-10 text-white border-transparent text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm pointer-events-none"
-            style={{ backgroundColor: badge.color }}
-          >
-            {badge.text}
-          </Badge>
-        </div>
-
-        {/* 2. アイコン + 屋号（ゴシック体） */}
-        <div className="flex items-center gap-2 px-3 pt-1.5 pb-0.5">
+          {/*
+            アイコンは画像の下端に半分かぶせる。-bottom-5 は高さ(40px)の半分。
+            ring はカードと同色にして、画像から切り抜いたように見せる。
+          */}
           <img
             src={icon ?? noImage}
             alt={`${exhibitor.name} アイコン`}
             loading="lazy"
             decoding="async"
-            className="w-9 h-9 rounded-full object-cover flex-shrink-0"
+            className="absolute -bottom-5 left-3 z-10 w-10 h-10 rounded-full object-cover ring-[3px] ring-[var(--jungle-dark)]"
           />
+        </div>
+
+        {/*
+          2. 屋号（ゴシック体） + 出店日バッジ。
+          絶対配置で高さを合わせると書体の実寸に左右されるため、同じ行の
+          フレックス要素にして中央揃えで並べる。pt はアイコンのはみ出しぶん。
+        */}
+        <div className="flex items-center gap-2 px-3 pt-6 pb-0.5">
           <div className="font-bold text-[11px] leading-tight text-white truncate flex-1">
             {exhibitor.name}
           </div>
+          <Badge
+            className="flex-shrink-0 text-white border-transparent text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm pointer-events-none"
+            style={{ backgroundColor: badge.color }}
+          >
+            {badge.text}
+          </Badge>
         </div>
 
         {/* 3. 説明文（スマホ1行 / sm以上は2行省略） */}
@@ -177,10 +185,13 @@ function SkeletonCard() {
   return (
     <Card className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-[0_4px_12px_-2px_oklch(0.30_0.06_145_/_0.70)] border-0 gap-0 py-0">
       {/* 画像部分だけは実カードでも写真が入るまで明るいので、そのまま淡色にする */}
-      <Skeleton className="aspect-square w-full rounded-none bg-[oklch(0.92_0.02_85)]" />
-      <div className="flex items-center gap-2 px-3 pt-3 pb-1">
-        <Skeleton className="w-9 h-9 rounded-full flex-shrink-0 bg-white/15" />
-        <Skeleton className="h-4 flex-1 bg-white/15" />
+      <div className="relative">
+        <Skeleton className="aspect-square w-full rounded-none bg-[oklch(0.92_0.02_85)]" />
+        {/* 実カードと同じく画像の下端に半分かぶせる */}
+        <Skeleton className="absolute -bottom-5 left-3 z-10 w-10 h-10 rounded-full bg-white/15 ring-[3px] ring-[var(--jungle-dark)]" />
+      </div>
+      <div className="px-3 pt-6 pb-0.5">
+        <Skeleton className="h-4 w-4/5 bg-white/15" />
       </div>
       <div className="px-3 py-1 min-h-[2.8rem] space-y-1.5">
         <Skeleton className="h-3 w-full bg-white/15" />
