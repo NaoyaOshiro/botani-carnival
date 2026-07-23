@@ -3,6 +3,7 @@
  * size="card": 一覧カードの正方形サムネイル / size="modal": ダイアログ内の大きめ表示
  */
 import React, { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { noImage } from "@/lib/exhibitor";
 import {
   Carousel,
@@ -34,7 +35,13 @@ export default function ExhibitorCarousel({
   }, [api]);
 
   const multiple = images.length > 1;
-  const arrowClass = size === "card" ? "w-6 h-6 text-xs" : "w-8 h-8 text-lg";
+  const arrowClass = size === "card" ? "w-6 h-6" : "w-8 h-8";
+  /*
+    矢印はフォントの文字（‹ ›）ではなくアイコンを使う。
+    Noto Sans JP の ‹ › は約物なので字面が円の中心より 1.7px ほど下に描かれ、
+    ボタンを中央揃えしても矢印が沈んで見えてしまう。
+  */
+  const iconClass = size === "card" ? "w-3.5 h-3.5" : "w-4 h-4";
   const stop = (e: React.MouseEvent) => e.stopPropagation();
 
   return (
@@ -69,7 +76,7 @@ export default function ExhibitorCarousel({
             className={`absolute ${size === "card" ? "left-1" : "left-2"} top-1/2 -translate-y-1/2 ${arrowClass} rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 transition-colors`}
             aria-label="前の画像"
           >
-            ‹
+            <ChevronLeft className={iconClass} strokeWidth={2.5} />
           </button>
           <button
             onClick={(e) => {
@@ -79,7 +86,7 @@ export default function ExhibitorCarousel({
             className={`absolute ${size === "card" ? "right-1" : "right-2"} top-1/2 -translate-y-1/2 ${arrowClass} rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 transition-colors`}
             aria-label="次の画像"
           >
-            ›
+            <ChevronRight className={iconClass} strokeWidth={2.5} />
           </button>
           <div
             className={`absolute ${size === "card" ? "bottom-1.5 gap-1" : "bottom-2 gap-1.5"} left-1/2 -translate-x-1/2 flex`}
