@@ -1,8 +1,7 @@
 /**
- * NavBar — スクロールで背景が変わるスティッキーナビ
+ * NavBar — 常時濃緑のスティッキーナビ
  * Design: Tropical Fiesta
  */
-import { useState, useEffect } from "react";
 import { asset } from "@/lib/asset";
 import {
   Sheet,
@@ -23,27 +22,19 @@ const navItems = [
 ];
 
 export default function NavBar() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md"
-          : "bg-transparent"
-      }`}
+      /*
+        背景はブースマップ・お問い合わせと同じジャングルダーク。最上部でも
+        透明にはせず常に敷くので、文字とアイコンは白で通せる。
+      */
+      className="fixed top-0 left-0 right-0 z-50 bg-[var(--jungle-dark)]/95 backdrop-blur-md shadow-md"
     >
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2">
           {/*
             イベントアイコン（円形バッジ）。元画像は透過を持たない正方形で、
-            四隅の白がヘッダー透明時・フッターの濃緑上で出てしまうため
+            四隅の白がヘッダー・フッターの濃緑上で出てしまうため
             rounded-full で円形にクリップする。
           */}
           <img
@@ -53,7 +44,7 @@ export default function NavBar() {
             height={144}
             className="w-10 h-10 object-contain rounded-full"
           />
-          <div className={`leading-tight transition-colors duration-300 ${scrolled ? "text-[oklch(0.18_0.05_145)]" : "text-white"}`}>
+          <div className="leading-tight text-white">
             <div className="font-display font-bold text-sm tracking-[0.15em]">BOTANI</div>
             <div className="font-display font-bold text-sm tracking-[0.15em]">CARNIVAL</div>
           </div>
@@ -65,9 +56,7 @@ export default function NavBar() {
             <a
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors duration-200 hover:text-[oklch(0.72_0.18_55)] ${
-                scrolled ? "text-[oklch(0.18_0.05_145)]" : "text-white drop-shadow"
-              }`}
+              className="text-sm font-medium text-white transition-colors duration-200 hover:text-[oklch(0.72_0.18_55)]"
             >
               {item.label}
             </a>
@@ -78,7 +67,7 @@ export default function NavBar() {
         <Sheet>
           <SheetTrigger asChild>
             <button
-              className={`md:hidden p-2 transition-colors ${scrolled ? "text-[oklch(0.18_0.05_145)]" : "text-white"}`}
+              className="md:hidden p-2 text-white"
               aria-label="メニューを開く"
             >
               <div className="w-6 h-0.5 bg-current mb-1.5 transition-all" />
@@ -86,9 +75,16 @@ export default function NavBar() {
               <div className="w-6 h-0.5 bg-current transition-all" />
             </button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-64 bg-white">
+          {/*
+            text-white はここで指定する。shadcn の閉じるボタン(X)は
+            currentColor を継承するので、濃背景では白にしないと見えなくなる。
+          */}
+          <SheetContent
+            side="right"
+            className="w-64 bg-[var(--jungle-dark)] text-white border-white/15"
+          >
             <SheetHeader>
-              <SheetTitle className="font-display font-bold tracking-[0.2em] text-[oklch(0.18_0.05_145)]">
+              <SheetTitle className="font-display font-bold tracking-[0.2em] text-white">
                 MENU
               </SheetTitle>
             </SheetHeader>
@@ -97,7 +93,7 @@ export default function NavBar() {
                 <SheetClose asChild key={item.href}>
                   <a
                     href={item.href}
-                    className="px-4 py-3 rounded-lg text-sm font-medium text-[oklch(0.18_0.05_145)] hover:bg-[oklch(0.96_0.03_85)] hover:text-[oklch(0.42_0.16_145)] transition-colors"
+                    className="px-4 py-3 rounded-lg text-sm font-medium text-white hover:bg-white/10 hover:text-[oklch(0.72_0.18_55)] transition-colors"
                   >
                     {item.label}
                   </a>
