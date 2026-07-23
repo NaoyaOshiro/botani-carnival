@@ -48,8 +48,8 @@ const day1: DayLayout = {
     },
     {
       rows: [
-        ["taiyo_pharmacyandplants", "zenan.okinawa"],
-        ["arakaki_orchid_bikaku", "okinawa_togetogeya"],
+        ["taiyo_pharmacyandplants", "okinawa_togetogeya"],
+        ["arakaki_orchid_bikaku", "zenan.okinawa"],
       ],
     },
     {
@@ -67,22 +67,22 @@ const day1: DayLayout = {
     },
     {
       rows: [
-        ["taka_misho", "artplantswork"],
-        ["8smileplants8", "tanikunchu"],
+        ["8smileplants8", "artplantswork"],
+        ["taka_misho", "tanikunchu"],
       ],
     },
   ],
   parkingBlocks: [
     {
       rows: [
-        ["luckplantsokinawa", "sunny_branch_"],
+        ["dorado.plants", "sunny_branch_"],
         ["ai_plants_okinawa", "ishigaki_jka1995"],
       ],
     },
     {
       rows: [
-        ["dorado.plants", "plantjunkielife"],
-        ["kanekon_plants", ""],
+        ["kanekon_plants", "plantjunkielife"],
+        ["luckplantsokinawa", ""],
       ],
     },
   ],
@@ -116,13 +116,13 @@ const day2: DayLayout = {
     },
     {
       rows: [
-        ["chipapa_garden", "rebirth.collection_"],
-        ["dorado.plants", "ishigaki_jka1995"],
+        ["chipapa_garden", "ichitakasasaki"],
+        ["dorado.plants", "rebirth.collection_"],
       ],
     },
     {
       rows: [
-        ["cactus_airline", "oshiro_factory"],
+        ["ishigaki_jka1995", "oshiro_factory"],
         // 1区画を2者で使う
         ["matakichi46", "tanikunchu+yaraTakeshi"],
       ],
@@ -137,8 +137,9 @@ const day2: DayLayout = {
     },
     {
       rows: [
-        ["ichitakasasaki", "plantjunkielife"],
-        ["", ""],
+        // 1列だけの島。1行1区画なので全幅の区画として縦に2つ並ぶ。
+        ["plantjunkielife"],
+        ["cactus_airline"],
       ],
     },
   ],
