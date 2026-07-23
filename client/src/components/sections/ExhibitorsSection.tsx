@@ -71,20 +71,26 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
           setOpen(true);
         }}
       >
-        {/* 1. 商品画像カルーセル（正方形） + アイコン */}
-        <div className="relative">
-          <ExhibitorCarousel images={images} size="card" />
-          {/*
-            アイコンは画像の下端に半分かぶせる。-bottom-5 は高さ(40px)の半分。
-            ring はカードと同色にして、画像から切り抜いたように見せる。
-          */}
-          <img
-            src={icon ?? noImage}
-            alt={`${exhibitor.name} アイコン`}
-            loading="lazy"
-            decoding="async"
-            className="absolute -bottom-5 left-3 z-10 w-10 h-10 rounded-full object-cover ring-[3px] ring-[var(--jungle-dark)]"
-          />
+        {/*
+          1. 商品画像カルーセル（正方形） + アイコン
+          画像はカードの内側に余白を取り、角丸で浮かせる。内側の relative は
+          画像とぴったり同じ大きさなので、アイコンの -bottom-5（高さ40pxの半分）が
+          そのまま「画像の下端に半分かぶせる」意味になる。
+        */}
+        <div className="px-2 pt-2">
+          <div className="relative">
+            <div className="overflow-hidden rounded-lg">
+              <ExhibitorCarousel images={images} size="card" />
+            </div>
+            {/* ring はカードと同色にして、画像から切り抜いたように見せる */}
+            <img
+              src={icon ?? noImage}
+              alt={`${exhibitor.name} アイコン`}
+              loading="lazy"
+              decoding="async"
+              className="absolute -bottom-5 left-2 z-10 w-10 h-10 rounded-full object-cover ring-[3px] ring-[var(--jungle-dark)]"
+            />
+          </div>
         </div>
 
         {/*
@@ -185,10 +191,15 @@ function SkeletonCard() {
   return (
     <Card className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-[0_4px_12px_-2px_oklch(0.30_0.06_145_/_0.70)] border-0 gap-0 py-0">
       {/* 画像部分だけは実カードでも写真が入るまで明るいので、そのまま淡色にする */}
-      <div className="relative">
-        <Skeleton className="aspect-square w-full rounded-none bg-[oklch(0.92_0.02_85)]" />
-        {/* 実カードと同じく画像の下端に半分かぶせる */}
-        <Skeleton className="absolute -bottom-5 left-3 z-10 w-10 h-10 rounded-full bg-white/15 ring-[3px] ring-[var(--jungle-dark)]" />
+      <div className="px-2 pt-2">
+        <div className="relative">
+          <Skeleton className="aspect-square w-full rounded-lg bg-[oklch(0.92_0.02_85)]" />
+          {/*
+            実カードと同じく画像の下端に半分かぶせる。
+            塗りはリングと同じカード色。画像を丸くくり抜いたように見せる。
+          */}
+          <Skeleton className="absolute -bottom-5 left-2 z-10 w-10 h-10 rounded-full bg-[var(--jungle-dark)] ring-[3px] ring-[var(--jungle-dark)]" />
+        </div>
       </div>
       <div className="px-3 pt-6 pb-0.5">
         <Skeleton className="h-4 w-4/5 bg-white/15" />
