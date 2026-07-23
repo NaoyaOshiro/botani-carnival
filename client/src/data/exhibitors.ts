@@ -115,7 +115,7 @@ export const exhibitors: Exhibitor[] = [
   {
     name: "安美園",
     instagram: "ambien_2020",
-    description: "",
+    description: "普天間にあるサボテンを中心とした植物のある安らぎの空間。\n緑に囲まれてコーヒーも楽しめます。\n植物、園芸雑貨から、ファッションや音楽もミックスして、自由な\"園藝\"ライフを皆さんと楽しんでいけたら嬉しいです。",
     days: [1, 2],
     slug: "ambien_2020",
     icon: "icon.jpg",
@@ -445,7 +445,7 @@ export const exhibitors: Exhibitor[] = [
   {
     name: "matakichi46植好オジ3",
     instagram: "matakichi46",
-    description: "",
+    description: "植物好きおじさんの手塩にかけたコレクション！🌱\n趣味で大切に育てたモンステラやアンスリウム、こだわりの葉っぱモノ植物を持っていきます！\n育て方のコツや育成トークも大歓迎！見るだけでも気軽にブースへ遊びに来てくださいね。",
     days: [2],
     slug: null,
     icon: null,
