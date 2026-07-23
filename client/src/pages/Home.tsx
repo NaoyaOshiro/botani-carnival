@@ -10,7 +10,9 @@ import HeroSection from "@/components/sections/HeroSection";
 import EventInfoSection from "@/components/sections/EventInfoSection";
 import BoothMapSection from "@/components/sections/BoothMapSection";
 import ExhibitorsSection from "@/components/sections/ExhibitorsSection";
-import SponsorsSection from "@/components/sections/SponsorsSection";
+// 協賛セクションは一時的に非表示。復活させるときはこの import と
+// TRACKED_SECTIONS・JSX・NavBar の navItems のコメントアウトを戻す。
+// import SponsorsSection from "@/components/sections/SponsorsSection";
 import FaqSection from "@/components/sections/FaqSection";
 import ContactSection from "@/components/sections/ContactSection";
 import NavBar from "@/components/NavBar";
@@ -22,7 +24,7 @@ const TRACKED_SECTIONS: { id: string; name: string }[] = [
   { id: "event-info", name: "イベント情報" },
   { id: "booth-map", name: "ブースマップ" },
   { id: "exhibitors", name: "出店紹介" },
-  { id: "sponsors", name: "協賛" },
+  // { id: "sponsors", name: "協賛" }, // 協賛セクション非表示中
   { id: "faq", name: "よくある質問" },
   { id: "contact", name: "お問い合わせ" },
 ];
@@ -72,7 +74,7 @@ export default function Home() {
       <EventInfoSection />
       <BoothMapSection />
       <ExhibitorsSection />
-      <SponsorsSection />
+      {/* <SponsorsSection /> 協賛セクション非表示中 */}
       <FaqSection />
       <ContactSection />
       <Footer />

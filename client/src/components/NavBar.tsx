@@ -16,7 +16,7 @@ const navItems = [
   { label: "イベント情報", href: "#event-info" },
   { label: "ブースマップ", href: "#booth-map" },
   { label: "出店紹介", href: "#exhibitors" },
-  { label: "協賛", href: "#sponsors" },
+  // { label: "協賛", href: "#sponsors" }, // 協賛セクション非表示中
   { label: "よくある質問", href: "#faq" },
   { label: "お問い合わせ", href: "#contact" },
 ];
