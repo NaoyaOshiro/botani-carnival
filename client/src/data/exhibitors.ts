@@ -85,7 +85,7 @@ export const exhibitors: Exhibitor[] = [
   {
     name: "たにくんちゅ",
     instagram: "tanikunchu",
-    description: "",
+    description: "珍奇植物市場を主催してます「たにくんちゅ」です！\n初心者もマニアも植物を通じて色々な出会いがあればいいなと思ってます😁\n今回も様々な試みをしておりますので、ぜひ楽しんでください🎵",
     days: [1, 2],
     slug: "tanikunchu",
     icon: "icon.png",
@@ -225,7 +225,7 @@ export const exhibitors: Exhibitor[] = [
   {
     name: "Taiyo Pharmacy and Plants",
     instagram: "taiyo_pharmacyandplants",
-    description: "",
+    description: "アガベを中心に植物の販売します。\n健康食品やドリンクの販売もします。\n醤油や出汁などの取り扱いもあります。",
     days: [1, 2],
     slug: "taiyo_pharmacyandplants",
     icon: "icon.jpg",
