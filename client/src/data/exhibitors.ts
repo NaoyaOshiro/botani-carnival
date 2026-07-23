@@ -447,9 +447,9 @@ export const exhibitors: Exhibitor[] = [
     instagram: "matakichi46",
     description: "植物好きおじさんの手塩にかけたコレクション！🌱\n趣味で大切に育てたモンステラやアンスリウム、こだわりの葉っぱモノ植物を持っていきます！\n育て方のコツや育成トークも大歓迎！見るだけでも気軽にブースへ遊びに来てくださいね。",
     days: [2],
-    slug: null,
-    icon: null,
-    images: [],
+    slug: "matakichi46",
+    icon: "icon.jpg",
+    images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
     kitchen: false,
   },
   {
