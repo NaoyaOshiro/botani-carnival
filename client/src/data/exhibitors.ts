@@ -89,7 +89,7 @@ export const exhibitors: Exhibitor[] = [
     days: [1, 2],
     slug: "tanikunchu",
     icon: "icon.png",
-    images: ["1.jpg"],
+    images: ["1.jpg", "2.jpg", "3.jpg"],
     kitchen: false,
   },
   {
@@ -117,9 +117,9 @@ export const exhibitors: Exhibitor[] = [
     instagram: "ambien_2020",
     description: "",
     days: [1, 2],
-    slug: null,
-    icon: null,
-    images: [],
+    slug: "ambien_2020",
+    icon: "icon.jpg",
+    images: ["1.jpg", "2.jpg", "3.jpg"],
     kitchen: false,
   },
   {
