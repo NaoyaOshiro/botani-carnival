@@ -56,7 +56,11 @@ function ExhibitorCard({ exhibitor }: { exhibitor: Exhibitor }) {
       <Card
         // ベースはブース配置図・協賛などのセクション背景と共通のジャングルダーク。
         // 文字は白系に反転する。
-        className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-150 cursor-pointer border-0 gap-0 py-0"
+        /*
+          影は黒ではなく濃緑を薄めたもの。砂色の地に黒い影を落とすと
+          灰色がかって濁るため、パレット内の色で陰影を作る。
+        */
+        className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-[0_4px_12px_-2px_oklch(0.30_0.06_145_/_0.70)] hover:-translate-y-1.5 hover:shadow-[0_14px_28px_-6px_oklch(0.30_0.06_145_/_0.90)] transition-all duration-150 cursor-pointer border-0 gap-0 py-0"
         onClick={() => {
           trackSelectExhibitor({
             name: exhibitor.name,
@@ -171,7 +175,7 @@ function ExhibitorGrid({ list }: { list: Exhibitor[] }) {
 // 切替時に高さが飛ばないようにする。
 function SkeletonCard() {
   return (
-    <Card className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-md border-0 gap-0 py-0">
+    <Card className="bg-[var(--jungle-dark)] rounded-xl overflow-hidden shadow-[0_4px_12px_-2px_oklch(0.30_0.06_145_/_0.70)] border-0 gap-0 py-0">
       {/* 画像部分だけは実カードでも写真が入るまで明るいので、そのまま淡色にする */}
       <Skeleton className="aspect-square w-full rounded-none bg-[oklch(0.92_0.02_85)]" />
       <div className="flex items-center gap-2 px-3 pt-3 pb-1">
