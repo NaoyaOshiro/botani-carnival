@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/accordion";
 import SectionHeading from "@/components/SectionHeading";
 
-const INK = "oklch(0.18 0.05 145)";
-const MUTED = "oklch(0.45 0.05 145)";
-const LINE = "oklch(0.88 0.04 85)";
+// 背景がジャングルダークなので、文字と罫線は白系に反転する。
+const INK = "#fff";
+const MUTED = "rgba(255,255,255,0.65)";
+const LINE = "rgba(255,255,255,0.15)";
 
 const faqs = [
   {
@@ -44,9 +45,9 @@ const faqs = [
 
 export default function FaqSection() {
   return (
-    <section id="faq" className="py-24 px-4" style={{ backgroundColor: "oklch(0.96 0.03 85)" }}>
+    <section id="faq" className="py-24 px-4" style={{ backgroundColor: "oklch(0.18 0.05 145)" }}>
       <div className="max-w-3xl mx-auto">
-        <SectionHeading overline="FAQ" title="よくある質問" />
+        <SectionHeading overline="FAQ" title="よくある質問" tone="dark" />
 
         <Accordion type="single" collapsible className="reveal">
           {faqs.map((faq, i) => (
