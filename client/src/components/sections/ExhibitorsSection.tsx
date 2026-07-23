@@ -256,8 +256,6 @@ export default function ExhibitorsSection() {
       <div className="max-w-7xl mx-auto relative z-10">
         <SectionHeading overline="Exhibitors" title="出店紹介">
           全{allExhibitors.length}の出店業者が参加予定です。
-          <br />
-          ※現在出店者情報を収集中です。随時更新予定です。
         </SectionHeading>
 
         {/* 日程フィルタ + 一覧（両日出店の業者も1枚のみ描画） */}
