@@ -135,7 +135,7 @@ export const exhibitors: Exhibitor[] = [
   {
     name: "ANDES farm.",
     instagram: "andesfarm.okinawa",
-    description: "毎回楽しんで頂いている植物ガチャポンが、今回は超豪華に！景品にはアデニア・グロボーサ実生苗や、今後販売予定未定の採れたてグロボーサ種子もご用意。さらに@tml_art.plant育成の選りすぐり実生アガベも販売します！",
+    description: "毎回楽しんで頂いている植物ガチャポンが、今回は超豪華に！景品にはアデニア・グロボーサ実生苗や、今後販売予定未定の採れたてグロボーサ種子もご用意。さらに@fml_art.plants 育成の選りすぐり実生アガベも販売します！",
     days: [1, 2],
     slug: "andesfarm.okinawa",
     icon: "icon.jpg",

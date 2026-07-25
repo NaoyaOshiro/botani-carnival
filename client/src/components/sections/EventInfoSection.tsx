@@ -70,8 +70,8 @@ export default function EventInfoSection() {
           </p>
           <p className="text-sm leading-relaxed max-w-prose" style={{ color: MUTED }}>
             色鮮やかな装飾、フォトスポット、そして集まる珍奇植物たち。
-            見て、出会って、お気に入りの一株を探す2日間。
-            初心者の方からコレクターまで楽しめる、夏限定の植物イベントです。
+            見て、出会って、お気に入りの1株を探す2日間。
+            初心者の方からコレクターまで楽しめる、8月最後の植物イベントです。
           </p>
         </div>
 

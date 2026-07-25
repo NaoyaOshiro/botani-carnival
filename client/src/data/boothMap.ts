@@ -105,7 +105,7 @@ const day2: DayLayout = {
     {
       rows: [
         ["yachimunyonamine", "taiyo_pharmacyandplants"],
-        ["arakaki_orchid_bikaku", "tanikuya.yuimaru"],
+        ["arakaki_orchid_bikaku", "chipapa_garden"],
       ],
     },
     {
@@ -116,7 +116,7 @@ const day2: DayLayout = {
     },
     {
       rows: [
-        ["chipapa_garden", "ichitakasasaki"],
+        ["tanikuya.yuimaru", "ichitakasasaki"],
         ["dorado.plants", "rebirth.collection_"],
       ],
     },
