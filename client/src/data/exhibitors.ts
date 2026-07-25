@@ -149,7 +149,7 @@ export const exhibitors: Exhibitor[] = [
     days: [1, 2],
     slug: "ishigaki_jka1995",
     icon: "icon.jpg",
-    images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"],
+    images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg"],
     kitchen: false,
   },
   {
