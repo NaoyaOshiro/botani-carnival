@@ -34,6 +34,19 @@ export default function Footer() {
           <p className="text-xs opacity-40">
             © 2026 BOTANI CARNIVAL / 珍奇植物市場 Vol.9. All rights reserved.
           </p>
+          {/* 制作クレジット。屋号はおーしろ製作所のInstagramへ。
+              最下部の定位置のまま、屋号をゴールドで少し目立たせる。 */}
+          <p className="font-display text-sm tracking-[0.08em] opacity-80 mt-3">
+            Site by{" "}
+            <a
+              href="https://www.instagram.com/oshiro_factory/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-white underline underline-offset-2 transition-opacity hover:opacity-70"
+            >
+              おーしろ製作所
+            </a>
+          </p>
         </div>
       </div>
     </footer>
